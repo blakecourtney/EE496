@@ -1,0 +1,37 @@
+Command: ninja all
+[1/9] Building C object esp-idf/serial_test/CMakeFiles/__idf_serial_test.dir/GND_esp_test.c.obj
+[2/9] Linking C static library esp-idf/serial_test/libserial_test.a
+[3/9] Performing build step for 'bootloader'
+[0/1] Re-running CMake...
+-- Minimal build - OFF
+-- Building ESP-IDF components for target esp32
+-- ESP-TEE is currently supported only on the esp32c6;esp32h2;esp32c5 SoCs
+-- Project sdkconfig file /Users/blakecourtney/Documents/Backup_EE496/firmware/GND_esp32/sdkconfig
+-- Compiler supported targets: xtensa-esp-elf
+-- Adding linker script /Users/blakecourtney/esp/esp-idf/components/soc/esp32/ld/esp32.peripherals.ld
+-- Bootloader project name: "bootloader" version: 1
+-- Adding linker script /Users/blakecourtney/esp/esp-idf/components/esp_rom/esp32/ld/esp32.rom.ld
+-- Adding linker script /Users/blakecourtney/esp/esp-idf/components/esp_rom/esp32/ld/esp32.rom.api.ld
+-- Adding linker script /Users/blakecourtney/esp/esp-idf/components/esp_rom/esp32/ld/esp32.rom.libgcc.ld
+-- Adding linker script /Users/blakecourtney/esp/esp-idf/components/esp_rom/esp32/ld/esp32.rom.libc-funcs.ld
+-- Adding linker script /Users/blakecourtney/esp/esp-idf/components/bootloader/subproject/main/ld/esp32/bootloader.rom.ld
+-- Components: bootloader bootloader_support efuse esp_app_format esp_bootloader_format esp_common esp_hw_support esp_rom esp_security esp_system esptool_py freertos hal log main micro-ecc newlib partition_table soc spi_flash xtensa
+-- Component paths: /Users/blakecourtney/esp/esp-idf/components/bootloader /Users/blakecourtney/esp/esp-idf/components/bootloader_support /Users/blakecourtney/esp/esp-idf/components/efuse /Users/blakecourtney/esp/esp-idf/components/esp_app_format /Users/blakecourtney/esp/esp-idf/components/esp_bootloader_format /Users/blakecourtney/esp/esp-idf/components/esp_common /Users/blakecourtney/esp/esp-idf/components/esp_hw_support /Users/blakecourtney/esp/esp-idf/components/esp_rom /Users/blakecourtney/esp/esp-idf/components/esp_security /Users/blakecourtney/esp/esp-idf/components/esp_system /Users/blakecourtney/esp/esp-idf/components/esptool_py /Users/blakecourtney/esp/esp-idf/components/freertos /Users/blakecourtney/esp/esp-idf/components/hal /Users/blakecourtney/esp/esp-idf/components/log /Users/blakecourtney/esp/esp-idf/components/bootloader/subproject/main /Users/blakecourtney/esp/esp-idf/components/bootloader/subproject/components/micro-ecc /Users/blakecourtney/esp/esp-idf/components/newlib /Users/blakecourtney/esp/esp-idf/components/partition_table /Users/blakecourtney/esp/esp-idf/components/soc /Users/blakecourtney/esp/esp-idf/components/spi_flash /Users/blakecourtney/esp/esp-idf/components/xtensa
+-- Adding linker script /Users/blakecourtney/esp/esp-idf/components/bootloader/subproject/main/ld/esp32/bootloader.ld
+-- Configuring done (3.0s)
+-- Generating done (0.1s)
+-- Build files have been written to: /Users/blakecourtney/Documents/Backup_EE496/firmware/GND_esp32/build/bootloader
+[1/2] cd /Users/blakecourtney/Documents/Backup_EE496/firmware/GND_esp32/build/bootloader/esp-idf/esptool_py && /Users/blakecourtney/.espressif/python_env/idf5.5_py3.12_env/bin/python /Users/blakecourtney/esp/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x1000 /Users/blakecourtney/Documents/Backup_EE496/firmware/GND_esp32/build/bootloader/bootloader.bin
+Bootloader binary size 0x66c0 bytes. 0x940 bytes (8%) free.
+[4/9] No install step for 'bootloader'
+[5/9] Completed 'bootloader'
+[6/9] Generating esp-idf/esp_system/ld/sections.ld
+[7/9] Linking CXX executable gnd_test.elf
+[8/9] Generating binary image from built executable
+esptool.py v4.12.dev1
+Creating esp32 image...
+Merged 2 ELF sections
+Successfully created esp32 image.
+Generated /Users/blakecourtney/Documents/Backup_EE496/firmware/GND_esp32/build/gnd_test.bin
+[9/9] cd /Users/blakecourtney/Documents/Backup_EE496/firmware/GND_esp32/build/esp-idf/esptool_py && /Users/blakecourtney/.espressif/python_env/idf5.5_py3.12_env/bin/python /Users/blakecourtney/esp/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 partition --type app /Users/blakecourtney/Documents/Backup_EE496/firmware/GND_esp32/build/partition_table/partition-table.bin /Users/blakecourtney/Documents/Backup_EE496/firmware/GND_esp32/build/gnd_test.bin
+gnd_test.bin binary size 0x27af0 bytes. Smallest app partition is 0x100000 bytes. 0xd8510 bytes (84%) free.

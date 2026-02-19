@@ -1,0 +1,2 @@
+source /Users/blakecourtney/Documents/Backup_EE496/firmware/GND_esp32/build/bootloader/gdbinit/symbols
+source /Users/blakecourtney/Documents/Backup_EE496/firmware/GND_esp32/build/bootloader/gdbinit/connect

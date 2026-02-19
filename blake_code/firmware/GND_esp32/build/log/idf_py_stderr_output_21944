@@ -1,0 +1,2 @@
+Command: ninja chip-id
+ninja: error: unknown target 'chip-id'
