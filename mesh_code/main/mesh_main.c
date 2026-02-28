@@ -16,7 +16,7 @@
 #include "esp_mesh_internal.h"
 #include "mesh_light.h"
 #include "nvs_flash.h"
-`
+
 /*******************************************************
  *                Macros
  *******************************************************/
@@ -426,19 +426,22 @@ void app_main(void)
     /* mesh ID */
     memcpy((uint8_t *) &cfg.mesh_id, MESH_ID, 6);
     /* router */
-    cfg.channel = CONFIG_MESH_CHANNEL;
-    cfg.router.ssid_len = strlen(CONFIG_MESH_ROUTER_SSID);
-    memcpy((uint8_t *) &cfg.router.ssid, CONFIG_MESH_ROUTER_SSID, cfg.router.ssid_len);
-    memcpy((uint8_t *) &cfg.router.password, CONFIG_MESH_ROUTER_PASSWD,
-           strlen(CONFIG_MESH_ROUTER_PASSWD));
+    //cfg.channel = CONFIG_MESH_CHANNEL;
+    // router - use dummy values for self-organized mode
+    cfg.channel = 1;
+    char dummy_ssid[] = "dummy_router";
+    cfg.router.ssid_len = strlen(dummy_ssid);
+    memcpy((uint8_t *) &cfg.router.ssid, dummy_ssid, cfg.router.ssid_len);
+    memcpy((uint8_t *) &cfg.router.password, "dummy_password", strlen("dummy_password"));
     /* mesh softAP */
     ESP_ERROR_CHECK(esp_mesh_set_ap_authmode(CONFIG_MESH_AP_AUTHMODE));
     cfg.mesh_ap.max_connection = CONFIG_MESH_AP_CONNECTIONS;
     cfg.mesh_ap.nonmesh_max_connection = CONFIG_MESH_NON_MESH_AP_CONNECTIONS;
     memcpy((uint8_t *) &cfg.mesh_ap.password, CONFIG_MESH_AP_PASSWD,
            strlen(CONFIG_MESH_AP_PASSWD));
+    
+    ESP_ERROR_CHECK(esp_mesh_set_self_organized(true, true));
     ESP_ERROR_CHECK(esp_mesh_set_config(&cfg));
-    /* mesh start */
     ESP_ERROR_CHECK(esp_mesh_start());
 #ifdef CONFIG_MESH_ENABLE_PS
     /* set the device active duty cycle. (default:10, MESH_PS_DEVICE_DUTY_REQUEST) */
