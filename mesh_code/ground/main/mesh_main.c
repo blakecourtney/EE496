@@ -1,3 +1,5 @@
+//GROUND
+
 /* Mesh Internal Communication Example
 
    This example code is in the Public Domain (or CC0 licensed, at your option.)
@@ -420,7 +422,8 @@ void app_main(void)
 
     /* --- GROUND STATION SPECIFIC CONFIG --- */
     ESP_ERROR_CHECK(esp_mesh_set_type(MESH_ROOT)); // Force Root status
-    ESP_ERROR_CHECK(esp_mesh_set_self_organized(false, false)); // Do not vote/search
+    ESP_ERROR_CHECK(esp_mesh_fix_root(true));
+    ESP_ERROR_CHECK(esp_mesh_set_self_organized(true, false)); // Do not vote/search
     /* -------------------------------------- */
 
     ESP_ERROR_CHECK(esp_mesh_set_ap_authmode(CONFIG_MESH_AP_AUTHMODE));

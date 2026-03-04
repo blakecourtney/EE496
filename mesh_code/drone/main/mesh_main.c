@@ -1,3 +1,5 @@
+//DRONE
+
 /* Mesh Internal Communication Example
 
    This example code is in the Public Domain (or CC0 licensed, at your option.)
@@ -418,7 +420,6 @@ void app_main(void)
     memcpy((uint8_t *) &cfg.router.password, "dummy_password", strlen("dummy_password"));
 
     /* --- DRONE NODE SPECIFIC CONFIG --- */
-    ESP_ERROR_CHECK(esp_mesh_set_type(MESH_IDLE)); // Search for parent
     ESP_ERROR_CHECK(esp_mesh_set_self_organized(true, true)); // Allow auto-joining
     /* ---------------------------------- */
 
