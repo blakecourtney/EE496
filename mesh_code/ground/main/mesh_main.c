@@ -18,6 +18,7 @@
 #include "esp_mesh_internal.h"
 #include "mesh_light.h"
 #include "nvs_flash.h"
+#include "config.h" //packet specs
 
 /*******************************************************
  *                Macros
@@ -33,28 +34,13 @@
  *                Variable Definitions
  *******************************************************/
 static const char *MESH_TAG = "mesh_main";
-static const uint8_t MESH_ID[6] = { 0x77, 0x77, 0x77, 0x77, 0x77, 0x77};
-static uint8_t tx_buf[TX_SIZE] = { 0, };
+static const uint8_t s_mesh_id[] = MESH_ID;
 static uint8_t rx_buf[RX_SIZE] = { 0, };
 static bool is_running = true;
 static bool is_mesh_connected = false;
 static mesh_addr_t mesh_parent_addr;
 static int mesh_layer = -1;
 static esp_netif_t *netif_sta = NULL;
-
-mesh_light_ctl_t light_on = {
-    .cmd = MESH_CONTROL_CMD,
-    .on = 1,
-    .token_id = MESH_TOKEN_ID,
-    .token_value = MESH_TOKEN_VALUE,
-};
-
-mesh_light_ctl_t light_off = {
-    .cmd = MESH_CONTROL_CMD,
-    .on = 0,
-    .token_id = MESH_TOKEN_ID,
-    .token_value = MESH_TOKEN_VALUE,
-};
 
 /*******************************************************
  *                Function Declarations
@@ -66,65 +52,45 @@ mesh_light_ctl_t light_off = {
 void esp_mesh_p2p_tx_main(void *arg)
 {
     int i;
-    esp_err_t err;
-    int send_count = 0;
     mesh_addr_t route_table[CONFIG_MESH_ROUTE_TABLE_SIZE];
     int route_table_size = 0;
-    mesh_data_t data;
-    data.data = tx_buf;
-    data.size = sizeof(tx_buf);
-    data.proto = MESH_PROTO_BIN;
-    data.tos = MESH_TOS_P2P;
+    uint8_t sta_mac[6];
+    uint8_t ap_mac[6];
     is_running = true;
 
     while (is_running) {
-        /* non-root do nothing but print */
         if (!esp_mesh_is_root()) {
-            ESP_LOGI(MESH_TAG, "layer:%d, rtableSize:%d, %s", mesh_layer,
-                     esp_mesh_get_routing_table_size(),
-                     is_mesh_connected ? "NODE" : "DISCONNECT");
-            vTaskDelay(10 * 1000 / portTICK_PERIOD_MS);
+            vTaskDelay(2000 / portTICK_PERIOD_MS);
             continue;
         }
+        esp_wifi_get_mac(WIFI_IF_STA, sta_mac);
+        esp_wifi_get_mac(WIFI_IF_AP, ap_mac);
         esp_mesh_get_routing_table((mesh_addr_t *) &route_table,
                                    CONFIG_MESH_ROUTE_TABLE_SIZE * 6, &route_table_size);
-        if (send_count && !(send_count % 100)) {
-            ESP_LOGI(MESH_TAG, "size:%d/%d,send_count:%d", route_table_size,
-                     esp_mesh_get_routing_table_size(), send_count);
-        }
-        send_count++;
-        tx_buf[25] = (send_count >> 24) & 0xff;
-        tx_buf[24] = (send_count >> 16) & 0xff;
-        tx_buf[23] = (send_count >> 8) & 0xff;
-        tx_buf[22] = (send_count >> 0) & 0xff;
-        if (send_count % 2) {
-            memcpy(tx_buf, (uint8_t *)&light_on, sizeof(light_on));
-        } else {
-            memcpy(tx_buf, (uint8_t *)&light_off, sizeof(light_off));
-        }
+
+        packet_t pkt = {
+            .start    = PKT_START,
+            .drone_id = 0,
+            .type     = PKT_TYPE_COMMAND,
+            .end      = PKT_END,
+        };
+        memset(pkt.payload, 0, sizeof(pkt.payload));
+
+        mesh_data_t data = {
+            .data  = (uint8_t *)&pkt,
+            .size  = sizeof(pkt),
+            .proto = MESH_PROTO_BIN,
+            .tos   = MESH_TOS_P2P,
+        };
 
         for (i = 0; i < route_table_size; i++) {
-            err = esp_mesh_send(&route_table[i], &data, MESH_DATA_P2P, NULL, 0);
-            if (err) {
-                ESP_LOGE(MESH_TAG,
-                         "[ROOT-2-UNICAST:%d][L:%d]parent:"MACSTR" to "MACSTR", heap:%" PRId32 "[err:0x%x, proto:%d, tos:%d]",
-                         send_count, mesh_layer, MAC2STR(mesh_parent_addr.addr),
-                         MAC2STR(route_table[i].addr), esp_get_minimum_free_heap_size(),
-                         err, data.proto, data.tos);
-            } else if (!(send_count % 100)) {
-                ESP_LOGW(MESH_TAG,
-                         "[ROOT-2-UNICAST:%d][L:%d][rtableSize:%d]parent:"MACSTR" to "MACSTR", heap:%" PRId32 "[err:0x%x, proto:%d, tos:%d]",
-                         send_count, mesh_layer,
-                         esp_mesh_get_routing_table_size(),
-                         MAC2STR(mesh_parent_addr.addr),
-                         MAC2STR(route_table[i].addr), esp_get_minimum_free_heap_size(),
-                         err, data.proto, data.tos);
-            }
+            if (memcmp(route_table[i].addr, sta_mac, 6) == 0) continue;
+            if (memcmp(route_table[i].addr, ap_mac, 6) == 0) continue;
+            esp_err_t err = esp_mesh_send(&route_table[i], &data, MESH_DATA_P2P, NULL, 0);
+            ESP_LOGI(MESH_TAG, "[GND-TX] cmd to "MACSTR", err:0x%x",
+                     MAC2STR(route_table[i].addr), err);
         }
-        /* if route_table_size is less than 10, add delay to avoid watchdog in this task. */
-        if (route_table_size < 10) {
-            vTaskDelay(1 * 1000 / portTICK_PERIOD_MS);
-        }
+        vTaskDelay(2000 / portTICK_PERIOD_MS);
     }
     vTaskDelete(NULL);
 }
@@ -134,7 +100,6 @@ void esp_mesh_p2p_rx_main(void *arg)
     int recv_count = 0;
     esp_err_t err;
     mesh_addr_t from;
-    int send_count = 0;
     mesh_data_t data;
     int flag = 0;
     data.data = rx_buf;
@@ -148,21 +113,13 @@ void esp_mesh_p2p_rx_main(void *arg)
             ESP_LOGE(MESH_TAG, "err:0x%x, size:%d", err, data.size);
             continue;
         }
-        /* extract send count */
-        if (data.size >= sizeof(send_count)) {
-            send_count = (data.data[25] << 24) | (data.data[24] << 16)
-                         | (data.data[23] << 8) | data.data[22];
-        }
         recv_count++;
-        /* process light control */
-        mesh_light_process(&from, data.data, data.size);
-        if (!(recv_count % 1)) {
-            ESP_LOGW(MESH_TAG,
-                     "[#RX:%d/%d][L:%d] parent:"MACSTR", receive from "MACSTR", size:%d, heap:%" PRId32 ", flag:%d[err:0x%x, proto:%d, tos:%d]",
-                     recv_count, send_count, mesh_layer,
-                     MAC2STR(mesh_parent_addr.addr), MAC2STR(from.addr),
-                     data.size, esp_get_minimum_free_heap_size(), flag, err, data.proto,
-                     data.tos);
+        if (data.size >= sizeof(packet_t)) {
+            packet_t *pkt = (packet_t *)data.data;
+            if (pkt->start == PKT_START && pkt->end == PKT_END) {
+                ESP_LOGW(MESH_TAG, "[GND-RX] #%d type:%d drone_id:%d from "MACSTR,
+                         recv_count, pkt->type, pkt->drone_id, MAC2STR(from.addr));
+            }
         }
     }
     vTaskDelete(NULL);
@@ -191,6 +148,9 @@ void mesh_event_handler(void *arg, esp_event_base_t event_base,
         ESP_LOGI(MESH_TAG, "<MESH_EVENT_MESH_STARTED>ID:"MACSTR"", MAC2STR(id.addr));
         is_mesh_connected = false;
         mesh_layer = esp_mesh_get_layer();
+        if (esp_mesh_is_root()) {
+            esp_mesh_comm_p2p_start(); // root won't get PARENT_CONNECTED without a real router
+        }
     }
     break;
     case MESH_EVENT_STOPPED: {
@@ -411,20 +371,20 @@ void app_main(void)
 
     mesh_cfg_t cfg = MESH_INIT_CONFIG_DEFAULT();
     /* mesh ID */
-    memcpy((uint8_t *) &cfg.mesh_id, MESH_ID, 6);
+    memcpy((uint8_t *) &cfg.mesh_id, s_mesh_id, 6);
     
-    /* router configuration - Dummy values required to avoid 0x4008 error */
+    //"router config" : use dummy variables to avoid error
     cfg.channel = 1; 
     char dummy_ssid[] = "dummy_router";
     cfg.router.ssid_len = strlen(dummy_ssid);
     memcpy((uint8_t *) &cfg.router.ssid, dummy_ssid, cfg.router.ssid_len);
     memcpy((uint8_t *) &cfg.router.password, "dummy_password", strlen("dummy_password"));
 
-    /* --- GROUND STATION SPECIFIC CONFIG --- */
+    // ground station specific config
     ESP_ERROR_CHECK(esp_mesh_set_type(MESH_ROOT)); // Force Root status
     ESP_ERROR_CHECK(esp_mesh_fix_root(true));
-    ESP_ERROR_CHECK(esp_mesh_set_self_organized(true, false)); // Do not vote/search
-    /* -------------------------------------- */
+    ESP_ERROR_CHECK(esp_mesh_set_self_organized(false, false)); // Disable scanning, root just broadcasts AP
+    
 
     ESP_ERROR_CHECK(esp_mesh_set_ap_authmode(CONFIG_MESH_AP_AUTHMODE));
     cfg.mesh_ap.max_connection = CONFIG_MESH_AP_CONNECTIONS;
