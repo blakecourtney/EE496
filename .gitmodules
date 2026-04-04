@@ -1,0 +1,6 @@
+[submodule "drone/mavlink"]
+	path = drone/mavlink
+	url = https://github.com/mavlink/c_library_v2
+[submodule "mesh_code/drone/mavlink"]
+	path = mesh_code/drone/mavlink
+	url = https://github.com/mavlink/c_library_v2

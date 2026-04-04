@@ -19,6 +19,8 @@
 #include "mesh_light.h"
 #include "nvs_flash.h"
 #include "config.h" //packet specs
+#include "driver/uart.h"
+#include "mavlink/common/mavlink.h"
 
 /*******************************************************
  *                Macros
@@ -64,10 +66,21 @@ void esp_mesh_p2p_tx_main(void *arg)
                 packet_t pkt = {
                     .start    = PKT_START,
                     .drone_id = drone_id,
-                    .type     = PKT_TYPE_HEARTBEAT,
                     .end      = PKT_END,
                 };
                 memset(pkt.payload, 0, sizeof(pkt.payload));
+
+                if (telemetry_valid) {
+                    // send telemetry from MAVLink if possible
+                    pkt.type = PKT_TYPE_TELEMETRY;
+                    memcpy(pkt.payload, &latest_telemetry, sizeof(telemetry_t));
+                    ESP_LOGI(MESH_TAG, "[DRONE-TX] telemetry lat:%.5f lon:%.5f alt:%.1f",
+                             latest_telemetry.lat, latest_telemetry.lon, latest_telemetry.alt);
+                } else {
+                    // no MAVLink data, send heartbeat
+                    pkt.type = PKT_TYPE_HEARTBEAT;
+                    ESP_LOGI(MESH_TAG, "[DRONE-TX] heartbeat drone_id:%d (no telemetry yet)", drone_id);
+                }
 
                 mesh_data_t data = {
                     .data  = (uint8_t *)&pkt,
@@ -76,12 +89,12 @@ void esp_mesh_p2p_tx_main(void *arg)
                     .tos   = MESH_TOS_P2P,
                 };
                 esp_err_t err = esp_mesh_send(&root_addr, &data, MESH_DATA_P2P, NULL, 0);
-                ESP_LOGI(MESH_TAG, "[DRONE-TX] heartbeat drone_id:%d to root, err:0x%x", drone_id, err);
+                if (err) {
+                    ESP_LOGE(MESH_TAG, "[DRONE-TX] send failed err:0x%x", err);
+                }
             } else {
                 ESP_LOGI(MESH_TAG, "[DRONE-TX] waiting for root address...");
             }
-            vTaskDelay(2000 / portTICK_PERIOD_MS);
-            continue;
         }
         vTaskDelay(2000 / portTICK_PERIOD_MS);
     }
@@ -339,6 +352,86 @@ void ip_event_handler(void *arg, esp_event_base_t event_base,
 
 }
 
+//MAVLINK Code for UART to Flight controller
+#define MAV_UART     UART_NUM_0
+#define MAV_TX_PIN   1
+#define MAV_RX_PIN   3
+#define MAV_BAUD     115200
+
+// shared telemetry data, updated by mavlink task, read by mesh tx task
+static telemetry_t latest_telemetry = {0};
+static bool telemetry_valid = false;
+
+void mavlink_init(void) {
+    uart_config_t cfg = {
+        .baud_rate = MAV_BAUD,
+        .data_bits = UART_DATA_8_BITS,
+        .parity    = UART_PARITY_DISABLE,
+        .stop_bits = UART_STOP_BITS_1,
+        .flow_ctrl = UART_HW_FLOWCTRL_DISABLE,
+    };
+    uart_param_config(MAV_UART, &cfg);
+    uart_set_pin(MAV_UART, MAV_TX_PIN, MAV_RX_PIN,
+                 UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
+    uart_driver_install(MAV_UART, 2048, 0, 0, NULL, 0);
+}
+
+void mavlink_task(void *arg) {
+    uint8_t byte;
+    mavlink_message_t msg;
+    mavlink_status_t status;
+
+    while (1) {
+        int len = uart_read_bytes(MAV_UART, &byte, 1, pdMS_TO_TICKS(10));
+        if (len > 0) {
+            if (mavlink_parse_char(MAVLINK_COMM_0, byte, &msg, &status)) {
+                switch (msg.msgid) {
+
+                    case MAVLINK_MSG_ID_GLOBAL_POSITION_INT: {
+                        mavlink_global_position_int_t pos;
+                        mavlink_msg_global_position_int_decode(&msg, &pos);
+                        latest_telemetry.lat = pos.lat / 1e7f;
+                        latest_telemetry.lon = pos.lon / 1e7f;
+                        latest_telemetry.alt = pos.alt / 1000.0f;
+                        telemetry_valid = true;
+                        break;
+                    }
+
+                    case MAVLINK_MSG_ID_ATTITUDE: {
+                        mavlink_attitude_t att;
+                        mavlink_msg_attitude_decode(&msg, &att);
+                        latest_telemetry.roll  = att.roll;
+                        latest_telemetry.pitch = att.pitch;
+                        latest_telemetry.yaw   = att.yaw;
+                        break;
+                    }
+
+                    case MAVLINK_MSG_ID_SYS_STATUS: {
+                        mavlink_sys_status_t sys;
+                        mavlink_msg_sys_status_decode(&msg, &sys);
+                        latest_telemetry.battery = sys.voltage_battery / 1000.0f;
+                        break;
+                    }
+
+                    case MAVLINK_MSG_ID_GPS_RAW_INT: {
+                        mavlink_gps_raw_int_t gps;
+                        mavlink_msg_gps_raw_int_decode(&msg, &gps);
+                        latest_telemetry.satellites = gps.satellites_visible;
+                        break;
+                    }
+
+                    case MAVLINK_MSG_ID_HEARTBEAT: {
+                        mavlink_heartbeat_t hb;
+                        mavlink_msg_heartbeat_decode(&msg, &hb);
+                        latest_telemetry.armed = (hb.base_mode & MAV_MODE_FLAG_SAFETY_ARMED) ? 1 : 0;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+}
+
 void app_main(void)
 {
     ESP_ERROR_CHECK(mesh_light_init());
@@ -380,6 +473,11 @@ void app_main(void)
     memcpy((uint8_t *) &cfg.mesh_ap.password, CONFIG_MESH_AP_PASSWD, strlen(CONFIG_MESH_AP_PASSWD));
     
     ESP_ERROR_CHECK(esp_mesh_set_config(&cfg)); // Fixes the crash at line 391
+
+    //start MAVLINK
+    mavlink_init();
+    xTaskCreate(mavlink_task, "MAVLink", 4096, NULL, 5, NULL);
+
     ESP_ERROR_CHECK(esp_mesh_start());
 
     ESP_LOGI(MESH_TAG, "DRONE NODE STARTED, SEARCHING FOR GROUND STATION...");
