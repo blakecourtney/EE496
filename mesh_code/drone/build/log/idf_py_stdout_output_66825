@@ -1,0 +1,673 @@
+Command: /Users/blakecourtney/.espressif/python_env/idf5.5_py3.12_env/bin/python /Users/blakecourtney/esp/esp-idf/tools/idf_monitor.py -p /dev/cu.usbserial-0001 -b 115200 --toolchain-prefix xtensa-esp32-elf- --target esp32 --revision 0 /Users/blakecourtney/Documents/EE496/mesh_code/drone/build/internal_communication.elf /Users/blakecourtney/Documents/EE496/mesh_code/drone/build/bootloader/bootloader.elf -m '/Users/blakecourtney/.espressif/python_env/idf5.5_py3.12_env/bin/python' '/Users/blakecourtney/esp/esp-idf/tools/idf.py' '-p' '/dev/cu.usbserial-0001'
+ets Jul 29 2019 12:21:46
+
+rst:0x1 (POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:6384
+load:0x40078000,len:15916
+load:0x40080400,len:3920
+entry 0x40080644
+[0;32mI (27) boot: ESP-IDF v5.5.2-dirty 2nd stage bootloader[0m
+[0;32mI (27) boot: compile time Apr  8 2026 13:32:50[0m
+[0;32mI (28) boot: Multicore bootloader[0m
+[0;32mI (29) boot: chip revision: v3.1[0m
+[0;32mI (32) boot.esp32: SPI Speed      : 40MHz[0m
+[0;32mI (36) boot.esp32: SPI Mode       : DIO[0m
+[0;32mI (39) boot.esp32: SPI Flash Size : 2MB[0m
+[0;32mI (43) boot: Enabling RNG early entropy source...[0m
+[0;32mI (47) boot: Partition Table:[0m
+[0;32mI (50) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (56) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (63) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (69) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (76) boot: End of partition table[0m
+[0;32mI (79) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=20234h (131636) map[0m
+[0;32mI (132) esp_image: segment 1: paddr=0003025c vaddr=3ffb0000 size=03e78h ( 15992) load[0m
+[0;32mI (138) esp_image: segment 2: paddr=000340dc vaddr=40080000 size=0bf3ch ( 48956) load[0m
+[0;32mI (157) esp_image: segment 3: paddr=00040020 vaddr=400d0020 size=a1b10h (662288) map[0m
+[0;32mI (384) esp_image: segment 4: paddr=000e1b38 vaddr=4008bf3c size=0a04ch ( 41036) load[0m
+[0;32mI (400) esp_image: segment 5: paddr=000ebb8c vaddr=50000000 size=00020h (    32) load[0m
+[0;32mI (411) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (411) boot: Disabling RNG early entropy source...[0m
+[0;32mI (421) cpu_start: Multicore app[0m
+[0;32mI (430) cpu_start: GPIO 3 and 1 are used as console UART I/O pins[0m
+[0;32mI (430) cpu_start: Pro cpu start user code[0m
+[0;32mI (430) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (432) app_init: Application information:[0m
+[0;32mI (436) app_init: Project name:     internal_communication[0m
+[0;32mI (441) app_init: App version:      6a33072-dirty[0m
+[0;32mI (445) app_init: Compile time:     Apr  8 2026 13:32:43[0m
+[0;32mI (450) app_init: ELF file SHA256:  31e856ebc...[0m
+[0;32mI (455) app_init: ESP-IDF:          v5.5.2-dirty[0m
+[0;32mI (459) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (463) efuse_init: Max chip rev:     v3.99 [0m
+[0;32mI (467) efuse_init: Chip rev:         v3.1[0m
+[0;32mI (471) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (477) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM[0m
+[0;32mI (482) heap_init: At 3FFB97F0 len 00026810 (154 KiB): DRAM[0m
+[0;32mI (487) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM[0m
+[0;32mI (493) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM[0m
+[0;32mI (498) heap_init: At 40095F88 len 0000A078 (40 KiB): IRAM[0m
+[0;32mI (505) spi_flash: detected chip: generic[0m
+[0;32mI (507) spi_flash: flash io: dio[0m
+[0;33mW (510) spi_flash: Detected size(4096k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (523) main_task: Started on CPU0[0m
+[0;32mI (533) main_task: Calling app_main()[0m
+[0;32mI (573) wifi:wifi driver task: 3ffc1930, prio:23, stack:6656, core=0[0m
+[0;32mI (583) wifi:wifi firmware version: ee91c8c[0m
+[0;32mI (583) wifi:wifi certification version: v7.0[0m
+[0;32mI (583) wifi:config NVS flash: enabled[0m
+[0;32mI (583) wifi:config nano formatting: disabled[0m
+[0;32mI (593) wifi:Init data frame dynamic rx buffer num: 32[0m
+[0;32mI (593) wifi:Init static rx mgmt buffer num: 5[0m
+[0;32mI (603) wifi:Init management short buffer num: 32[0m
+[0;32mI (603) wifi:Init dynamic tx buffer num: 32[0m
+[0;32mI (603) wifi:Init static rx buffer size: 1600[0m
+[0;32mI (613) wifi:Init static rx buffer num: 10[0m
+[0;32mI (613) wifi:Init dynamic rx buffer num: 32[0m
+[0;32mI (623) wifi_init: rx ba win: 6[0m
+[0;32mI (623) wifi_init: accept mbox: 6[0m
+[0;32mI (623) wifi_init: tcpip mbox: 32[0m
+[0;32mI (623) wifi_init: udp mbox: 6[0m
+[0;32mI (633) wifi_init: tcp mbox: 6[0m
+[0;32mI (633) wifi_init: tcp tx win: 5760[0m
+[0;32mI (633) wifi_init: tcp rx win: 5760[0m
+[0;32mI (643) wifi_init: tcp mss: 1440[0m
+[0;32mI (643) wifi_init: WiFi IRAM OP enabled[0m
+[0;32mI (643) wifi_init: WiFi RX IRAM OP enabled[0m
+[0;32mI (653) phy_init: phy_version 4863,a3a4459,Oct 28 2025,14:30:06[0m
+[0;32mI (723) phy_init: Saving new calibration data due to checksum failure or outdated calibration data, mode(0)[0m
+[0;32mI (743) wifi:mode : sta (1c:c3:ab:c4:7e:d4) + softAP (1c:c3:ab:c4:7e:d5)[0m
+[0;32mI (743) wifi:enable tsf[0m
+[0;32mI (743) wifi:Total power save buffer number: 16[0m
+[0;32mI (743) wifi:Init max length of beacon: 752/752[0m
+[0;32mI (743) wifi:Init max length of beacon: 752/752[0m
+[0;32mI (753) mesh: <nvs>read layer:0, err:0x1102[0m
+[0;32mI (753) mesh: <nvs>read assoc:0, err:0x1102[0m
+[0;32mI (763) wifi:Set ps type: 0, coexist: 0[0m
+
+[0;32mI (763) mesh: [IO]enable self-organizing, search parent<adaptive>[0m
+[0;32mI (783) wifi:Total power save buffer number: 16[0m
+[0;32mI (1043) wifi:mode : sta (1c:c3:ab:c4:7e:d4)[0m
+[0;32mI (1053) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x1, need_scan_router:0x0, look_for_nwk_count:1[0m
+[0;32mI (1053) mesh_main: <MESH_EVENT_STARTED>ID:77:77:77:77:77:77[0m
+[0;32mI (1053) mesh_main: DRONE NODE STARTED heap:168756[0m
+[0;32mI (1053) main_task: Returned from app_main()[0m
+[0;32mI (1353) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (1353) mesh: [FIND:1]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (1363) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:2[0m
+[0;32mI (1493) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (1493) mesh: [FIND:2]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (1503) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:3[0m
+[0;32mI (1813) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (1813) mesh: [FIND:3]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (1823) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:4[0m
+[0;32mI (1953) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (1953) mesh: [FIND:4]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (1953) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:5[0m
+[0;32mI (2263) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (2263) mesh: [FIND:5]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (2273) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:6[0m
+[0;32mI (2403) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (2403) mesh: [FIND:6]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (2413) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:7[0m
+[0;32mI (2723) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (2723) mesh: [FIND:7]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (2733) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:8[0m
+[0;32mI (2863) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (2863) mesh: [FIND:8]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (2873) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:9[0m
+[0;32mI (3183) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (3183) mesh: [FIND:9]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (3193) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:10[0m
+[0;32mI (3323) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (3323) mesh: [FIND:10]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (3333) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:11[0m
+[0;32mI (3643) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (3643) mesh: [FIND:11]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (3643) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:12[0m
+[0;32mI (3773) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (3783) mesh: [FIND:12]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (3783) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:13[0m
+[0;32mI (4093) mesh: [FIND][ch:1]AP:1, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (4093) mesh: [FIND:13]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (4103) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:14[0m
+[0;32mI (4233) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (4233) mesh: [FIND:14]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (4243) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:15[0m
+[0;32mI (4553) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (4553) mesh: [FIND:15]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (4563) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:16[0m
+[0;32mI (4693) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (4693) mesh: [FIND:16]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (4703) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:17[0m
+[0;32mI (5013) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (5013) mesh: [FIND:17]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (5023) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:18[0m
+[0;32mI (5153) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (5153) mesh: [FIND:18]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (5163) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:19[0m
+[0;32mI (5473) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (5473) mesh: [FIND:19]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (5473) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:20[0m
+[0;32mI (5603) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (5603) mesh: [FIND:20]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (5613) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:21[0m
+[0;32mI (5923) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (5923) mesh: [FIND:21]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (5933) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:22[0m
+[0;32mI (6063) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (6063) mesh: [FIND:22]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (6073) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:23[0m
+[0;32mI (6383) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (6383) mesh: [FIND:23]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (6393) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:24[0m
+[0;32mI (6523) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (6523) mesh: [FIND:24]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (6533) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:25[0m
+[0;32mI (6843) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (6843) mesh: [FIND:25]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (6853) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:26[0m
+[0;32mI (6983) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (6983) mesh: [FIND:26]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (6993) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:27[0m
+[0;32mI (7303) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (7303) mesh: [FIND:27]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (7303) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:28[0m
+[0;32mI (7433) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (7443) mesh: [FIND:28]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (7443) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:29[0m
+[0;32mI (7753) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (7753) mesh: [FIND:29]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (7763) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:30[0m
+[0;32mI (7893) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (7893) mesh: [FIND:30]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (7903) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:31[0m
+[0;32mI (8213) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (8213) mesh: [FIND:31]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (8223) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:32[0m
+[0;32mI (8353) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (8353) mesh: [FIND:32]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (8363) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:33[0m
+[0;32mI (8673) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (8673) mesh: [FIND:33]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (8683) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:34[0m
+[0;32mI (8813) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (8813) mesh: [FIND:34]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (8823) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:35[0m
+[0;32mI (9133) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (9133) mesh: [FIND:35]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (9133) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:36[0m
+[0;32mI (9263) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (9273) mesh: [FIND:36]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (9273) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:37[0m
+[0;32mI (9583) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (9583) mesh: [FIND:37]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (9593) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:38[0m
+[0;32mI (9723) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (9723) mesh: [FIND:38]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (9733) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:39[0m
+[0;32mI (10043) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (10043) mesh: [FIND:39]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (10053) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:40[0m
+[0;32mI (10183) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (10183) mesh: [FIND:40]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (10193) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:41[0m
+[0;32mI (10503) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (10503) mesh: [FIND:41]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (10513) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:42[0m
+[0;32mI (10643) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (10643) mesh: [FIND:42]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (10653) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:43[0m
+[0;32mI (10963) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (10963) mesh: [FIND:43]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (10973) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:44[0m
+[0;32mI (11103) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (11103) mesh: [FIND:44]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (11113) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:45[0m
+[0;32mI (11423) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (11423) mesh: [FIND:45]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (11423) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:46[0m
+[0;32mI (11553) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (11553) mesh: [FIND:46]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (11563) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:47[0m
+[0;32mI (11873) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (11873) mesh: [FIND:47]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (11883) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:48[0m
+[0;32mI (12013) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (12013) mesh: [FIND:48]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (12023) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:49[0m
+[0;32mI (12333) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (12333) mesh: [FIND:49]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (12343) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:50[0m
+[0;32mI (12473) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (12473) mesh: [FIND:50]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (12483) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:51[0m
+[0;32mI (12793) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (12793) mesh: [FIND:51]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (12803) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:52[0m
+[0;32mI (12933) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (12933) mesh: [FIND:52]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (12943) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:53[0m
+[0;32mI (13253) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (13253) mesh: [FIND:53]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (13263) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:54[0m
+[0;32mI (13393) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (13393) mesh: [FIND:54]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (13403) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:55[0m
+[0;32mI (13713) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (13713) mesh: [FIND:55]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (13713) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:56[0m
+[0;32mI (13843) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (13843) mesh: [FIND:56]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (13853) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:57[0m
+[0;32mI (14163) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (14163) mesh: [FIND:57]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (14173) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:58[0m
+[0;32mI (14303) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (14303) mesh: [FIND:58]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (14313) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:59[0m
+[0;32mI (14623) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (14623) mesh: [FIND:59]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (14633) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:60[0m
+[0;32mI (14763) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (14763) mesh: [FIND:60]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (14773) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:61[0m
+[0;32mI (14783) mesh: <MESH_NWK_LOOK_FOR_NETWORK>no parent found, set ROOTLESS, scan times:60, heap:179192[0m
+[0;32mI (14793) mesh: <MESH_NWK_LOOK_FOR_NETWORK>router<cfg:00:00:00:00:00:00> is allowed to switch, find routers with SSID:dummy_router[0m
+[0;32mI (14793) mesh_main: <MESH_EVENT_NO_PARENT_FOUND>scan times:60[0m
+[0;32mI (14803) mesh: <MESH_NWK_PARENT_DISCONNECTED>non-root, need_reselect:1[0m
+[0;32mI (15113) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (15113) mesh: [FIND:61]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (15123) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:62[0m
+[0;32mI (15253) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (15253) mesh: [FIND:62]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (15263) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:63[0m
+[0;32mI (15573) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (15573) mesh: [FIND:63]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (15583) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:64[0m
+[0;32mI (15713) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (15713) mesh: [FIND:64]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (15723) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:65[0m
+[0;32mI (16033) mesh: [FIND][ch:1]AP:1, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (16033) mesh: [FIND:65]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (16043) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:66[0m
+[0;32mI (16173) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (16173) mesh: [FIND:66]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (16183) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:67[0m
+[0;32mI (16493) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (16493) mesh: [FIND:67]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (16503) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:68[0m
+[0;32mI (16633) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (16633) mesh: [FIND:68]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (16633) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:69[0m
+[0;32mI (16953) mesh: [FIND][ch:1]AP:3, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (16953) mesh: [FIND:69]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (16953) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:70[0m
+[0;32mI (17083) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (17083) mesh: [FIND:70]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (17093) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:71[0m
+[0;32mI (17403) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (17403) mesh: [FIND:71]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (17413) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:72[0m
+[0;32mI (17543) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (17543) mesh: [FIND:72]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (17553) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:73[0m
+[0;32mI (17863) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (17863) mesh: [FIND:73]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (17873) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:74[0m
+[0;32mI (18003) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (18003) mesh: [FIND:74]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (18013) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:75[0m
+[0;32mI (18323) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (18323) mesh: [FIND:75]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (18333) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:76[0m
+[0;32mI (18463) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (18463) mesh: [FIND:76]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (18473) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:77[0m
+[0;32mI (18783) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (18783) mesh: [FIND:77]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (18793) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:78[0m
+[0;32mI (18923) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (18923) mesh: [FIND:78]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (18933) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:79[0m
+[0;32mI (19243) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (19243) mesh: [FIND:79]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (19243) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:80[0m
+[0;32mI (19373) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (19373) mesh: [FIND:80]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (19383) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:81[0m
+[0;32mI (19693) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (19693) mesh: [FIND:81]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (19703) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:82[0m
+[0;32mI (19833) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (19833) mesh: [FIND:82]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (19843) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:83[0m
+[0;32mI (20153) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (20153) mesh: [FIND:83]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (20163) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:84[0m
+[0;32mI (20293) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (20293) mesh: [FIND:84]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (20303) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:85[0m
+[0;32mI (20613) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (20613) mesh: [FIND:85]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (20623) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:86[0m
+[0;32mI (20753) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (20753) mesh: [FIND:86]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (20763) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:87[0m
+[0;32mI (21073) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (21073) mesh: [FIND:87]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (21083) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:88[0m
+[0;32mI (21213) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (21213) mesh: [FIND:88]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (21223) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:89[0m
+[0;32mI (21533) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (21533) mesh: [FIND:89]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (21533) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:90[0m
+[0;32mI (21663) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (21663) mesh: [FIND:90]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (21673) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:91[0m
+[0;32mI (21983) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (21983) mesh: [FIND:91]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (21993) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:92[0m
+[0;32mI (22123) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (22123) mesh: [FIND:92]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (22133) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:93[0m
+[0;32mI (22443) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (22443) mesh: [FIND:93]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (22453) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:94[0m
+[0;32mI (22583) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (22583) mesh: [FIND:94]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (22593) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:95[0m
+[0;32mI (22903) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (22903) mesh: [FIND:95]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (22913) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:96[0m
+[0;32mI (23043) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (23043) mesh: [FIND:96]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (23053) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:97[0m
+[0;32mI (23363) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (23363) mesh: [FIND:97]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (23373) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:98[0m
+[0;32mI (23503) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (23503) mesh: [FIND:98]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (23513) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:99[0m
+[0;32mI (23823) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (23823) mesh: [FIND:99]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (23823) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:100[0m
+[0;32mI (23953) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (23953) mesh: [FIND:100]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (23963) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:101[0m
+[0;32mI (24273) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (24273) mesh: [FIND:101]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (24283) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:102[0m
+[0;32mI (24413) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (24413) mesh: [FIND:102]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (24423) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:103[0m
+[0;32mI (24733) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (24733) mesh: [FIND:103]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (24743) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:104[0m
+[0;32mI (24873) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (24873) mesh: [FIND:104]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (24883) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:105[0m
+[0;32mI (25193) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (25193) mesh: [FIND:105]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (25203) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:106[0m
+[0;32mI (25333) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (25333) mesh: [FIND:106]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (25343) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:107[0m
+[0;32mI (25653) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (25653) mesh: [FIND:107]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (25663) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:108[0m
+[0;32mI (25793) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (25793) mesh: [FIND:108]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (25803) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:109[0m
+[0;32mI (26113) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (26113) mesh: [FIND:109]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (26123) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:110[0m
+[0;32mI (26253) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (26253) mesh: [FIND:110]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (26263) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:111[0m
+[0;32mI (26573) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (26573) mesh: [FIND:111]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (26573) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:112[0m
+[0;32mI (26713) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (26713) mesh: [FIND:112]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (26713) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:113[0m
+[0;32mI (27023) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (27023) mesh: [FIND:113]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (27033) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:114[0m
+[0;32mI (27163) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (27163) mesh: [FIND:114]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (27173) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:115[0m
+[0;32mI (27483) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (27483) mesh: [FIND:115]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (27493) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:116[0m
+[0;32mI (27623) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (27623) mesh: [FIND:116]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (27633) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:117[0m
+[0;32mI (27943) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (27943) mesh: [FIND:117]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (27953) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:118[0m
+[0;32mI (28083) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (28083) mesh: [FIND:118]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (28093) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:119[0m
+[0;32mI (28403) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (28403) mesh: [FIND:119]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (28413) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:120[0m
+[0;32mI (28543) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (28543) mesh: [FIND:120]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (28553) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:121[0m
+[0;32mI (28863) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (28863) mesh: [FIND:121]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (28873) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:122[0m
+[0;32mI (28883) mesh: <MESH_NWK_LOOK_FOR_NETWORK>no parent found, set ROOTLESS, scan times:60, heap:179188[0m
+[0;32mI (28883) mesh: <MESH_NWK_LOOK_FOR_NETWORK>router<cfg:00:00:00:00:00:00> is allowed to switch, find routers with SSID:dummy_router[0m
+[0;32mI (28883) mesh_main: <MESH_EVENT_NO_PARENT_FOUND>scan times:60[0m
+[0;32mI (28903) mesh: <MESH_NWK_PARENT_DISCONNECTED>non-root, need_reselect:1[0m
+[0;32mI (29033) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (29033) mesh: [FIND:122]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (29043) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:123[0m
+[0;32mI (29353) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (29353) mesh: [FIND:123]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (29363) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:124[0m
+[0;32mI (29493) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (29493) mesh: [FIND:124]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (29503) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:125[0m
+[0;32mI (29813) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (29813) mesh: [FIND:125]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (29823) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:126[0m
+[0;32mI (29953) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (29953) mesh: [FIND:126]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (29963) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:127[0m
+[0;32mI (30273) mesh: [FIND][ch:1]AP:1, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (30273) mesh: [FIND:127]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (30273) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:128[0m
+[0;32mI (30403) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (30413) mesh: [FIND:128]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (30413) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:129[0m
+[0;32mI (30723) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (30723) mesh: [FIND:129]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (30733) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:130[0m
+[0;32mI (30863) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (30863) mesh: [FIND:130]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (30873) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:131[0m
+[0;32mI (31183) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (31183) mesh: [FIND:131]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (31193) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:132[0m
+[0;32mI (31323) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (31323) mesh: [FIND:132]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (31333) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:133[0m
+[0;32mI (31643) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (31643) mesh: [FIND:133]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (31653) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:134[0m
+[0;32mI (31783) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (31783) mesh: [FIND:134]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (31793) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:135[0m
+[0;32mI (32103) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (32103) mesh: [FIND:135]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (32113) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:136[0m
+[0;32mI (32243) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (32243) mesh: [FIND:136]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (32253) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:137[0m
+[0;32mI (32563) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (32563) mesh: [FIND:137]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (32573) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:138[0m
+[0;32mI (32703) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (32703) mesh: [FIND:138]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (32713) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:139[0m
+[0;32mI (33023) mesh: [FIND][ch:1]AP:3, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (33023) mesh: [FIND:139]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (33023) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:140[0m
+[0;32mI (33163) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (33163) mesh: [FIND:140]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (33163) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:141[0m
+[0;32mI (33473) mesh: [FIND][ch:1]AP:2, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00][0m
+[0;32mI (33483) mesh: [FIND:141]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (33483) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x1, look_for_nwk_count:142[0m
+[0;32mI (33613) mesh: [FIND][ch:1]AP:0, otherID:0, MAP:0, idle:0, candidate:0, root:0[00:00:00:00:00:00]<scan router>[0m
+[0;32mI (33613) mesh: [FIND:142]fail to find a network, channel:0, cfg<channel:1, router:dummy_router, 00:00:00:00:00:00>[0m
+
+[0;32mI (33623) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:143[0m

@@ -1,13 +1,4 @@
-//GROUND
-
-/* Mesh Internal Communication Example
-
-   This example code is in the Public Domain (or CC0 licensed, at your option.)
-
-   Unless required by applicable law or agreed to in writing, this
-   software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-   CONDITIONS OF ANY KIND, either express or implied.
-*/
+// GROUND STATION FIRMWARE
 #include <string.h>
 #include <inttypes.h>
 #include "esp_wifi.h"
@@ -15,20 +6,20 @@
 #include "esp_event.h"
 #include "esp_log.h"
 #include "esp_mesh.h"
-#include "esp_mesh_internal.h"
-#include "mesh_light.h"
 #include "nvs_flash.h"
-#include "config.h" //packet specs
-
-/*******************************************************
- *                Macros
- *******************************************************/
+#include "driver/uart.h"
+#include "config.h"
 
 /*******************************************************
  *                Constants
  *******************************************************/
 #define RX_SIZE          (1500)
-#define TX_SIZE          (1460)
+
+// Serial to Python GUI
+#define GUI_UART         UART_NUM_0
+#define GUI_TX_PIN       1
+#define GUI_RX_PIN       3
+#define GUI_BAUD         115200
 
 /*******************************************************
  *                Variable Definitions
@@ -36,89 +27,207 @@
 static const char *MESH_TAG = "mesh_main";
 static const uint8_t s_mesh_id[] = MESH_ID;
 static uint8_t rx_buf[RX_SIZE] = { 0, };
-static bool is_running = true;
 static bool is_mesh_connected = false;
-static mesh_addr_t mesh_parent_addr;
 static int mesh_layer = -1;
 static esp_netif_t *netif_sta = NULL;
 
 /*******************************************************
- *                Function Declarations
+ *                Serial (GUI) Functions
  *******************************************************/
+void gui_uart_init(void)
+{
+    uart_config_t cfg = {
+        .baud_rate = GUI_BAUD,
+        .data_bits = UART_DATA_8_BITS,
+        .parity    = UART_PARITY_DISABLE,
+        .stop_bits = UART_STOP_BITS_1,
+        .flow_ctrl = UART_HW_FLOWCTRL_DISABLE,
+    };
+    uart_param_config(GUI_UART, &cfg);
+    uart_set_pin(GUI_UART, GUI_TX_PIN, GUI_RX_PIN,
+                 UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
+    uart_driver_install(GUI_UART, 2048, 0, 0, NULL, 0);
+    ESP_LOGI(MESH_TAG, "GUI UART initialized");
+}
+
+void send_to_gui(uint8_t *data, size_t len)
+{
+    uart_write_bytes(GUI_UART, data, len);
+    uart_write_bytes(GUI_UART, "\n", 1);
+}
 
 /*******************************************************
- *                Function Definitions
+ *                Mesh TX Task
+ *                GND sends commands/waypoints to drones
  *******************************************************/
 void esp_mesh_p2p_tx_main(void *arg)
 {
-    int i;
     mesh_addr_t route_table[CONFIG_MESH_ROUTE_TABLE_SIZE];
     int route_table_size = 0;
     uint8_t sta_mac[6];
     uint8_t ap_mac[6];
-    is_running = true;
 
-    while (is_running) {
+    while (1) {
         if (!esp_mesh_is_root()) {
             vTaskDelay(2000 / portTICK_PERIOD_MS);
             continue;
         }
+
         esp_wifi_get_mac(WIFI_IF_STA, sta_mac);
         esp_wifi_get_mac(WIFI_IF_AP, ap_mac);
-        esp_mesh_get_routing_table((mesh_addr_t *) &route_table,
+        esp_mesh_get_routing_table((mesh_addr_t *)&route_table,
                                    CONFIG_MESH_ROUTE_TABLE_SIZE * 6, &route_table_size);
 
-        packet_t pkt = {
-            .start    = PKT_START,
-            .drone_id = 0,
-            .type     = PKT_TYPE_COMMAND,
-            .end      = PKT_END,
-        };
-        memset(pkt.payload, 0, sizeof(pkt.payload));
-
-        mesh_data_t data = {
-            .data  = (uint8_t *)&pkt,
-            .size  = sizeof(pkt),
-            .proto = MESH_PROTO_BIN,
-            .tos   = MESH_TOS_P2P,
-        };
-
-        for (i = 0; i < route_table_size; i++) {
+        int drone_count = 0;
+        for (int i = 0; i < route_table_size; i++) {
             if (memcmp(route_table[i].addr, sta_mac, 6) == 0) continue;
             if (memcmp(route_table[i].addr, ap_mac, 6) == 0) continue;
-            esp_err_t err = esp_mesh_send(&route_table[i], &data, MESH_DATA_P2P, NULL, 0);
-            ESP_LOGI(MESH_TAG, "[GND-TX] cmd to "MACSTR", err:0x%x",
-                     MAC2STR(route_table[i].addr), err);
+            drone_count++;
         }
-        vTaskDelay(2000 / portTICK_PERIOD_MS);
+
+        if (drone_count > 0) {
+            ESP_LOGI(MESH_TAG, "[GND-TX] %d drone(s) in mesh", drone_count);
+        }
+
+        vTaskDelay(5000 / portTICK_PERIOD_MS);
     }
     vTaskDelete(NULL);
 }
 
+/*******************************************************
+ *                Helper: send ACK to drone
+ *******************************************************/
+void send_ack(mesh_addr_t *dest, uint8_t ack_type, uint16_t chunk_index)
+{
+    packet_t pkt = {
+        .start    = PKT_START,
+        .drone_id = 0,
+        .type     = PKT_TYPE_ACK,
+        .end      = PKT_END,
+    };
+    ack_t ack = {
+        .ack_type    = ack_type,
+        .chunk_index = chunk_index,
+    };
+    memcpy(pkt.payload, &ack, sizeof(ack_t));
+
+    mesh_data_t data = {
+        .data  = (uint8_t *)&pkt,
+        .size  = sizeof(pkt),
+        .proto = MESH_PROTO_BIN,
+        .tos   = MESH_TOS_P2P,
+    };
+    esp_mesh_send(dest, &data, MESH_DATA_P2P, NULL, 0);
+}
+
+/*******************************************************
+ *                Helper: send flag ACK (request photo)
+ *******************************************************/
+void send_flag_ack(mesh_addr_t *dest)
+{
+    packet_t pkt = {
+        .start    = PKT_START,
+        .drone_id = 0,
+        .type     = PKT_TYPE_FLAG_ACK,
+        .end      = PKT_END,
+    };
+    memset(pkt.payload, 0, sizeof(pkt.payload));
+
+    mesh_data_t data = {
+        .data  = (uint8_t *)&pkt,
+        .size  = sizeof(pkt),
+        .proto = MESH_PROTO_BIN,
+        .tos   = MESH_TOS_P2P,
+    };
+    esp_mesh_send(dest, &data, MESH_DATA_P2P, NULL, 0);
+    ESP_LOGI(MESH_TAG, "[GND-TX] flag ACK sent - photo requested");
+}
+
+/*******************************************************
+ *                Mesh RX Task
+ *                GND receives telemetry/flags/photos from drones
+ *******************************************************/
 void esp_mesh_p2p_rx_main(void *arg)
 {
-    int recv_count = 0;
     esp_err_t err;
     mesh_addr_t from;
     mesh_data_t data;
     int flag = 0;
     data.data = rx_buf;
     data.size = RX_SIZE;
-    is_running = true;
 
-    while (is_running) {
+    while (1) {
         data.size = RX_SIZE;
         err = esp_mesh_recv(&from, &data, portMAX_DELAY, &flag, NULL, 0);
         if (err != ESP_OK || !data.size) {
             ESP_LOGE(MESH_TAG, "err:0x%x, size:%d", err, data.size);
             continue;
         }
-        recv_count++;
+
+        // handle photo chunks (larger packet type)
+        if (data.size >= sizeof(photo_packet_t)) {
+            photo_packet_t *photo = (photo_packet_t *)data.data;
+            if (photo->start == PKT_START && photo->end == PKT_END &&
+                photo->type == PKT_TYPE_PHOTO_CHUNK) {
+                ESP_LOGI(MESH_TAG, "[GND-RX] photo chunk %d/%d drone:%d len:%d",
+                         photo->chunk_index, photo->total_chunks,
+                         photo->drone_id, photo->data_len);
+
+                // forward chunk to GUI
+                send_to_gui((uint8_t *)photo, sizeof(photo_packet_t));
+
+                // ACK the chunk
+                send_ack(&from, PKT_TYPE_PHOTO_CHUNK, photo->chunk_index);
+                continue;
+            }
+        }
+
+        // handle standard packets
         if (data.size >= sizeof(packet_t)) {
             packet_t *pkt = (packet_t *)data.data;
             if (pkt->start == PKT_START && pkt->end == PKT_END) {
-                ESP_LOGW(MESH_TAG, "[GND-RX] #%d type:%d drone_id:%d from "MACSTR,
-                         recv_count, pkt->type, pkt->drone_id, MAC2STR(from.addr));
+                switch (pkt->type) {
+
+                    case PKT_TYPE_TELEMETRY: {
+                        telemetry_t *tlm = (telemetry_t *)pkt->payload;
+                        ESP_LOGI(MESH_TAG,
+                                 "[GND-RX] telemetry drone:%d lat:%.5f lon:%.5f alt:%.1f bat:%.2fV armed:%d",
+                                 pkt->drone_id, tlm->lat, tlm->lon, tlm->alt,
+                                 tlm->battery, tlm->armed);
+                        // forward to Python GUI
+                        send_to_gui((uint8_t *)pkt, sizeof(packet_t));
+                        break;
+                    }
+
+                    case PKT_TYPE_FLAG: {
+                        flag_t *f = (flag_t *)pkt->payload;
+                        ESP_LOGW(MESH_TAG,
+                                 "[GND-RX] PERSON DETECTED drone:%d conf:%.2f lat:%.5f lon:%.5f alt:%.1f",
+                                 pkt->drone_id, f->confidence, f->lat, f->lon, f->alt);
+                        // forward alert to GUI
+                        send_to_gui((uint8_t *)pkt, sizeof(packet_t));
+                        // request photo from drone
+                        send_flag_ack(&from);
+                        break;
+                    }
+
+                    case PKT_TYPE_HEARTBEAT: {
+                        ESP_LOGI(MESH_TAG, "[GND-RX] heartbeat drone:%d", pkt->drone_id);
+                        send_to_gui((uint8_t *)pkt, sizeof(packet_t));
+                        break;
+                    }
+
+                    case PKT_TYPE_PHOTO_DONE: {
+                        ESP_LOGI(MESH_TAG, "[GND-RX] photo transfer complete drone:%d", pkt->drone_id);
+                        send_to_gui((uint8_t *)pkt, sizeof(packet_t));
+                        break;
+                    }
+
+                    default:
+                        ESP_LOGW(MESH_TAG, "[GND-RX] unknown type:%d drone:%d",
+                                 pkt->type, pkt->drone_id);
+                        break;
+                }
             }
         }
     }
@@ -136,6 +245,9 @@ esp_err_t esp_mesh_comm_p2p_start(void)
     return ESP_OK;
 }
 
+/*******************************************************
+ *                Mesh Event Handler
+ *******************************************************/
 void mesh_event_handler(void *arg, esp_event_base_t event_base,
                         int32_t event_id, void *event_data)
 {
@@ -145,11 +257,11 @@ void mesh_event_handler(void *arg, esp_event_base_t event_base,
     switch (event_id) {
     case MESH_EVENT_STARTED: {
         esp_mesh_get_id(&id);
-        ESP_LOGI(MESH_TAG, "<MESH_EVENT_MESH_STARTED>ID:"MACSTR"", MAC2STR(id.addr));
+        ESP_LOGI(MESH_TAG, "<MESH_EVENT_STARTED>ID:"MACSTR"", MAC2STR(id.addr));
         is_mesh_connected = false;
         mesh_layer = esp_mesh_get_layer();
         if (esp_mesh_is_root()) {
-            esp_mesh_comm_p2p_start(); // root won't get PARENT_CONNECTED without a real router
+            esp_mesh_comm_p2p_start();
         }
     }
     break;
@@ -162,116 +274,38 @@ void mesh_event_handler(void *arg, esp_event_base_t event_base,
     case MESH_EVENT_CHILD_CONNECTED: {
         mesh_event_child_connected_t *child_connected = (mesh_event_child_connected_t *)event_data;
         ESP_LOGI(MESH_TAG, "<MESH_EVENT_CHILD_CONNECTED>aid:%d, "MACSTR"",
-                 child_connected->aid,
-                 MAC2STR(child_connected->mac));
+                 child_connected->aid, MAC2STR(child_connected->mac));
     }
     break;
     case MESH_EVENT_CHILD_DISCONNECTED: {
         mesh_event_child_disconnected_t *child_disconnected = (mesh_event_child_disconnected_t *)event_data;
         ESP_LOGI(MESH_TAG, "<MESH_EVENT_CHILD_DISCONNECTED>aid:%d, "MACSTR"",
-                 child_disconnected->aid,
-                 MAC2STR(child_disconnected->mac));
+                 child_disconnected->aid, MAC2STR(child_disconnected->mac));
     }
     break;
     case MESH_EVENT_ROUTING_TABLE_ADD: {
         mesh_event_routing_table_change_t *routing_table = (mesh_event_routing_table_change_t *)event_data;
         ESP_LOGW(MESH_TAG, "<MESH_EVENT_ROUTING_TABLE_ADD>add %d, new:%d, layer:%d",
-                 routing_table->rt_size_change,
-                 routing_table->rt_size_new, mesh_layer);
+                 routing_table->rt_size_change, routing_table->rt_size_new, mesh_layer);
     }
     break;
     case MESH_EVENT_ROUTING_TABLE_REMOVE: {
         mesh_event_routing_table_change_t *routing_table = (mesh_event_routing_table_change_t *)event_data;
         ESP_LOGW(MESH_TAG, "<MESH_EVENT_ROUTING_TABLE_REMOVE>remove %d, new:%d, layer:%d",
-                 routing_table->rt_size_change,
-                 routing_table->rt_size_new, mesh_layer);
+                 routing_table->rt_size_change, routing_table->rt_size_new, mesh_layer);
     }
     break;
     case MESH_EVENT_NO_PARENT_FOUND: {
         mesh_event_no_parent_found_t *no_parent = (mesh_event_no_parent_found_t *)event_data;
-        ESP_LOGI(MESH_TAG, "<MESH_EVENT_NO_PARENT_FOUND>scan times:%d",
-                 no_parent->scan_times);
-    }
-    /* TODO handler for the failure */
-    break;
-    case MESH_EVENT_PARENT_CONNECTED: {
-        mesh_event_connected_t *connected = (mesh_event_connected_t *)event_data;
-        esp_mesh_get_id(&id);
-        mesh_layer = connected->self_layer;
-        memcpy(&mesh_parent_addr.addr, connected->connected.bssid, 6);
-        ESP_LOGI(MESH_TAG,
-                 "<MESH_EVENT_PARENT_CONNECTED>layer:%d-->%d, parent:"MACSTR"%s, ID:"MACSTR", duty:%d",
-                 last_layer, mesh_layer, MAC2STR(mesh_parent_addr.addr),
-                 esp_mesh_is_root() ? "<ROOT>" :
-                 (mesh_layer == 2) ? "<layer2>" : "", MAC2STR(id.addr), connected->duty);
-        last_layer = mesh_layer;
-        mesh_connected_indicator(mesh_layer);
-        is_mesh_connected = true;
-        if (esp_mesh_is_root()) {
-            esp_netif_dhcpc_stop(netif_sta);
-            esp_netif_dhcpc_start(netif_sta);
-        }
-        esp_mesh_comm_p2p_start();
-    }
-    break;
-    case MESH_EVENT_PARENT_DISCONNECTED: {
-        mesh_event_disconnected_t *disconnected = (mesh_event_disconnected_t *)event_data;
-        ESP_LOGI(MESH_TAG,
-                 "<MESH_EVENT_PARENT_DISCONNECTED>reason:%d",
-                 disconnected->reason);
-        is_mesh_connected = false;
-        mesh_disconnected_indicator();
-        mesh_layer = esp_mesh_get_layer();
+        ESP_LOGI(MESH_TAG, "<MESH_EVENT_NO_PARENT_FOUND>scan times:%d", no_parent->scan_times);
     }
     break;
     case MESH_EVENT_LAYER_CHANGE: {
         mesh_event_layer_change_t *layer_change = (mesh_event_layer_change_t *)event_data;
         mesh_layer = layer_change->new_layer;
-        ESP_LOGI(MESH_TAG, "<MESH_EVENT_LAYER_CHANGE>layer:%d-->%d%s",
-                 last_layer, mesh_layer,
-                 esp_mesh_is_root() ? "<ROOT>" :
-                 (mesh_layer == 2) ? "<layer2>" : "");
+        ESP_LOGI(MESH_TAG, "<MESH_EVENT_LAYER_CHANGE>layer:%d-->%d",
+                 last_layer, mesh_layer);
         last_layer = mesh_layer;
-        mesh_connected_indicator(mesh_layer);
-    }
-    break;
-    case MESH_EVENT_ROOT_ADDRESS: {
-        mesh_event_root_address_t *root_addr = (mesh_event_root_address_t *)event_data;
-        ESP_LOGI(MESH_TAG, "<MESH_EVENT_ROOT_ADDRESS>root address:"MACSTR"",
-                 MAC2STR(root_addr->addr));
-    }
-    break;
-    case MESH_EVENT_VOTE_STARTED: {
-        mesh_event_vote_started_t *vote_started = (mesh_event_vote_started_t *)event_data;
-        ESP_LOGI(MESH_TAG,
-                 "<MESH_EVENT_VOTE_STARTED>attempts:%d, reason:%d, rc_addr:"MACSTR"",
-                 vote_started->attempts,
-                 vote_started->reason,
-                 MAC2STR(vote_started->rc_addr.addr));
-    }
-    break;
-    case MESH_EVENT_VOTE_STOPPED: {
-        ESP_LOGI(MESH_TAG, "<MESH_EVENT_VOTE_STOPPED>");
-        break;
-    }
-    case MESH_EVENT_ROOT_SWITCH_REQ: {
-        mesh_event_root_switch_req_t *switch_req = (mesh_event_root_switch_req_t *)event_data;
-        ESP_LOGI(MESH_TAG,
-                 "<MESH_EVENT_ROOT_SWITCH_REQ>reason:%d, rc_addr:"MACSTR"",
-                 switch_req->reason,
-                 MAC2STR( switch_req->rc_addr.addr));
-    }
-    break;
-    case MESH_EVENT_ROOT_SWITCH_ACK: {
-        /* new root */
-        mesh_layer = esp_mesh_get_layer();
-        esp_mesh_get_parent_bssid(&mesh_parent_addr);
-        ESP_LOGI(MESH_TAG, "<MESH_EVENT_ROOT_SWITCH_ACK>layer:%d, parent:"MACSTR"", mesh_layer, MAC2STR(mesh_parent_addr.addr));
-    }
-    break;
-    case MESH_EVENT_TODS_STATE: {
-        mesh_event_toDS_state_t *toDs_state = (mesh_event_toDS_state_t *)event_data;
-        ESP_LOGI(MESH_TAG, "<MESH_EVENT_TODS_REACHABLE>state:%d", *toDs_state);
     }
     break;
     case MESH_EVENT_ROOT_FIXED: {
@@ -280,76 +314,27 @@ void mesh_event_handler(void *arg, esp_event_base_t event_base,
                  root_fixed->is_fixed ? "fixed" : "not fixed");
     }
     break;
-    case MESH_EVENT_ROOT_ASKED_YIELD: {
-        mesh_event_root_conflict_t *root_conflict = (mesh_event_root_conflict_t *)event_data;
-        ESP_LOGI(MESH_TAG,
-                 "<MESH_EVENT_ROOT_ASKED_YIELD>"MACSTR", rssi:%d, capacity:%d",
-                 MAC2STR(root_conflict->addr),
-                 root_conflict->rssi,
-                 root_conflict->capacity);
-    }
-    break;
-    case MESH_EVENT_CHANNEL_SWITCH: {
-        mesh_event_channel_switch_t *channel_switch = (mesh_event_channel_switch_t *)event_data;
-        ESP_LOGI(MESH_TAG, "<MESH_EVENT_CHANNEL_SWITCH>new channel:%d", channel_switch->channel);
-    }
-    break;
     case MESH_EVENT_SCAN_DONE: {
         mesh_event_scan_done_t *scan_done = (mesh_event_scan_done_t *)event_data;
-        ESP_LOGI(MESH_TAG, "<MESH_EVENT_SCAN_DONE>number:%d",
-                 scan_done->number);
+        ESP_LOGI(MESH_TAG, "<MESH_EVENT_SCAN_DONE>number:%d", scan_done->number);
     }
     break;
     case MESH_EVENT_NETWORK_STATE: {
         mesh_event_network_state_t *network_state = (mesh_event_network_state_t *)event_data;
-        ESP_LOGI(MESH_TAG, "<MESH_EVENT_NETWORK_STATE>is_rootless:%d",
-                 network_state->is_rootless);
-    }
-    break;
-    case MESH_EVENT_STOP_RECONNECTION: {
-        ESP_LOGI(MESH_TAG, "<MESH_EVENT_STOP_RECONNECTION>");
-    }
-    break;
-    case MESH_EVENT_FIND_NETWORK: {
-        mesh_event_find_network_t *find_network = (mesh_event_find_network_t *)event_data;
-        ESP_LOGI(MESH_TAG, "<MESH_EVENT_FIND_NETWORK>new channel:%d, router BSSID:"MACSTR"",
-                 find_network->channel, MAC2STR(find_network->router_bssid));
-    }
-    break;
-    case MESH_EVENT_ROUTER_SWITCH: {
-        mesh_event_router_switch_t *router_switch = (mesh_event_router_switch_t *)event_data;
-        ESP_LOGI(MESH_TAG, "<MESH_EVENT_ROUTER_SWITCH>new router:%s, channel:%d, "MACSTR"",
-                 router_switch->ssid, router_switch->channel, MAC2STR(router_switch->bssid));
-    }
-    break;
-    case MESH_EVENT_PS_PARENT_DUTY: {
-        mesh_event_ps_duty_t *ps_duty = (mesh_event_ps_duty_t *)event_data;
-        ESP_LOGI(MESH_TAG, "<MESH_EVENT_PS_PARENT_DUTY>duty:%d", ps_duty->duty);
-    }
-    break;
-    case MESH_EVENT_PS_CHILD_DUTY: {
-        mesh_event_ps_duty_t *ps_duty = (mesh_event_ps_duty_t *)event_data;
-        ESP_LOGI(MESH_TAG, "<MESH_EVENT_PS_CHILD_DUTY>cidx:%d, "MACSTR", duty:%d", ps_duty->child_connected.aid-1,
-                MAC2STR(ps_duty->child_connected.mac), ps_duty->duty);
+        ESP_LOGI(MESH_TAG, "<MESH_EVENT_NETWORK_STATE>is_rootless:%d", network_state->is_rootless);
     }
     break;
     default:
-        ESP_LOGI(MESH_TAG, "unknown id:%" PRId32 "", event_id);
+        ESP_LOGI(MESH_TAG, "unknown event id:%" PRId32 "", event_id);
         break;
     }
 }
 
-void ip_event_handler(void *arg, esp_event_base_t event_base,
-                      int32_t event_id, void *event_data)
-{
-    ip_event_got_ip_t *event = (ip_event_got_ip_t *) event_data;
-    ESP_LOGI(MESH_TAG, "<IP_EVENT_STA_GOT_IP>IP:" IPSTR, IP2STR(&event->ip_info.ip));
-
-}
-
+/*******************************************************
+ *                app_main
+ *******************************************************/
 void app_main(void)
 {
-    ESP_ERROR_CHECK(mesh_light_init());
     ESP_ERROR_CHECK(nvs_flash_init());
     ESP_ERROR_CHECK(esp_netif_init());
     ESP_ERROR_CHECK(esp_event_loop_create_default());
@@ -357,7 +342,6 @@ void app_main(void)
 
     wifi_init_config_t config = WIFI_INIT_CONFIG_DEFAULT();
     ESP_ERROR_CHECK(esp_wifi_init(&config));
-    ESP_ERROR_CHECK(esp_event_handler_register(IP_EVENT, IP_EVENT_STA_GOT_IP, &ip_event_handler, NULL));
     ESP_ERROR_CHECK(esp_wifi_set_storage(WIFI_STORAGE_FLASH));
     ESP_ERROR_CHECK(esp_wifi_start());
 
@@ -365,33 +349,25 @@ void app_main(void)
     ESP_ERROR_CHECK(esp_event_handler_register(MESH_EVENT, ESP_EVENT_ANY_ID, &mesh_event_handler, NULL));
     ESP_ERROR_CHECK(esp_mesh_set_topology(CONFIG_MESH_TOPOLOGY));
     ESP_ERROR_CHECK(esp_mesh_set_max_layer(CONFIG_MESH_MAX_LAYER));
-
-    // Disable Power Save for Ground Station stability
-    ESP_ERROR_CHECK(esp_mesh_disable_ps()); 
+    ESP_ERROR_CHECK(esp_mesh_set_vote_percentage(1));
+    ESP_ERROR_CHECK(esp_mesh_set_xon_qsize(128));
+    ESP_ERROR_CHECK(esp_mesh_disable_ps());
+    ESP_ERROR_CHECK(esp_mesh_set_ap_assoc_expire(10));
 
     mesh_cfg_t cfg = MESH_INIT_CONFIG_DEFAULT();
-    /* mesh ID */
     memcpy((uint8_t *) &cfg.mesh_id, s_mesh_id, 6);
-    
-    //"router config" : use dummy variables to avoid error
-    cfg.channel = 1; 
+
+    cfg.channel = 1;
     char dummy_ssid[] = "dummy_router";
     cfg.router.ssid_len = strlen(dummy_ssid);
     memcpy((uint8_t *) &cfg.router.ssid, dummy_ssid, cfg.router.ssid_len);
     memcpy((uint8_t *) &cfg.router.password, "dummy_password", strlen("dummy_password"));
 
-    // ground station specific config
-    ESP_ERROR_CHECK(esp_mesh_set_type(MESH_ROOT)); // Force Root status
-    ESP_ERROR_CHECK(esp_mesh_fix_root(true));
-    ESP_ERROR_CHECK(esp_mesh_set_self_organized(false, false)); // Disable scanning, root just broadcasts AP
-    
-
     ESP_ERROR_CHECK(esp_mesh_set_ap_authmode(CONFIG_MESH_AP_AUTHMODE));
     cfg.mesh_ap.max_connection = CONFIG_MESH_AP_CONNECTIONS;
     memcpy((uint8_t *) &cfg.mesh_ap.password, CONFIG_MESH_AP_PASSWD, strlen(CONFIG_MESH_AP_PASSWD));
-    
     ESP_ERROR_CHECK(esp_mesh_set_config(&cfg));
-    ESP_ERROR_CHECK(esp_mesh_start());
 
-    ESP_LOGW(MESH_TAG, "GROUND STATION (ROOT) STARTED, heap:%" PRId32, esp_get_minimum_free_heap_size());
+    ESP_ERROR_CHECK(esp_mesh_start());
+    ESP_LOGI(MESH_TAG, "MESH NODE STARTED heap:%" PRId32, esp_get_minimum_free_heap_size());
 }

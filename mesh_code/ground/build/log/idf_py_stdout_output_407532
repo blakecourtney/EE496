@@ -1,350 +1,0 @@
-Command: /home/blakecourtney/.espressif/python_env/idf6.1_py3.12_env/bin/python /home/blakecourtney/esp/esp-idf/tools/idf_monitor.py -p /dev/ttyUSB0 -b 115200 --toolchain-prefix xtensa-esp32-elf- --target esp32 --revision 0 /home/blakecourtney/school/s26/EE496/mesh_code/ground/build/internal_communication.elf /home/blakecourtney/school/s26/EE496/mesh_code/ground/build/bootloader/bootloader.elf -m '/home/blakecourtney/.espressif/python_env/idf6.1_py3.12_env/bin/python' '/home/blakecourtney/esp/esp-idf/tools/idf.py' '-p' '/dev/ttyUSB0'
-ets Jul 29 2019 12:21:46
-
-rst:0x1 (POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
-configsip: 0, SPIWP:0xee
-clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
-mode:DIO, clock div:2
-load:0x3fff0040,len:6272
-load:0x40078000,len:15848
-load:0x40080400,len:3920
-entry 0x40080644
-[0;32mI (27) boot: ESP-IDF v6.1-dev-2748-g490691bc61 2nd stage bootloader[0m
-[0;32mI (27) boot: compile time Feb 27 2026 20:34:30[0m
-[0;32mI (28) boot: Multicore bootloader[0m
-[0;32mI (30) boot: chip revision: v3.1[0m
-[0;32mI (33) boot.esp32: SPI Speed      : 40MHz[0m
-[0;32mI (37) boot.esp32: SPI Mode       : DIO[0m
-[0;32mI (40) boot.esp32: SPI Flash Size : 2MB[0m
-[0;32mI (44) boot: Enabling RNG early entropy source...[0m
-[0;32mI (49) boot: Partition Table:[0m
-[0;32mI (51) boot: ## Label            Usage          Type ST Offset   Length[0m
-[0;32mI (57) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
-[0;32mI (64) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
-[0;32mI (71) boot:  2 factory          factory app      00 00 00010000 00100000[0m
-[0;32mI (77) boot: End of partition table[0m
-[0;32mI (80) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=21568h (136552) map[0m
-[0;32mI (136) esp_image: segment 1: paddr=00031590 vaddr=3ffb0000 size=04410h ( 17424) load[0m
-[0;32mI (143) esp_image: segment 2: paddr=000359a8 vaddr=40080000 size=0a670h ( 42608) load[0m
-[0;32mI (161) esp_image: segment 3: paddr=00040020 vaddr=400d0020 size=a4bdch (674780) map[0m
-[0;32mI (402) esp_image: segment 4: paddr=000e4c04 vaddr=4008a670 size=0966ch ( 38508) load[0m
-[0;32mI (418) esp_image: segment 5: paddr=000ee278 vaddr=50000000 size=00028h (    40) load[0m
-[0;32mI (428) boot: Loaded app from partition at offset 0x10000[0m
-[0;32mI (428) boot: Disabling RNG early entropy source...[0m
-[0;32mI (439) cpu_start: Multicore app[0m
-[0;32mI (447) cpu_start: GPIO 3 and 1 are used as console UART I/O pins[0m
-[0;32mI (447) cpu_start: Pro cpu start user code[0m
-[0;32mI (447) cpu_start: cpu freq: 160000000 Hz[0m
-[0;32mI (449) app_init: Application information:[0m
-[0;32mI (453) app_init: Project name:     internal_communication[0m
-[0;32mI (458) app_init: App version:      800ad1d-dirty[0m
-[0;32mI (462) app_init: Compile time:     Mar  4 2026 15:14:36[0m
-[0;32mI (467) app_init: ELF file SHA256:  2e9cdcbbb...[0m
-[0;32mI (472) app_init: ESP-IDF:          v6.1-dev-2748-g490691bc61[0m
-[0;32mI (477) efuse_init: Min chip rev:     v0.0[0m
-[0;32mI (481) efuse_init: Max chip rev:     v3.99 [0m
-[0;32mI (485) efuse_init: Chip rev:         v3.1[0m
-[0;32mI (489) heap_init: Initializing. RAM available for dynamic allocation:[0m
-[0;32mI (495) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM[0m
-[0;32mI (500) heap_init: At 3FFB9EB0 len 00026150 (152 KiB): DRAM[0m
-[0;32mI (505) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM[0m
-[0;32mI (511) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM[0m
-[0;32mI (516) heap_init: At 40093CDC len 0000C324 (48 KiB): IRAM[0m
-[0;32mI (523) spi_flash: detected chip: generic[0m
-[0;32mI (525) spi_flash: flash io: dio[0m
-[0;33mW (528) spi_flash: Detected size(4096k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
-[0;32mI (542) main_task: Started on CPU0[0m
-[0;32mI (552) main_task: Calling app_main()[0m
-[0;32mI (592) wifi:wifi driver task: 3ffc1b7c, prio:23, stack:6656, core=0[0m
-[0;32mI (602) wifi:wifi firmware version: 0f5722b[0m
-[0;32mI (602) wifi:wifi certification version: v7.0[0m
-[0;32mI (602) wifi:config NVS flash: enabled[0m
-[0;32mI (602) wifi:config nano formatting: disabled[0m
-[0;32mI (612) wifi:Init data frame dynamic rx buffer num: 32[0m
-[0;32mI (612) wifi:Init static rx mgmt buffer num: 5[0m
-[0;32mI (622) wifi:Init management short buffer num: 32[0m
-[0;32mI (622) wifi:Init dynamic tx buffer num: 32[0m
-[0;32mI (632) wifi:Init static rx buffer size: 1600[0m
-[0;32mI (632) wifi:Init static rx buffer num: 10[0m
-[0;32mI (632) wifi:Init dynamic rx buffer num: 32[0m
-[0;32mI (642) wifi_init: rx ba win: 6[0m
-[0;32mI (642) wifi_init: accept mbox: 6[0m
-[0;32mI (642) wifi_init: tcpip mbox: 32[0m
-[0;32mI (652) wifi_init: udp mbox: 6[0m
-[0;32mI (652) wifi_init: tcp mbox: 6[0m
-[0;32mI (652) wifi_init: tcp tx win: 5760[0m
-[0;32mI (662) wifi_init: tcp rx win: 5760[0m
-[0;32mI (662) wifi_init: tcp mss: 1440[0m
-[0;32mI (662) wifi_init: WiFi IRAM OP enabled[0m
-[0;32mI (662) wifi_init: WiFi RX IRAM OP enabled[0m
-[0;32mI (672) phy_init: phy_version 4863,a3a4459,Oct 28 2025,14:30:06[0m
-[0;32mI (762) phy_init: Saving new calibration data due to checksum failure or outdated calibration data, mode(0)[0m
-[0;32mI (792) wifi:mode : sta (b0:cb:d8:e9:69:0c) + softAP (b0:cb:d8:e9:69:0d)[0m
-[0;32mI (792) wifi:enable tsf[0m
-[0;32mI (792) wifi:Total power save buffer number: 16[0m
-[0;32mI (802) wifi:Init max length of beacon: 752/752[0m
-[0;32mI (802) wifi:Init max length of beacon: 752/752[0m
-[0;32mI (802) mesh: <nvs>read layer:0, err:0x1102[0m
-[0;32mI (802) mesh: <nvs>read assoc:0, err:0x1102[0m
-[0;32mI (812) wifi:Set ps type: 0, coexist: 0[0m
-
-[0;32mI (812) mesh: [IO]disable self-organizing<reconnect>[0m
-[0;32mI (812) mesh: [IO]disable self-organizing<stop reconnect>[0m
-[0;32mI (832) wifi:Total power save buffer number: 16[0m
-[0;32mI (1102) mesh: [CONFIG]connect to router:dummy_router, 00:00:00:00:00:00[0m
-[0;32mI (1102) mesh: <mesh_connect_to_router,541>parent is set<stop reconnect>g_is_wifi_connecting:0, g_is_wifi_disconnecting:0, g_mesh_stop_reconnection:1[0m
-[0;32mI (1112) mesh_main: <MESH_EVENT_STOP_RECONNECTION>[0m
-[0;32mI (1112) mesh_main: <MESH_EVENT_MESH_STARTED>ID:77:77:77:77:77:77[0m
-[0;33mW (1122) mesh_main: GROUND STATION (ROOT) STARTED, heap:167200[0m
-[0;32mI (1122) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;33mW (1122) mesh_main: [GND-RX] #1 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (1132) main_task: Returned from app_main()[0m
-[0;32mI (2252) wifi:new:<1,1>, old:<1,1>, ap:<1,1>, sta:<0,0>, prof:1, snd_ch_cfg:0x0[0m
-[0;32mI (2252) wifi:station: 28:05:a5:32:e2:84 join, AID=1, bgn, 40U[0m
-[0;32mI (2272) mesh_main: <MESH_EVENT_PS_CHILD_DUTY>cidx:0, 28:05:a5:32:e2:84, duty:0[0m
-[0;33mW (2292) mesh_main: <MESH_EVENT_ROUTING_TABLE_ADD>add 1, new:2, layer:1[0m
-[0;32mI (2292) mesh_main: <MESH_EVENT_CHILD_CONNECTED>aid:1, 28:05:a5:32:e2:84[0m
-[0;32mI (3132) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;33mW (3132) mesh_main: [GND-RX] #2 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (3132) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;32mI (3442) mesh: 1293[recv]cidx[0]28:05:a5:32:e2:84, xseqno duplicate check failure, new xseqno:20, in:0, out:0, pending:0[0m
-[0;32mI (3442) mesh: 1302[recv]cidx[0]28:05:a5:32:e2:84 xseqno loss, current/new:0/20, in:0, out:0, pending:0[0m
-[0;33mW (3452) mesh_main: [GND-RX] #3 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;33mW (5132) mesh_main: [GND-RX] #4 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (5132) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;32mI (5132) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (5452) mesh_main: [GND-RX] #5 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;32mI (7132) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;33mW (7132) mesh_main: [GND-RX] #6 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (7132) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (7462) mesh_main: [GND-RX] #7 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;32mI (9132) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;33mW (9132) mesh_main: [GND-RX] #8 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (9132) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (9452) mesh_main: [GND-RX] #9 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;32mI (11132) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;33mW (11132) mesh_main: [GND-RX] #10 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (11132) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (11452) mesh_main: [GND-RX] #11 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;33mW (13132) mesh_main: [GND-RX] #12 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (13132) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;32mI (13132) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (13462) mesh_main: [GND-RX] #13 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;32mI (15132) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;33mW (15132) mesh_main: [GND-RX] #14 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (15132) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (15462) mesh_main: [GND-RX] #15 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;33mW (17132) mesh_main: [GND-RX] #16 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (17132) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;32mI (17132) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (17482) mesh_main: [GND-RX] #17 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;32mI (19132) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;33mW (19132) mesh_main: [GND-RX] #18 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (19142) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (19482) mesh_main: [GND-RX] #19 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;32mI (21142) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;33mW (21142) mesh_main: [GND-RX] #20 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (21142) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (21492) mesh_main: [GND-RX] #21 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;32mI (23142) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;33mW (23142) mesh_main: [GND-RX] #22 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (23142) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (23502) mesh_main: [GND-RX] #23 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;33mW (25142) mesh_main: [GND-RX] #24 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (25142) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;32mI (25142) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (25502) mesh_main: [GND-RX] #25 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;32mI (27142) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;33mW (27142) mesh_main: [GND-RX] #26 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (27142) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (27502) mesh_main: [GND-RX] #27 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;33mW (29142) mesh_main: [GND-RX] #28 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (29142) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;32mI (29142) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (29502) mesh_main: [GND-RX] #29 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;32mI (31142) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;33mW (31142) mesh_main: [GND-RX] #30 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (31142) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (31502) mesh_main: [GND-RX] #31 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;33mW (33142) mesh_main: [GND-RX] #32 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (33142) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;32mI (33142) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (33512) mesh_main: [GND-RX] #33 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;32mI (35142) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;33mW (35142) mesh_main: [GND-RX] #34 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (35142) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (35522) mesh_main: [GND-RX] #35 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;33mW (37142) mesh_main: [GND-RX] #36 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (37142) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;32mI (37142) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (37522) mesh_main: [GND-RX] #37 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;32mI (39142) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;33mW (39142) mesh_main: [GND-RX] #38 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (39142) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (39522) mesh_main: [GND-RX] #39 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;33mW (41142) mesh_main: [GND-RX] #40 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (41142) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;32mI (41142) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (41532) mesh_main: [GND-RX] #41 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;32mI (43142) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;33mW (43142) mesh_main: [GND-RX] #42 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (43142) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (43532) mesh_main: [GND-RX] #43 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;33mW (45142) mesh_main: [GND-RX] #44 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (45142) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;32mI (45142) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (45532) mesh_main: [GND-RX] #45 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;32mI (47142) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;33mW (47142) mesh_main: [GND-RX] #46 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (47142) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (47522) mesh_main: [GND-RX] #47 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;33mW (49142) mesh_main: [GND-RX] #48 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (49142) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;32mI (49142) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (49532) mesh_main: [GND-RX] #49 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;32mI (51142) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;33mW (51142) mesh_main: [GND-RX] #50 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (51142) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (51532) mesh_main: [GND-RX] #51 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;32mI (53142) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;33mW (53142) mesh_main: [GND-RX] #52 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (53142) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (53542) mesh_main: [GND-RX] #53 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;32mI (55142) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;33mW (55142) mesh_main: [GND-RX] #54 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (55142) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (55552) mesh_main: [GND-RX] #55 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;33mW (57142) mesh_main: [GND-RX] #56 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (57142) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;32mI (57152) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (57562) mesh_main: [GND-RX] #57 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;32mI (59152) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;33mW (59152) mesh_main: [GND-RX] #58 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (59162) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (59562) mesh_main: [GND-RX] #59 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;32mI (61162) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;33mW (61162) mesh_main: [GND-RX] #60 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (61162) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (61562) mesh_main: [GND-RX] #61 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;32mI (63162) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;33mW (63162) mesh_main: [GND-RX] #62 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (63162) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (63562) mesh_main: [GND-RX] #63 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;32mI (65162) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;33mW (65162) mesh_main: [GND-RX] #64 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (65162) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (65572) mesh_main: [GND-RX] #65 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;32mI (67162) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;33mW (67162) mesh_main: [GND-RX] #66 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (67162) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (67572) mesh_main: [GND-RX] #67 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;32mI (69162) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;33mW (69162) mesh_main: [GND-RX] #68 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (69162) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (69582) mesh_main: [GND-RX] #69 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;32mI (71162) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;33mW (71162) mesh_main: [GND-RX] #70 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (71162) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (71582) mesh_main: [GND-RX] #71 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;32mI (73162) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;33mW (73162) mesh_main: [GND-RX] #72 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (73162) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (73592) mesh_main: [GND-RX] #73 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;33mW (75162) mesh_main: [GND-RX] #74 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (75162) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;32mI (75162) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (75582) mesh_main: [GND-RX] #75 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;32mI (77162) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;33mW (77162) mesh_main: [GND-RX] #76 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (77162) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (77602) mesh_main: [GND-RX] #77 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;32mI (79162) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;33mW (79162) mesh_main: [GND-RX] #78 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (79162) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (79602) mesh_main: [GND-RX] #79 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;33mW (81162) mesh_main: [GND-RX] #80 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (81162) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;32mI (81162) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (81602) mesh_main: [GND-RX] #81 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;32mI (83162) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;33mW (83162) mesh_main: [GND-RX] #82 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (83172) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (83612) mesh_main: [GND-RX] #83 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;33mW (85172) mesh_main: [GND-RX] #84 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (85172) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;32mI (85182) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (85612) mesh_main: [GND-RX] #85 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;32mI (87182) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;33mW (87182) mesh_main: [GND-RX] #86 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (87182) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (87622) mesh_main: [GND-RX] #87 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;32mI (89182) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;33mW (89182) mesh_main: [GND-RX] #88 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (89182) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (89622) mesh_main: [GND-RX] #89 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;32mI (91182) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;33mW (91182) mesh_main: [GND-RX] #90 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (91182) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (91622) mesh_main: [GND-RX] #91 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;32mI (93182) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;33mW (93182) mesh_main: [GND-RX] #92 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (93182) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (93622) mesh_main: [GND-RX] #93 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;32mI (95182) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;33mW (95182) mesh_main: [GND-RX] #94 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (95182) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (95622) mesh_main: [GND-RX] #95 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;33mW (97182) mesh_main: [GND-RX] #96 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (97182) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;32mI (97182) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (97622) mesh_main: [GND-RX] #97 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;32mI (99182) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;33mW (99182) mesh_main: [GND-RX] #98 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (99182) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (99622) mesh_main: [GND-RX] #99 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;33mW (101182) mesh_main: [GND-RX] #100 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (101182) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;32mI (101182) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (101622) mesh_main: [GND-RX] #101 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;32mI (102292) mesh: [scan]new scanning time:1500ms, beacon interval:1000ms[0m
-[0;33mW (103182) mesh_main: [GND-RX] #102 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (103182) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;32mI (103182) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (103622) mesh_main: [GND-RX] #103 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;32mI (105182) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;33mW (105182) mesh_main: [GND-RX] #104 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (105182) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (105622) mesh_main: [GND-RX] #105 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;32mI (107182) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;33mW (107182) mesh_main: [GND-RX] #106 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (107182) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (107632) mesh_main: [GND-RX] #107 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;33mW (109182) mesh_main: [GND-RX] #108 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (109182) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;32mI (109182) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (109632) mesh_main: [GND-RX] #109 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;32mI (111182) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;33mW (111182) mesh_main: [GND-RX] #110 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (111182) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (111632) mesh_main: [GND-RX] #111 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;32mI (113182) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;33mW (113182) mesh_main: [GND-RX] #112 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (113182) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (113642) mesh_main: [GND-RX] #113 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;32mI (115182) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;33mW (115182) mesh_main: [GND-RX] #114 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (115182) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (115642) mesh_main: [GND-RX] #115 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;33mW (117182) mesh_main: [GND-RX] #116 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (117182) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;32mI (117182) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (117652) mesh_main: [GND-RX] #117 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;32mI (119182) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;33mW (119182) mesh_main: [GND-RX] #118 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (119182) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (119652) mesh_main: [GND-RX] #119 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-[0;33mW (121182) mesh_main: [GND-RX] #120 type:2 drone_id:0 from b0:cb:d8:e9:69:0c[0m
-[0;32mI (121182) mesh_main: [GND-TX] cmd to b0:cb:d8:e9:69:0c, err:0x0[0m
-[0;32mI (121182) mesh_main: [GND-TX] cmd to 28:05:a5:32:e2:84, err:0x0[0m
-[0;33mW (121652) mesh_main: [GND-RX] #121 type:4 drone_id:132 from 28:05:a5:32:e2:84[0m
-p ppp|ppppp|���|ppp|� �p�p���p�����|�|�|�|�����p��| p��|������p����|�|����p�|����� ppp�ppp�ppp�ppp�ppp�ppp|p p ppp|ppppp|���|pppp|���|��|�|�|�|����������|��p�|������|�|pp� ��|��pp��p���p���| p�����|�|�|�����p���||�����p��p��|�|�|�|������p|���pp p���||�����p��p�����p�����|�|�|������p|���pp p����|����|��|��| ��p����|�|�|������p�|�|pp�p|p p pppp�pppp|���|���|�p|pppp|��pp������p����|����p ���p���� �p�p�p��� ��p�p�p�p|p p pppp�pppp|���|���|�p|pppp|��pp������p�����p���pp��|���� p���pp��p|�|pp|�|pp|�|pp|�|pp|�|pp|�|� p ��ppp�p�pppp|���|���|�p|ppp�p�p��p��pp�� ��p�p�p pp��p�p���pppp�� p��� p|��� �p�p|�|pp�p�p|p p ppp�p�pppp|���|���|�p|ppp|��p���|p���� p��|�p��| p�p�p���p�p�p��p�p|p�pp� p���ppp|p ��ppp�p�pppp|���|���|�p|ppp|��p���|pp��� p�p�pp�����p�pp���|�|����|���ppp���|�| p�p�p���p�p�p��p�p|p�pp��|p p pp�pp�pppp|� �p|����� �����ppp�����|���p���|�| p ���|�p| � p p pp|pp�pppp��p��p�p|�����pp�ppp p|�|���pp�ppp p �pp�ppp p��� �ppp pp p��|���p�p p�|����||��|����ppp|p p pp|pp�pppp��p��p�p��� ��p�|�|ppp�pp�pp�p�p ��p�p�p�p�p�p�pp| p��||�|� p �p���p�p p���|� p| p��� p p pp||p�pppp|���|���|�p|pppp|��pp������p���� �|���|pp�p���������������p��p��pp p�pp�pp�p�p ��p�p�p�p�p�p�pp|� p�������pp|p ��pp|�|ppppp|���|���|�p|pppp|��pp������p����p��p����pp�������  p������p ��p�p p|�����p�p p|�����p�p|p p pp|�|ppppp|���|���|�p|pppp|��pp������p����|pp�p����|�p�p�p��� ���p �p��p�p p�pp�pp�p�p ��p�p�p�p�p�p�pp|� p p p|p�pp�pppp|���|���|�p|ppp|��p���|p���� p��|�p��| p�p�p���p�p�p��p�p|p�pp� p���ppp|p ��p|p�pp�pppp|���|���|�p|ppp|��p���|pp��� p�p�pp�����p�pp���|�|����|���ppp���|�| p�p�p���p�p�p��p�p|p�pp��|p p p|p�pp�pppp|���|���|�p|ppp|��p���|p���� p��|�p��| p�pp�pp�p�p ��p�p�p�p�p�p�pp|� p���ppp|p ��p�|pp�pppp|���|���|�p|ppp|��p���|pp��� p�p�pp�����p�pp���|�|����|���ppp���|�| p�p�p���p�p�p��p�p|p�pp��|p p p�|pp�pppp|���|���|�p|ppp|��p���|p���� p��|�p��| p�p�p���p�p�p��p�p|p�pp� p���ppp|p p p�|p�p�pppp|���|���|�p|ppp|��p���|p���� p��|�p��| p�pp�pp�p�p ��p�p�p�p�p�p�pp|� p���ppp|p ��p�|p�p�pppp|���|���|�p|ppp|��p���|pp��� p�p| p�����p�pp���|�|����|���ppp���|�| p�p�p���p�p�p��p�p|p�pp��|p p p�|p�p�pppp|���|���|�p|ppp|��p���|p���� p��|�p��| p�p�p���p�p�p��p�p|p�pp� p���ppp|p p p�|p�p�pppp|���|���|�p|ppp|��p���|p���� p��|�p��| p�pp�pp�p�p ��p�p�p�p�p�p�pp|� p���ppp|p ��pp�p�p�pppp|���|���|�p|ppp|��p���|pp��� p�p�pp�����p�pp���|�|����|���ppp���|�| p�p�p���p�p�p��p�p|p�pp��|p p pp�p�p�pppp|���|���|�p|ppp|��p���|p���� p��|�p��| p�p�p���p�p�p��p�p|p�pp� p���ppp|p p pp�p�p�pppp|���|���|�p|ppp|��p���|p���� p��|�p��| p�pp�pp�p�p ��p�p�p�p�p�p�pp|� p���ppp|p ��pp�p�p�p�pppp|���|���|�p|ppp|��p���|pp��� p�p| p�����p�pp���|�|����|���ppp���|�| p�p�p���p�p�p��p�p|p�pp��|p p pp�p�p�p�pppp|���|���|�p|ppp|��p���|p���� p��|�p��| p�p�p���p�p�p��p�p|p�pp� p���ppp|p p pp�p�p�p�pppp|���|���|�p|ppp|��p���|p���� p��|�p��| p�pp�pp�p�p ��p�p�p�p�p�p�pp|� p���ppp|p p pp�p|�|ppppp��p��p�p��� ��p�|�|ppp�pp�pp�p�p ��p�p�p�p�p�p�pp| p|��� �� p �p�p�pp�p p��� ���|�| p�pp�p�p p���������|����pp��p|�|�| p�p�p p������pp��p�����p|�|� p p pp�p|�|ppppp��p��p�p|�����pp�p pp p|�|���pp�ppp p �pp�ppp p��� �ppp pp p��|���p�p p�|����||��|����ppp|p p pp�p|�|ppppp��p��p�p|�����pp�ppp p|�|���pp�p pp p �pp�ppp p��� �ppp pp p��|���p�p p�|����||��|����ppp|p p pp�p|�|ppppp|���|���|�p|pppp|��pp������p����|pp�p�������p�p� �p�p�p��� ���p �p��p�p p�pp�pp�p�p ��p�p�p�p�p�p�pp|� p ��pp�p|�|ppppp|���|���|�p|pppp|��pp������p����p��p����pp�������  p����p����|�p���p���|�|���p�p p|�����p�p p|�����p�p|p p pp�p|p�pppp��p��p�p|�����pp�ppp p|�|���pp�ppp p �pp�ppp p��� �ppp pp p��|���p�p p�|����||��|����ppp|p p pp�p|p�pppp��p��p�p��� ��p�|�|ppp�pp�pp�p�p ��p�p�p�p�p�p�pp| p��||�|� p �p���p�p p���|� p| p��� p p pp�p�pp�pppp|���|���|�p|pppp|��pp������p���� �|���|pp�p���������������p��p��pp p�pp�pp�p�p ��p�p�p�p�p�p�pp|� p�������pp|p ��pp�p�p�p�pppp|���|���|�p|pppp|��pp������p����p��p����pp�������  p������p ��p�p p|�����p�p p|�����p�p|p p pp�p�p�p�pppp|���|���|�p|pppp|��pp������p����|pp�p����|�p�p�p��� ���p �p��p�p p�pp�pp�p�p ��p�p�p�p�p�p�pp|� p p pp�p�p�p�pppp|���|���|�p|ppp|��p���|p���� p��|�p��| p�p�p���p�p�p��p�p|p�pp� p���ppp|p ��pp�p�p�p�pppp|���|���|�p|ppp|��p���|pp��� p�p| p�����p�pp���|�|����|���ppp���|�| p�p�p���p�p�p��p�p|p�pp��|p p pp�p�p|ppppp|���|���|�p|ppp|��p���|p���� p��|�p��| p�pp�pp�p�p ��p�p�p�p�p�p�pp|� p���ppp|p ��pp�p�p|ppppp|���|���|�p|ppp|��p���|pp��� p�ppp�����p�pp���|�|����|���ppp���|�| p�p�p���p�p�p��p�p|p�pp��|p p pp�p�p|ppppp|���|���|�p|ppp|��p���|p���� p��|�p��| p�p�p���p�p�p��p�p|p�pp� p���ppp|p p pp�p�p|ppppp|���|���|�p|ppp|��p���|p���� p��|�p��| p�pp�pp�p�p ��p�p�p�p�p�p�pp|� p���ppp|p ��pp|p|ppppp|���|���|�p|ppp|��p���|pp��� p�p�pp�����p�pp���|�|����|���ppp���|�| p�p�p���p�p�p��p�p|p�pp��|p p pp|p|ppppp|���|���|�p|ppp|��p���|p���� p��|�p��| p�p�p���p�p�p��p�p|p�pp� p���ppp|p p pp|p|ppppp|���|���|�p|ppp|��p���|p���� p��|�p��| p�pp�pp�p�p ��p�p�p�p�p�p�pp|� p���ppp|p p pp�p�p|ppppp|���|���|�p|ppp|��p���|p���� p��|�p��| p�p�p���p�p�p��p�p|p�pp� p���ppp|p ��pp�p�p|ppppp|���|���|�p|ppp|��p���|pp��� p�p�ppp�����p�pp���|�|����|���ppp���|�| p�p�p���p�p�p��p�p|p�pp��|p p pp�p�p|ppppp|���|���|�p|ppp|��p���|p���� p��|�p��| p�pp�pp�p�p ��p�p�p�p�p�p�pp|� p���ppp|p ��ppp�p�p|ppppp|���|���|�p|ppp|��p���|pp��� p�p�p�pp�����p�pp���|�|����|���ppp���|�| p�p�p���p�p�p��p�p|p�pp��|p p ppp�p�p|ppppp|���|���|�p|ppp|��p���|p���� p��|�p��| p�p�p���p�p�p��p�p|p�pp� p���ppp|p p ppp�p�p|ppppp|���|���|�p|ppp|��p���|p���� p��|�p��| p�pp�pp�p�p ��p�p�p�p�p�p�pp|� p���ppp|p p ppp�p|�|ppppp|���|ppp|����� |���|����p���� |�||�|��p��p�|��p| pp|�� p��� ���|�| pp|������ |pp�ppp|���|p p ppp�p�p�p�pppp��p��p�p��� ��p�|�|ppp�pp�pp�p�p ��p�p�p�p�p�p�pp| p|��� �� p �p�p�pp�p p��� ���|�| p�pp�p�p p���������|����pp��p|�|�| p�p�p p������pp��p�����p|�|� p p ppp�p�p�p�pppp��p��p�p|�����pp�p pp p|�|���pp�ppp p �pp�ppp p��� �ppp pp p��|���p�p p�|����||��|����ppp|p p ppp�p�p�p�pppp��p��p�p|�����pp�ppp p|�|���pp�p pp p �pp�ppp p��� �ppp pp p��|���p�p p�|����||��|����ppp|p p ppp�p�p|ppppp|���|���|�p|pppp|��pp������p����|pp�p�������p�p� �p�p�p��� ���p �p��p�p p�pp�pp�p�p ��p�p�p�p�p�p�pp|� p p ppp�p�p|ppppp|���|ppp|����� |���|����p���� |�||�|��p��p�|��p�ppp|�� p��� ���|�| pp|������ |pp�ppp|���|p ��ppp�p�p|ppppp|���|���|�p|pppp|��pp������p����p��p����pp�������  p����p����|�p���p���|�|���p�p p|�����p�p p|�����p�p|p p ppp�p�p|ppppp��p��p�p|�����pp�ppp p|�|���pp�ppp p �pp�ppp p��� �ppp pp p��|���p�p p�|����||��|����ppp|p p ppp�p�p|ppppp��p��p�p��� ��p�|�|ppp�pp�pp�p�p ��p�p�p�p�p�p�pp| p��||�|� p �p���p�p p���|� p| p��� p p ppp�p�pp�pppp|���|���|�p|pppp|��pp������p���� �|���|pp�p���������������p��p��pp p�pp�pp�p�p ��p�p�p�p�p�p�pp|� p�������pp|p ��ppp�p| p�pppp|���|���|�p|pppp|��pp������p����p��p����pp�������  p������p ��p�p p|�����p�p p|�����p�p|p p ppp�p|p�pppp|���|���|�p|pppp|��pp������p����|pp�p����|�p�p�p��� ���p �p��p�p p�pp�pp�p�p ��p�p�p�p�p�p�pp|� p p ppp�p�p|ppppp|���|���|�p|ppp|��p���|p���� p��|�p��| p�p�p���p�p�p��p�p|p�pp� p���ppp|p ��ppp�p�p|ppppp|���|���|�p|ppp|��p���|pp��� p�p�p�pp�����p�pp���|�|����|���ppp���|�| p�p�p���p�p�p��p�p|p�pp��|p p ppp�p�p|ppppp|���|���|�p|ppp|��p���|p���� p��|�p��| p�pp�pp�p�p ��p�p�p�p�p�p�pp|� p���ppp|p ��ppp�p�p|ppppp|���|���|�p|ppp|��p���|pp��� p�p�p�pp�����p�pp���|�|����|���ppp���|�| p�p�p���p�p�p��p�p|p�pp��|p p ppp�p�p|ppppp|���|���|�p|ppp|��p���|p���� p��|�p��| p�p�p���p�p�p��p�p|p�pp� p���ppp|p p ppp�p�p|ppppp|���|���|�p|ppp|��p���|p���� p��|�p��| p�pp�pp�p�p ��p�p�p�p�p�p�pp|� p���ppp|p ��ppp|p|ppppp|���|���|�p|ppp|��p���|pp��� p�p�p| p�����p�pp���|�|����|���ppp���|�| p�p�p���p�p�p��p�p|p�pp��|p p ppp|p|ppppp|���|���|�p|ppp|��p���|p���� p��|�p��| p�p�p���p�p�p��p�p|p�pp� p���ppp|p p ppp|p|ppppp|���|���|�p|ppp|��p���|p���� p��|�p��| p�pp�pp�p�p ��p�p�p�p�p�p�pp|� p���ppp|p ��ppp�p�p|ppppp|���|���|�p|ppp|��p���|pp��� p�p�p�pp�����p�pp���|�|����|���ppp���|�| p�p�p���p�p�p��p�p|p�pp��|p p ppp�p�p|ppppp|���|���|�p|ppp|��p���|p���� p��|�p��| p�p�p���p�p�p��p�p|p�pp� p���ppp|p p ppp�p�p|ppppp|���|���|�p|ppp|��p���|p���� p��|�p��| p�pp�pp�p�p ��p�p�p�p�p�p�pp|� p���ppp|p ��p|p�p�p|ppppp|���|���|�p|ppp|��p���|pp��� p�p�p| p�����p�pp���|�|����|���ppp���|�| p�p�p���p�p�p��p�p|p�pp��|p p p|p�p�p|ppppp|���|���|�p|ppp|��p���|p���� p��|�p��| p�p�p���p�p�p��p�p|p�pp� p���ppp|p p p|p�p�p|ppppp|���|���|�p|ppp|��p���|p���� p��|�p��| p�pp�pp�p�p ��p�p�p�p�p�p�pp|� p���ppp|p 

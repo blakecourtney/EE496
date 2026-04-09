@@ -1,0 +1,99 @@
+Command: /Users/blakecourtney/.espressif/python_env/idf5.5_py3.12_env/bin/python /Users/blakecourtney/esp/esp-idf/tools/idf_monitor.py -p /dev/cu.usbserial-4 -b 115200 --toolchain-prefix xtensa-esp32-elf- --target esp32 --revision 0 /Users/blakecourtney/Documents/EE496/mesh_code/ground/build/ground.elf /Users/blakecourtney/Documents/EE496/mesh_code/ground/build/bootloader/bootloader.elf -m '/Users/blakecourtney/.espressif/python_env/idf5.5_py3.12_env/bin/python' '/Users/blakecourtney/esp/esp-idf/tools/idf.py' '-p' '/dev/cu.usbserial-4'
+ets Jul 29 2019 12:21:46
+
+rst:0x1 (POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:6384
+load:0x40078000,len:15916
+load:0x40080400,len:3920
+entry 0x40080644
+[0;32mI (27) boot: ESP-IDF v5.5.2-dirty 2nd stage bootloader[0m
+[0;32mI (27) boot: compile time Apr  8 2026 13:53:31[0m
+[0;32mI (28) boot: Multicore bootloader[0m
+[0;32mI (29) boot: chip revision: v3.1[0m
+[0;32mI (32) boot.esp32: SPI Speed      : 40MHz[0m
+[0;32mI (36) boot.esp32: SPI Mode       : DIO[0m
+[0;32mI (39) boot.esp32: SPI Flash Size : 2MB[0m
+[0;32mI (43) boot: Enabling RNG early entropy source...[0m
+[0;32mI (47) boot: Partition Table:[0m
+[0;32mI (50) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (56) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (63) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (69) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (76) boot: End of partition table[0m
+[0;32mI (79) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=213c4h (136132) map[0m
+[0;32mI (133) esp_image: segment 1: paddr=000313ec vaddr=3ffb0000 size=03e98h ( 16024) load[0m
+[0;32mI (139) esp_image: segment 2: paddr=0003528c vaddr=40080000 size=0ad8ch ( 44428) load[0m
+[0;32mI (157) esp_image: segment 3: paddr=00040020 vaddr=400d0020 size=a3f30h (671536) map[0m
+[0;32mI (387) esp_image: segment 4: paddr=000e3f58 vaddr=4008ad8c size=0be7ch ( 48764) load[0m
+[0;32mI (406) esp_image: segment 5: paddr=000efddc vaddr=50000000 size=00020h (    32) load[0m
+[0;32mI (417) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (417) boot: Disabling RNG early entropy source...[0m
+[0;32mI (428) cpu_start: Multicore app[0m
+[0;32mI (436) cpu_start: GPIO 3 and 1 are used as console UART I/O pins[0m
+[0;32mI (436) cpu_start: Pro cpu start user code[0m
+[0;32mI (436) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (438) app_init: Application information:[0m
+[0;32mI (442) app_init: Project name:     ground[0m
+[0;32mI (446) app_init: App version:      6a33072-dirty[0m
+[0;32mI (450) app_init: Compile time:     Apr  8 2026 13:53:24[0m
+[0;32mI (455) app_init: ELF file SHA256:  d61d543a1...[0m
+[0;32mI (459) app_init: ESP-IDF:          v5.5.2-dirty[0m
+[0;32mI (464) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (468) efuse_init: Max chip rev:     v3.99 [0m
+[0;32mI (472) efuse_init: Chip rev:         v3.1[0m
+[0;32mI (476) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (482) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM[0m
+[0;32mI (487) heap_init: At 3FFB9778 len 00026888 (154 KiB): DRAM[0m
+[0;32mI (492) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM[0m
+[0;32mI (497) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM[0m
+[0;32mI (503) heap_init: At 40096C08 len 000093F8 (36 KiB): IRAM[0m
+[0;32mI (510) spi_flash: detected chip: generic[0m
+[0;32mI (512) spi_flash: flash io: dio[0m
+[0;33mW (515) spi_flash: Detected size(4096k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (528) main_task: Started on CPU0[0m
+[0;32mI (538) main_task: Calling app_main()[0m
+[0;32mI (588) wifi:wifi driver task: 3ffc18b8, prio:23, stack:6656, core=0[0m
+[0;32mI (598) wifi:wifi firmware version: ee91c8c[0m
+[0;32mI (598) wifi:wifi certification version: v7.0[0m
+[0;32mI (598) wifi:config NVS flash: enabled[0m
+[0;32mI (598) wifi:config nano formatting: disabled[0m
+[0;32mI (608) wifi:Init data frame dynamic rx buffer num: 32[0m
+[0;32mI (608) wifi:Init static rx mgmt buffer num: 5[0m
+[0;32mI (618) wifi:Init management short buffer num: 32[0m
+[0;32mI (618) wifi:Init dynamic tx buffer num: 32[0m
+[0;32mI (618) wifi:Init static rx buffer size: 1600[0m
+[0;32mI (628) wifi:Init static rx buffer num: 10[0m
+[0;32mI (628) wifi:Init dynamic rx buffer num: 32[0m
+[0;32mI (638) wifi_init: rx ba win: 6[0m
+[0;32mI (638) wifi_init: accept mbox: 6[0m
+[0;32mI (638) wifi_init: tcpip mbox: 32[0m
+[0;32mI (648) wifi_init: udp mbox: 6[0m
+[0;32mI (648) wifi_init: tcp mbox: 6[0m
+[0;32mI (648) wifi_init: tcp tx win: 5760[0m
+[0;32mI (648) wifi_init: tcp rx win: 5760[0m
+[0;32mI (658) wifi_init: tcp mss: 1440[0m
+[0;32mI (658) wifi_init: WiFi IRAM OP enabled[0m
+[0;32mI (658) wifi_init: WiFi RX IRAM OP enabled[0m
+[0;32mI (668) phy_init: phy_version 4863,a3a4459,Oct 28 2025,14:30:06[0m
+[0;32mI (738) wifi:mode : sta (1c:c3:ab:c4:1b:44) + softAP (1c:c3:ab:c4:1b:45)[0m
+[0;32mI (748) wifi:enable tsf[0m
+[0;32mI (748) wifi:Total power save buffer number: 16[0m
+[0;32mI (748) wifi:Init max length of beacon: 752/752[0m
+[0;32mI (748) wifi:Init max length of beacon: 752/752[0m
+[0;32mI (758) mesh: <nvs>read layer:0, err:0x1102[0m
+[0;32mI (758) mesh: <nvs>read assoc:0, err:0x1102[0m
+[0;32mI (758) wifi:Set ps type: 0, coexist: 0[0m
+
+[0;32mI (768) mesh: [IO]disable self-organizing<reconnect>[0m
+[0;32mI (768) mesh: [IO]disable self-organizing<stop reconnect>[0m
+[0;32mI (788) wifi:Total power save buffer number: 16[0m
+[0;32mI (1048) mesh_main: GUI UART initialized[0m
+[0;32mI (1048) mesh: [CONFIG]connect to router:dummy_router, 00:00:00:00:00:00[0m
+[0;32mI (1058) mesh: <mesh_connect_to_router,541>parent is set<stop reconnect>g_is_wifi_connecting:0, g_is_wifi_disconnecting:0, g_mesh_stop_reconnection:1[0m
+[0;32mI (1058) mesh_main: unknown event id:21[0m
+[0;32mI (1068) mesh_main: <MESH_EVENT_STARTED>ID:77:77:77:77:77:77[0m
+[0;33mW (1068) mesh_main: GROUND STATION (ROOT) STARTED, heap:158620[0m
+[0;32mI (1078) main_task: Returned from app_main()[0m
