@@ -544,17 +544,23 @@ void app_main(void)
     mesh_cfg_t cfg = MESH_INIT_CONFIG_DEFAULT();
     memcpy((uint8_t *) &cfg.mesh_id, s_mesh_id, 6);
 
-    cfg.channel = 1;
+    cfg.channel = 6;
     char dummy_ssid[] = "dummy_router";
     cfg.router.ssid_len = strlen(dummy_ssid);
     memcpy((uint8_t *) &cfg.router.ssid, dummy_ssid, cfg.router.ssid_len);
     memcpy((uint8_t *) &cfg.router.password, "dummy_password", strlen("dummy_password"));
 
+    ESP_ERROR_CHECK(esp_mesh_set_self_organized(true, false));
     ESP_ERROR_CHECK(esp_mesh_set_ap_authmode(CONFIG_MESH_AP_AUTHMODE));
     cfg.mesh_ap.max_connection = CONFIG_MESH_AP_CONNECTIONS;
     memcpy((uint8_t *) &cfg.mesh_ap.password, CONFIG_MESH_AP_PASSWD, strlen(CONFIG_MESH_AP_PASSWD));
     ESP_ERROR_CHECK(esp_mesh_set_config(&cfg));
 
+    mavlink_init();
+    ml_uart_init();
+    xTaskCreate(mavlink_task, "MAVLink", 4096, NULL, 5, NULL);
+    xTaskCreate(ml_uart_task, "ML_UART", 4096, NULL, 5, NULL);
+
     ESP_ERROR_CHECK(esp_mesh_start());
-    ESP_LOGI(MESH_TAG, "MESH NODE STARTED heap:%" PRId32, esp_get_minimum_free_heap_size());
+    ESP_LOGI(MESH_TAG, "DRONE NODE STARTED heap:%" PRId32, esp_get_minimum_free_heap_size());
 }
