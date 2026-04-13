@@ -1,75 +1,93 @@
-#handle TLM packets from drone
 import struct
 
 PACKET_START_BYTE = 0xFE
 PACKET_END_BYTE = 0xFF
 
-PKT_TYPE_TELEMETRY = 1
-PKT_TYPE_COMMAND = 2
-PKT_TYPE_VIDEO = 3
-PKT_TYPE_HEARTBEAT = 4
+PKT_TYPE_TELEMETRY  = 1
+PKT_TYPE_COMMAND    = 2
+PKT_TYPE_FLAG       = 3
+PKT_TYPE_HEARTBEAT  = 4
+PKT_TYPE_WAYPOINT   = 5
+PKT_TYPE_ACK        = 7
+PKT_TYPE_FLAG_ACK   = 8
+PKT_TYPE_PHOTO_CHUNK = 9
+PKT_TYPE_PHOTO_DONE = 10
+
+PACKET_SIZE = 68  # 1 start + 1 drone_id + 1 type + 64 payload + 1 end
 
 class TelemetryParser:
     @staticmethod
     def parse(data):
-        """Parse telemetry packet from bytes"""
-        if len(data) < 6:
+        """Parse packet from bytes"""
+        if len(data) < PACKET_SIZE:
             return None
-            
         if data[0] != PACKET_START_BYTE:
             return None
-        
-        drone_id = data[1]
-        dest_id = data[2]
-        packet_type = data[3]
-        
+        if data[PACKET_SIZE - 1] != PACKET_END_BYTE:
+            return None
+
+        drone_id    = data[1]
+        packet_type = data[2]
+        payload     = data[3:67]  # 64 bytes
+
         if packet_type == PKT_TYPE_TELEMETRY:
-            return TelemetryParser._parse_telemetry(drone_id, data[4:])
+            return TelemetryParser._parse_telemetry(drone_id, payload)
         elif packet_type == PKT_TYPE_HEARTBEAT:
-            return TelemetryParser._parse_heartbeat(drone_id, data[4:])
-        
+            return TelemetryParser._parse_heartbeat(drone_id, payload)
+        elif packet_type == PKT_TYPE_FLAG:
+            return TelemetryParser._parse_flag(drone_id, payload)
+        elif packet_type == PKT_TYPE_PHOTO_DONE:
+            return {'type': 'photo_done', 'id': drone_id}
+
         return None
-    
+
     @staticmethod
     def _parse_telemetry(drone_id, payload):
-        """Parse full telemetry packet"""
+        """Parse telemetry packet"""
         try:
-            offset = 0
-            lat = struct.unpack('f', payload[offset:offset+4])[0]; offset += 4
-            lon = struct.unpack('f', payload[offset:offset+4])[0]; offset += 4
-            alt = struct.unpack('f', payload[offset:offset+4])[0]; offset += 4
-            roll = struct.unpack('f', payload[offset:offset+4])[0]; offset += 4
-            pitch = struct.unpack('f', payload[offset:offset+4])[0]; offset += 4
-            yaw = struct.unpack('f', payload[offset:offset+4])[0]; offset += 4
-            battery = struct.unpack('f', payload[offset:offset+4])[0]; offset += 4
-            satellites = payload[offset]; offset += 1
-            armed = bool(payload[offset]); offset += 1
-            streaming = bool(payload[offset]) if offset < len(payload) else False
-            
+            lat, lon, alt, roll, pitch, yaw, battery = struct.unpack_from('7f', payload, 0)
+            satellites = payload[28]
+            armed      = bool(payload[29])
             return {
-                'type': 'telemetry',
-                'id': drone_id,
-                'lat': lat,
-                'lon': lon,
-                'alt': alt,
-                'roll': roll,
-                'pitch': pitch,
-                'yaw': yaw,
-                'battery': battery,
+                'type':       'telemetry',
+                'id':         drone_id,
+                'lat':        lat,
+                'lon':        lon,
+                'alt':        alt,
+                'roll':       roll,
+                'pitch':      pitch,
+                'yaw':        yaw,
+                'battery':    battery,
                 'satellites': satellites,
-                'armed': armed,
-                'streaming': streaming
+                'armed':      armed,
+                'streaming':  False  # video logging only, no live stream
             }
         except Exception as e:
-            print(f"Parse error: {e}")
+            print(f"Telemetry parse error: {e}")
             return None
-    
+
     @staticmethod
     def _parse_heartbeat(drone_id, payload):
         """Parse heartbeat packet"""
-        armed = bool(payload[0]) if len(payload) > 0 else False
         return {
-            'type': 'heartbeat',
-            'id': drone_id,
-            'armed': armed
+            'type':  'heartbeat',
+            'id':    drone_id,
+            'armed': False
         }
+
+    @staticmethod
+    def _parse_flag(drone_id, payload):
+        """Parse ML person detection flag"""
+        try:
+            lat, lon, alt, confidence = struct.unpack_from('4f', payload, 0)
+            return {
+                'type':       'flag',
+                'id':         drone_id,
+                'lat':        lat,
+                'lon':        lon,
+                'alt':        alt,
+                'confidence': confidence
+            }
+        except Exception as e:
+            print(f"Flag parse error: {e}")
+            return None

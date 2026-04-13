@@ -56,6 +56,52 @@ void send_to_gui(uint8_t *data, size_t len)
     uart_write_bytes(GUI_UART, "\n", 1);
 }
 
+void gui_rx_task(void *arg)
+{
+    uint8_t buf[sizeof(packet_t)];
+    mesh_addr_t route_table[CONFIG_MESH_ROUTE_TABLE_SIZE];
+    int route_table_size = 0;
+    uint8_t sta_mac[6];
+    uint8_t ap_mac[6];
+
+    while (1) {
+        // read exactly one packet from GUI
+        int len = uart_read_bytes(GUI_UART, buf, sizeof(packet_t), 100 / portTICK_PERIOD_MS);
+        if (len < sizeof(packet_t)) continue;
+
+        packet_t *pkt = (packet_t *)buf;
+        if (pkt->start != PKT_START || pkt->end != PKT_END) continue;
+
+        ESP_LOGI(MESH_TAG, "[GND] received cmd type:%d for drone:%d", pkt->type, pkt->drone_id);
+
+        // get routing table
+        esp_wifi_get_mac(WIFI_IF_STA, sta_mac);
+        esp_wifi_get_mac(WIFI_IF_AP, ap_mac);
+        esp_mesh_get_routing_table((mesh_addr_t *)&route_table,
+                                   CONFIG_MESH_ROUTE_TABLE_SIZE * 6, &route_table_size);
+
+        // forward to target drone or broadcast to all
+        for (int i = 0; i < route_table_size; i++) {
+            if (memcmp(route_table[i].addr, sta_mac, 6) == 0) continue;
+            if (memcmp(route_table[i].addr, ap_mac, 6) == 0) continue;
+
+            // if drone_id is 0 send to all, otherwise match last byte of MAC
+            if (pkt->drone_id != 0 && route_table[i].addr[5] != pkt->drone_id) continue;
+
+            mesh_data_t data = {
+                .data  = buf,
+                .size  = sizeof(packet_t),
+                .proto = MESH_PROTO_BIN,
+                .tos   = MESH_TOS_P2P,
+            };
+            esp_err_t err = esp_mesh_send(&route_table[i], &data, MESH_DATA_P2P, NULL, 0);
+            ESP_LOGI(MESH_TAG, "[GND-TX] forwarded to drone:%d err:0x%x",
+                     route_table[i].addr[5], err);
+        }
+    }
+    vTaskDelete(NULL);
+}
+
 /*******************************************************
  *                Mesh TX Task
  *                GND sends commands/waypoints to drones
@@ -241,6 +287,7 @@ esp_err_t esp_mesh_comm_p2p_start(void)
         is_comm_p2p_started = true;
         xTaskCreate(esp_mesh_p2p_tx_main, "MPTX", 3072, NULL, 5, NULL);
         xTaskCreate(esp_mesh_p2p_rx_main, "MPRX", 3072, NULL, 5, NULL);
+        xTaskCreate(gui_rx_task, "GUIRX", 3072, NULL, 5, NULL);
     }
     return ESP_OK;
 }
@@ -260,9 +307,7 @@ void mesh_event_handler(void *arg, esp_event_base_t event_base,
         ESP_LOGI(MESH_TAG, "<MESH_EVENT_STARTED>ID:"MACSTR"", MAC2STR(id.addr));
         is_mesh_connected = false;
         mesh_layer = esp_mesh_get_layer();
-        if (esp_mesh_is_root()) {
-            esp_mesh_comm_p2p_start();
-        }
+        esp_mesh_comm_p2p_start();  // always start, not just when root
     }
     break;
     case MESH_EVENT_STOPPED: {
@@ -271,10 +316,11 @@ void mesh_event_handler(void *arg, esp_event_base_t event_base,
         mesh_layer = esp_mesh_get_layer();
     }
     break;
-    case MESH_EVENT_CHILD_CONNECTED: {
+        case MESH_EVENT_CHILD_CONNECTED: {
         mesh_event_child_connected_t *child_connected = (mesh_event_child_connected_t *)event_data;
         ESP_LOGI(MESH_TAG, "<MESH_EVENT_CHILD_CONNECTED>aid:%d, "MACSTR"",
-                 child_connected->aid, MAC2STR(child_connected->mac));
+                child_connected->aid, MAC2STR(child_connected->mac));
+        esp_mesh_comm_p2p_start();  // start comms when first drone connects
     }
     break;
     case MESH_EVENT_CHILD_DISCONNECTED: {
@@ -324,6 +370,21 @@ void mesh_event_handler(void *arg, esp_event_base_t event_base,
         ESP_LOGI(MESH_TAG, "<MESH_EVENT_NETWORK_STATE>is_rootless:%d", network_state->is_rootless);
     }
     break;
+    case MESH_EVENT_PARENT_CONNECTED: {
+        mesh_event_connected_t *connected = (mesh_event_connected_t *)event_data;
+        esp_mesh_get_id(&id);
+        mesh_layer = connected->self_layer;
+        ESP_LOGI(MESH_TAG, "<MESH_EVENT_PARENT_CONNECTED>layer:%d-->%d, ID:"MACSTR"",
+                last_layer, mesh_layer, MAC2STR(id.addr));
+        last_layer = mesh_layer;
+        is_mesh_connected = true;
+        if (esp_mesh_is_root()) {
+            esp_netif_dhcpc_stop(netif_sta);
+            esp_netif_dhcpc_start(netif_sta);
+        }
+        esp_mesh_comm_p2p_start();
+    }
+    break;
     default:
         ESP_LOGI(MESH_TAG, "unknown event id:%" PRId32 "", event_id);
         break;
@@ -357,16 +418,17 @@ void app_main(void)
     mesh_cfg_t cfg = MESH_INIT_CONFIG_DEFAULT();
     memcpy((uint8_t *) &cfg.mesh_id, s_mesh_id, 6);
 
-    cfg.channel = 6;
-    char dummy_ssid[] = "dummy_router";
-    cfg.router.ssid_len = strlen(dummy_ssid);
-    memcpy((uint8_t *) &cfg.router.ssid, dummy_ssid, cfg.router.ssid_len);
-    memcpy((uint8_t *) &cfg.router.password, "dummy_password", strlen("dummy_password"));
+    cfg.channel = 0;
+    char real_ssid[] = "Cougar Sanctuary";
+    cfg.router.ssid_len = strlen(real_ssid);
+    memcpy((uint8_t *) &cfg.router.ssid, real_ssid, cfg.router.ssid_len);
+    memcpy((uint8_t *) &cfg.router.password, "carlosdoyourdishes", strlen("carlosdoyourdishes"));
 
     // ground station specific config
-    ESP_ERROR_CHECK(esp_mesh_set_type(MESH_ROOT));
-    ESP_ERROR_CHECK(esp_mesh_fix_root(true));
-    ESP_ERROR_CHECK(esp_mesh_set_self_organized(true, false));
+    //ESP_ERROR_CHECK(esp_mesh_set_type(MESH_ROOT));
+    //ESP_ERROR_CHECK(esp_mesh_fix_root(true));
+    ESP_ERROR_CHECK(esp_mesh_set_capacity_num(1000));
+    ESP_ERROR_CHECK(esp_mesh_set_self_organized(true, true));
 
     ESP_ERROR_CHECK(esp_mesh_set_ap_authmode(CONFIG_MESH_AP_AUTHMODE));
     cfg.mesh_ap.max_connection = CONFIG_MESH_AP_CONNECTIONS;

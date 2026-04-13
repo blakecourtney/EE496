@@ -355,23 +355,17 @@ void esp_mesh_p2p_rx_main(void *arg)
                     case PKT_TYPE_WAYPOINT: {
                         waypoint_t *wp = (waypoint_t *)pkt->payload;
                         ESP_LOGI(MESH_TAG, "[DRONE-RX] waypoint lat:%.5f lon:%.5f alt:%.1f",
-                                 wp->lat, wp->lon, wp->alt);
-                        send_mavlink_waypoint(wp);
-
-                        internal_waypoint_t iwp = {
-                            .type = INTERNAL_PKT_WAYPOINT,
-                            .lat  = wp->lat,
-                            .lon  = wp->lon,
-                            .alt  = wp->alt,
-                        };
-                        uart_write_bytes(ML_UART, (uint8_t *)&iwp, sizeof(internal_waypoint_t));
+                                wp->lat, wp->lon, wp->alt);
+                        // send_mavlink_waypoint(wp);  // TODO: enable when Pixhawk connected
+                        // internal_waypoint_t iwp = { ... };
+                        // uart_write_bytes(ML_UART, ...);  // TODO: enable when ML ESP connected
                         break;
                     }
 
                     case PKT_TYPE_COMMAND: {
                         uint8_t cmd = pkt->payload[0];
                         ESP_LOGI(MESH_TAG, "[DRONE-RX] command type:%d", cmd);
-                        send_mavlink_command(cmd);
+                        // send_mavlink_command(cmd);  // TODO: enable when Pixhawk connected
                         break;
                     }
 
@@ -544,11 +538,12 @@ void app_main(void)
     mesh_cfg_t cfg = MESH_INIT_CONFIG_DEFAULT();
     memcpy((uint8_t *) &cfg.mesh_id, s_mesh_id, 6);
 
-    cfg.channel = 6;
-    char dummy_ssid[] = "dummy_router";
-    cfg.router.ssid_len = strlen(dummy_ssid);
-    memcpy((uint8_t *) &cfg.router.ssid, dummy_ssid, cfg.router.ssid_len);
-    memcpy((uint8_t *) &cfg.router.password, "dummy_password", strlen("dummy_password"));
+    // replace dummy router with real router
+    cfg.channel = 0; 
+    char real_ssid[] = "Cougar Sanctuary";
+    cfg.router.ssid_len = strlen(real_ssid);
+    memcpy((uint8_t *) &cfg.router.ssid, real_ssid, cfg.router.ssid_len);
+    memcpy((uint8_t *) &cfg.router.password, "carlosdoyourdishes", strlen("carlosdoyourdishes"));
 
     ESP_ERROR_CHECK(esp_mesh_set_self_organized(true, false));
     ESP_ERROR_CHECK(esp_mesh_set_ap_authmode(CONFIG_MESH_AP_AUTHMODE));
@@ -556,10 +551,12 @@ void app_main(void)
     memcpy((uint8_t *) &cfg.mesh_ap.password, CONFIG_MESH_AP_PASSWD, strlen(CONFIG_MESH_AP_PASSWD));
     ESP_ERROR_CHECK(esp_mesh_set_config(&cfg));
 
-    mavlink_init();
-    ml_uart_init();
-    xTaskCreate(mavlink_task, "MAVLink", 4096, NULL, 5, NULL);
-    xTaskCreate(ml_uart_task, "ML_UART", 4096, NULL, 5, NULL);
+    // mavlink_init();
+    // ml_uart_init();
+    // xTaskCreate(mavlink_task, "MAVLink", 4096, NULL, 5, NULL);
+    // xTaskCreate(ml_uart_task, "ML_UART", 4096, NULL, 5, NULL);
+
+    ESP_ERROR_CHECK(esp_mesh_set_capacity_num(10));
 
     ESP_ERROR_CHECK(esp_mesh_start());
     ESP_LOGI(MESH_TAG, "DRONE NODE STARTED heap:%" PRId32, esp_get_minimum_free_heap_size());
