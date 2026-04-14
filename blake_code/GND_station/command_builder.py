@@ -5,6 +5,7 @@ PACKET_START_BYTE = 0xFE
 PACKET_END_BYTE   = 0xFF
 PKT_TYPE_COMMAND  = 2
 PKT_TYPE_WAYPOINT = 5
+PKT_TYPE_FLAG_ACK = 8
 
 PAYLOAD_SIZE = 64
 
@@ -44,14 +45,8 @@ class CommandBuilder:
         return CommandBuilder.build(drone_id, PKT_TYPE_COMMAND, payload)
 
     @staticmethod
-    def start_video(drone_id):
-        payload = bytearray([CMD_START_VIDEO])
-        return CommandBuilder.build(drone_id, PKT_TYPE_COMMAND, payload)
-
-    @staticmethod
-    def stop_video(drone_id):
-        payload = bytearray([CMD_STOP_VIDEO])
-        return CommandBuilder.build(drone_id, PKT_TYPE_COMMAND, payload)
+    def flag_ack(drone_id):
+        return CommandBuilder.build(drone_id, PKT_TYPE_FLAG_ACK)
 
     @staticmethod
     def waypoint(drone_id, lat, lon, alt):

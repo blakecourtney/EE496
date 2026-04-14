@@ -78,10 +78,8 @@ class GroundStationGUI:
                command=self.cmd_arm).pack(side=LEFT, padx=5)
         Button(btn_frame, text="DISARM", width=12, bg="#f44336", fg="white",
                command=self.cmd_disarm).pack(side=LEFT, padx=5)
-        Button(btn_frame, text="Start Video", width=12, bg="#2196F3", fg="white",
-               command=self.cmd_start_video).pack(side=LEFT, padx=5)
-        Button(btn_frame, text="Stop Video", width=12,
-               command=self.cmd_stop_video).pack(side=LEFT, padx=5)
+        Button(btn_frame, text="Request Image", width=12, bg="#2196F3", fg="white",
+               command=self.cmd_request_image).pack(side=LEFT, padx=5)
 
         wp_frame = Frame(cmd_frame)
         wp_frame.pack(padx=10, pady=(0, 10))
@@ -268,15 +266,9 @@ class GroundStationGUI:
         else:
             messagebox.showwarning("No Drone Selected", "Please select a drone first.")
 
-    def cmd_start_video(self):
+    def cmd_request_image(self):
         if self.selected_drone_id:
-            self.command_callback('start_video', self.selected_drone_id)
-        else:
-            messagebox.showwarning("No Drone Selected", "Please select a drone first.")
-
-    def cmd_stop_video(self):
-        if self.selected_drone_id:
-            self.command_callback('stop_video', self.selected_drone_id)
+            self.command_callback('request_image', self.selected_drone_id)
         else:
             messagebox.showwarning("No Drone Selected", "Please select a drone first.")
 
