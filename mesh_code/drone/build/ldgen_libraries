@@ -118,8 +118,4 @@
 /home/blakecourtney/school/s26/EE496/mesh_code/drone/build/esp-idf/wpa_supplicant/libwpa_supplicant.a
 /home/blakecourtney/school/s26/EE496/mesh_code/drone/build/esp-idf/esp_coex/libesp_coex.a
 /home/blakecourtney/school/s26/EE496/mesh_code/drone/build/esp-idf/esp_wifi/libesp_wifi.a
-/home/blakecourtney/school/s26/EE496/mesh_code/drone/build/esp-idf/esp_hal_ledc/libesp_hal_ledc.a
-/home/blakecourtney/school/s26/EE496/mesh_code/drone/build/esp-idf/esp_driver_ledc/libesp_driver_ledc.a
-/home/blakecourtney/school/s26/EE496/mesh_code/drone/build/esp-idf/esp_hal_ledc/libesp_hal_ledc.a
 /home/blakecourtney/school/s26/EE496/mesh_code/drone/build/esp-idf/main/libmain.a
-/home/blakecourtney/school/s26/EE496/mesh_code/drone/build/esp-idf/esp_driver_ledc/libesp_driver_ledc.a

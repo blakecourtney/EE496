@@ -427,13 +427,6 @@ SECTIONS
      */
     /* tdata sections */
     _thread_local_data_start = ABSOLUTE(.);
-    _picolibc_reent_stub_start = ABSOLUTE(.);
-    KEEP(*(.tdata.errno))
-    /* Reproduce the public fields from struct _reent. */
-    KEEP(*(.tdata.tls_stdin))
-    KEEP(*(.tdata.tls_stdout))
-    KEEP(*(.tdata.tls_stderr))
-    _picolibc_reent_stub_end = ABSOLUTE(.);
     *(.tdata .tdata.* .gnu.linkonce.td.*)
     _thread_local_data_end = ABSOLUTE(.);
     /* tbss sections */
@@ -443,7 +436,7 @@ SECTIONS
     _thread_local_bss_end = ABSOLUTE(.);
   } > default_rodata_seg
   _tls_section_alignment = ALIGNOF(.flash.tdata);
-  ASSERT((_picolibc_reent_stub_end - _picolibc_reent_stub_start) == 16, "Newlib _reent stub have wrong size")
+ 
   ASSERT(_thread_local_data_end == _thread_local_bss_start,
          "tdata and tbss must be contiguous.")
   /**
@@ -678,6 +671,7 @@ SECTIONS
     * And so forth...
     */
    *(.rela.*)
+   *(.got .got.plt) /* TODO: GCC-382 */
    *(.fini)
    *(.eh_frame_hdr)
    *(.eh_frame_hdr)

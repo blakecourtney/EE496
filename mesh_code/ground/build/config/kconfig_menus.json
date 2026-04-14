@@ -4990,10 +4990,7 @@
                         "help": "Mesh PS device duty cycle.",
                         "id": "MESH_PS_DEV_DUTY",
                         "name": "MESH_PS_DEV_DUTY",
-                        "range": [
-                            1,
-                            100
-                        ],
+                        "range": null,
                         "title": "Mesh PS device duty cycle",
                         "type": "int"
                     },
@@ -5003,10 +5000,7 @@
                         "help": "Mesh PS network duty cycle.",
                         "id": "MESH_PS_NWK_DUTY",
                         "name": "MESH_PS_NWK_DUTY",
-                        "range": [
-                            1,
-                            100
-                        ],
+                        "range": null,
                         "title": "Mesh PS network duty cycle",
                         "type": "int"
                     },
@@ -5016,10 +5010,7 @@
                         "help": "Mesh PS network duty cycle duration.",
                         "id": "MESH_PS_NWK_DUTY_DURATION",
                         "name": "MESH_PS_NWK_DUTY_DURATION",
-                        "range": [
-                            -1,
-                            100
-                        ],
+                        "range": null,
                         "title": "Mesh PS network duty cycle duration (unit: minutes)",
                         "type": "int"
                     },
@@ -6273,24 +6264,6 @@
                 "depends_on": null,
                 "id": "component-config-esp-driver-gpio-configurations-home-blakecourtney-esp-esp-idf-components-esp_driver_gpio-Kconfig-1",
                 "title": "ESP-Driver:GPIO Configurations",
-                "type": "menu"
-            },
-            {
-                "children": [
-                    {
-                        "children": [],
-                        "depends_on": null,
-                        "help": "Place LEDC control functions (ledc_update_duty and ledc_stop) into IRAM,\nso that these functions can be IRAM-safe and able to be called in an IRAM context.\nEnabling this option can improve driver performance as well.",
-                        "id": "LEDC_CTRL_FUNC_IN_IRAM",
-                        "name": "LEDC_CTRL_FUNC_IN_IRAM",
-                        "range": null,
-                        "title": "Place LEDC control functions into IRAM",
-                        "type": "bool"
-                    }
-                ],
-                "depends_on": null,
-                "id": "component-config-esp-driver-ledc-configurations-home-blakecourtney-esp-esp-idf-components-esp_driver_ledc-Kconfig-1",
-                "title": "ESP-Driver:LEDC Configurations",
                 "type": "menu"
             },
             {

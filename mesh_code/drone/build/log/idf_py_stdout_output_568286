@@ -1,0 +1,400 @@
+Command: /home/blakecourtney/.espressif/python_env/idf6.1_py3.12_env/bin/python /home/blakecourtney/esp/esp-idf/tools/idf_monitor.py -p /dev/ttyUSB1 -b 115200 --toolchain-prefix xtensa-esp32-elf- --target esp32 --revision 0 /home/blakecourtney/school/s26/EE496/mesh_code/drone/build/internal_communication.elf /home/blakecourtney/school/s26/EE496/mesh_code/drone/build/bootloader/bootloader.elf -m '/home/blakecourtney/.espressif/python_env/idf6.1_py3.12_env/bin/python' '/home/blakecourtney/esp/esp-idf/tools/idf.py' '-p' '/dev/ttyUSB1'
+ets Jul 29 2019 12:21:46
+
+rst:0x1 (POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0040,len:6272
+load:0x40078000,len:15848
+load:0x40080400,len:3920
+entry 0x40080644
+[0;32mI (27) boot: ESP-IDF v6.1-dev-2748-g490691bc61 2nd stage bootloader[0m
+[0;32mI (27) boot: compile time Apr  9 2026 15:32:46[0m
+[0;32mI (28) boot: Multicore bootloader[0m
+[0;32mI (30) boot: chip revision: v3.1[0m
+[0;32mI (33) boot.esp32: SPI Speed      : 40MHz[0m
+[0;32mI (37) boot.esp32: SPI Mode       : DIO[0m
+[0;32mI (40) boot.esp32: SPI Flash Size : 2MB[0m
+[0;32mI (44) boot: Enabling RNG early entropy source...[0m
+[0;32mI (49) boot: Partition Table:[0m
+[0;32mI (51) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (57) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (64) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (71) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (77) boot: End of partition table[0m
+[0;32mI (80) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=215fch (136700) map[0m
+[0;32mI (137) esp_image: segment 1: paddr=00031624 vaddr=3ffb0000 size=04adch ( 19164) load[0m
+[0;32mI (144) esp_image: segment 2: paddr=00036108 vaddr=40080000 size=09f10h ( 40720) load[0m
+[0;32mI (161) esp_image: segment 3: paddr=00040020 vaddr=400d0020 size=a94e0h (693472) map[0m
+[0;32mI (408) esp_image: segment 4: paddr=000e9508 vaddr=40089f10 size=0c0c4h ( 49348) load[0m
+[0;32mI (429) esp_image: segment 5: paddr=000f55d4 vaddr=50000000 size=00028h (    40) load[0m
+[0;32mI (440) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (440) boot: Disabling RNG early entropy source...[0m
+[0;32mI (451) cpu_start: Multicore app[0m
+[0;32mI (459) cpu_start: GPIO 3 and 1 are used as console UART I/O pins[0m
+[0;32mI (459) cpu_start: Pro cpu start user code[0m
+[0;32mI (459) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (461) app_init: Application information:[0m
+[0;32mI (465) app_init: Project name:     internal_communication[0m
+[0;32mI (470) app_init: App version:      9348f54-dirty[0m
+[0;32mI (474) app_init: Compile time:     Apr  9 2026 15:51:57[0m
+[0;32mI (479) app_init: ELF file SHA256:  cb877780e...[0m
+[0;32mI (484) app_init: ESP-IDF:          v6.1-dev-2748-g490691bc61[0m
+[0;32mI (489) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (493) efuse_init: Max chip rev:     v3.99 [0m
+[0;32mI (497) efuse_init: Chip rev:         v3.1[0m
+[0;32mI (501) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (507) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM[0m
+[0;32mI (512) heap_init: At 3FFBA588 len 00025A78 (150 KiB): DRAM[0m
+[0;32mI (517) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM[0m
+[0;32mI (523) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM[0m
+[0;32mI (528) heap_init: At 40095FD4 len 0000A02C (40 KiB): IRAM[0m
+[0;32mI (535) spi_flash: detected chip: generic[0m
+[0;32mI (537) spi_flash: flash io: dio[0m
+[0;33mW (540) spi_flash: Detected size(4096k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (554) main_task: Started on CPU0[0m
+[0;32mI (564) main_task: Calling app_main()[0m
+[0;32mI (604) wifi:wifi driver task: 3ffc2d8c, prio:23, stack:6656, core=0[0m
+[0;32mI (614) wifi:wifi firmware version: 0f5722b[0m
+[0;32mI (614) wifi:wifi certification version: v7.0[0m
+[0;32mI (614) wifi:config NVS flash: enabled[0m
+[0;32mI (614) wifi:config nano formatting: disabled[0m
+[0;32mI (624) wifi:Init data frame dynamic rx buffer num: 32[0m
+[0;32mI (624) wifi:Init static rx mgmt buffer num: 5[0m
+[0;32mI (634) wifi:Init management short buffer num: 32[0m
+[0;32mI (634) wifi:Init dynamic tx buffer num: 32[0m
+[0;32mI (644) wifi:Init static rx buffer size: 1600[0m
+[0;32mI (644) wifi:Init static rx buffer num: 10[0m
+[0;32mI (644) wifi:Init dynamic rx buffer num: 32[0m
+[0;32mI (654) wifi_init: rx ba win: 6[0m
+[0;32mI (654) wifi_init: accept mbox: 6[0m
+[0;32mI (654) wifi_init: tcpip mbox: 32[0m
+[0;32mI (664) wifi_init: udp mbox: 6[0m
+[0;32mI (664) wifi_init: tcp mbox: 6[0m
+[0;32mI (664) wifi_init: tcp tx win: 5760[0m
+[0;32mI (674) wifi_init: tcp rx win: 5760[0m
+[0;32mI (674) wifi_init: tcp mss: 1440[0m
+[0;32mI (674) wifi_init: WiFi IRAM OP enabled[0m
+[0;32mI (684) wifi_init: WiFi RX IRAM OP enabled[0m
+[0;32mI (684) phy_init: phy_version 4863,a3a4459,Oct 28 2025,14:30:06[0m
+[0;32mI (754) phy_init: Saving new calibration data due to checksum failure or outdated calibration data, mode(0)[0m
+[0;32mI (854) wifi:mode : sta (b4:bf:e9:14:2b:28) + softAP (b4:bf:e9:14:2b:29)[0m
+[0;32mI (854) wifi:enable tsf[0m
+[0;32mI (854) wifi:Total power save buffer number: 16[0m
+[0;32mI (854) wifi:Init max length of beacon: 752/752[0m
+[0;32mI (864) wifi:Init max length of beacon: 752/752[0m
+[0;32mI (874) mesh: <nvs>read layer:0[0m
+[0;32mI (874) mesh: <nvs>read assoc:0[0m
+[0;32mI (874) wifi:Set ps type: 0, coexist: 0[0m
+
+[0;32mI (874) mesh: [IO]enable self-organizing<adaptive>[0m
+[0;32mI (894) wifi:Total power save buffer number: 16[0m
+[0;32mI (1154) wifi:mode : sta (b4:bf:e9:14:2b:28)[0m
+[0;32mI (1164) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x3, need_scan_router:0x0, look_for_nwk_count:1[0m
+[0;32mI (1164) mesh_main: <MESH_EVENT_STARTED>ID:77:77:77:77:77:77[0m
+[0;32mI (1164) mesh_main: DRONE NODE STARTED heap:162392[0m
+[0;32mI (1164) main_task: Returned from app_main()[0m
+[0;32mI (5374) mesh: find root:ESPM_C47ED4, root_cap:2(max:10), new channel:6, old channel:0[0m
+[0;32mI (5374) mesh: [S8]Cougar Sanctuary, 2c:67:be:4b:8b:28, channel:6, rssi:-44[0m
+[0;32mI (5374) mesh: find router:[ssid_len:16]Cougar Sanctuary, rssi:-44, 2c:67:be:4b:8b:28(encrypted), new channel:6, old channel:0[0m
+[0;32mI (5394) mesh: [FIND][ch:0]AP:25, otherID:0, MAP:2, idle:0, candidate:1, root:1[2c:67:be:4b:8b:28]router found[0m
+[0;32mI (5394) mesh: [FIND:1]find a network, channel:6, cfg<channel:0, router:Cougar Sanctuary, 00:00:00:00:00:00>[0m
+
+[0;32mI (5414) wifi:mode : sta (b4:bf:e9:14:2b:28) + softAP (b4:bf:e9:14:2b:29)[0m
+[0;33mW (5414) wifi:<MESH AP>adjust channel:1, secondary channel offset:1(40U)[0m
+[0;32mI (5424) wifi:Total power save buffer number: 16[0m
+[0;32mI (5424) wifi:Init max length of beacon: 752/752[0m
+[0;32mI (5434) wifi:Init max length of beacon: 752/752[0m
+[0;32mI (5404) mesh_main: unknown event id:22[0m
+[0;33mW (5444) wifi:<MESH AP>adjust channel:6, secondary channel offset:1(40U)[0m
+[0;32mI (5454) wifi:Total power save buffer number: 16[0m
+[0;32mI (5764) mesh: [SCAN][ch:6]AP:5, other(ID:0, RD:0), MAP:2, idle:0, candidate:2, root:1, topMAP:1[c:0,i:0][2c:67:be:4b:8b:28]router found<>[0m
+[0;32mI (5764) mesh: 7388[selection]try rssi_threshold:-78, backoff times:0, max:5<-78,-82,-85>[0m
+[0;32mI (5774) mesh: [DONE]connect to parent:ESPM_C47ED4, channel:6, rssi:-36, 1c:c3:ab:c4:7e:d5[layer:1, assoc:1], my_vote_num:0/voter_num:0, rc[00:00:00:00:00:00/-120/0][0m
+[0;32mI (5784) mesh: set router bssid:2c:67:be:4b:8b:28[0m
+[0;32mI (5884) wifi:new:<6,1>, old:<6,1>, ap:<6,1>, sta:<6,1>, prof:6, snd_ch_cfg:0x0[0m
+[0;32mI (5884) wifi:state: init -> auth (0xb0)[0m
+[0;32mI (5894) wifi:state: auth -> assoc (0x0)[0m
+[0;32mI (5914) wifi:state: assoc -> run (0x10)[0m
+[0;32mI (5924) mesh: <MESH_NWK_MIE_CHANGE><><><><ROOT ADDR><><><>[0m
+[0;32mI (5924) mesh: <MESH_NWK_ROOT_ADDR>from assoc, layer:2, root_addr:1c:c3:ab:c4:7e:d5, root_cap:2[0m
+[0;32mI (5924) mesh: <MESH_NWK_ROOT_ADDR>idle, layer:2, root_addr:1c:c3:ab:c4:7e:d5, conflict_roots.num:0<>[0m
+[0;32mI (5934) mesh_main: <MESH_EVENT_ROOT_ADDRESS>root:1c:c3:ab:c4:7e:d5[0m
+[0;32mI (5944) wifi:connected with ESPM_C47ED4, aid = 2, channel 6, 40U, bssid = 1c:c3:ab:c4:7e:d5[0m
+[0;32mI (5944) wifi:security: WPA2-PSK, phy: bgn, rssi: -36[0m
+[0;32mI (5954) wifi:pm start, type: 0[0m
+
+[0;32mI (5954) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us[0m
+[0;32mI (5964) mesh: [scan]new scanning time:600ms, beacon interval:300ms[0m
+[0;32mI (5984) mesh: 2004<arm>parent monitor, my layer:2(cap:6)(node), interval:10110ms, retries:1<normal connected>[0m
+[0;32mI (5984) mesh_main: <MESH_EVENT_PARENT_CONNECTED>layer:0-->2, ID:77:77:77:77:77:77[0m
+[0;32mI (5984) wifi:AP's beacon interval = 102400 us, DTIM period = 1[0m
+[0;32mI (5984) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (5994) mesh_main: unknown event id:11[0m
+[0;32mI (6014) wifi:<ba-add>idx:0 (ifx:0, 1c:c3:ab:c4:7e:d5), tid:5, ssn:0, winSize:64[0m
+[0;32mI (6594) wifi:dp: 1, bi: 307200, li: 1, scale listen interval from 307200 us to 307200 us[0m
+[0;32mI (8024) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (10024) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (12024) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (14024) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (16024) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (16334) mesh: 5161<active>parent layer:1(node), channel:6, rssi:-36, assoc:1(cnx rssi threshold:-120)my_assoc:0[0m
+[0;32mI (17834) mesh: 5966<scan>parent layer:1, rssi:-35, assoc:2(cnx rssi threshold:-120)[0m
+[0;32mI (17834) mesh: [SCAN][ch:6]AP:2, other(ID:0, RD:0), MAP:2, idle:0, candidate:2, root:1, topMAP:0[c:2,i:2][2c:67:be:4b:8b:28]<weak>[0m
+[0;32mI (17844) mesh: 7388[weak]try rssi_threshold:-120, backoff times:0, max:5<-78,-82,-85>[0m
+[0;32mI (17854) mesh: 714[monitor]no change, parent:1c:c3:ab:c4:7e:d5, rssi:-35[0m
+[0;32mI (17864) mesh: 2004<arm>parent monitor, my layer:2(cap:6)(node), interval:11322ms, retries:2<>[0m
+[0;32mI (18024) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (20024) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (22024) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (24024) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (26034) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (28034) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (29464) mesh: 5161<active>parent layer:1(node), channel:6, rssi:-36, assoc:2(cnx rssi threshold:-120)my_assoc:0[0m
+[0;32mI (30034) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (30964) mesh: 5966<scan>parent layer:1, rssi:-34, assoc:2(cnx rssi threshold:-120)[0m
+[0;32mI (30964) mesh: [SCAN][ch:6]AP:2, other(ID:0, RD:0), MAP:2, idle:0, candidate:2, root:1, topMAP:0[c:2,i:2][2c:67:be:4b:8b:28]<weak>[0m
+[0;32mI (30974) mesh: 7388[weak]try rssi_threshold:-120, backoff times:0, max:5<-78,-82,-85>[0m
+[0;32mI (30984) mesh: 714[monitor]no change, parent:1c:c3:ab:c4:7e:d5, rssi:-34[0m
+[0;32mI (30984) mesh: 2004<arm>parent monitor, my layer:2(cap:6)(node), interval:6859ms, retries:3<>[0m
+[0;32mI (32044) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (34054) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (36054) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (38024) mesh: 5161<active>parent layer:1(node), channel:6, rssi:-36, assoc:2(cnx rssi threshold:-120)my_assoc:0[0m
+[0;32mI (38054) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (39524) mesh: 5966<scan>parent layer:1, rssi:-34, assoc:2(cnx rssi threshold:-120)[0m
+[0;32mI (39524) mesh: [SCAN][ch:6]AP:2, other(ID:0, RD:0), MAP:2, idle:0, candidate:2, root:1, topMAP:0[c:2,i:2][2c:67:be:4b:8b:28]<weak>[0m
+[0;32mI (39534) mesh: 7388[weak]try rssi_threshold:-120, backoff times:0, max:5<-78,-82,-85>[0m
+[0;32mI (39544) mesh: 714[monitor]no change, parent:1c:c3:ab:c4:7e:d5, rssi:-34[0m
+[0;32mI (39544) mesh: 2004<arm>parent monitor, my layer:2(cap:6)(node), interval:378549ms, retries:3<>[0m
+[0;32mI (40054) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (42054) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (44064) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (46064) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (48064) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (50074) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (52074) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (54084) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (56084) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (58084) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (60084) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (62094) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (64104) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (66104) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (68104) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (70104) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (72104) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (74104) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (76104) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (78104) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (80114) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (82114) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (84124) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (86124) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (88124) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (90124) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (92124) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (94124) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (96124) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (98134) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (100134) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (102134) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (104144) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (106144) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (107164) mesh: [scan]new scanning time:1500ms, beacon interval:1000ms[0m
+[0;32mI (108154) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (110154) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (112154) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (114154) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (116164) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (118174) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (120174) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (122174) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (124174) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (126174) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (128174) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (130174) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (131734) mesh: 5127<assoc>parent layer:1, channel:6, rssi:-33, assoc:2, rssi threshold<-78,-82,-85>[0m
+[0;32mI (132174) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (134184) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (136184) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (138184) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (140184) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (142184) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (142994) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us[0m
+[0;32mI (144184) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (146184) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (148184) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (150184) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (152184) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (152624) wifi:dp: 1, bi: 307200, li: 1, scale listen interval from 307200 us to 307200 us[0m
+[0;32mI (154184) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (156184) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (158184) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (160184) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (162184) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (164184) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (166184) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (168184) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (170194) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (172194) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (174194) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (176194) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (178194) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (180194) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (182194) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (184194) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (186194) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (188204) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (190204) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (192204) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (194214) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (196214) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (198214) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (200214) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (202214) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (204214) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (206224) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (208224) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (210234) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (212234) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (214234) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (216234) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (218234) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (220234) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (222234) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (224254) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (226254) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (228254) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (230254) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (232254) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (234254) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (236254) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (238274) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (240284) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (242294) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (244294) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (246294) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (248304) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (250304) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (252304) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (254304) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (255844) mesh: 5127<assoc>parent layer:1, channel:6, rssi:-44, assoc:2, rssi threshold<-78,-82,-85>[0m
+[0;32mI (256314) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (258314) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (260324) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (262324) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (264324) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (266324) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (268324) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (270324) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (272324) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (274324) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (276324) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (278334) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (280334) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (282334) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (284334) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (286334) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (288334) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (290334) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (292334) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (294334) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (296344) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (298344) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (300344) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (302344) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (304344) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (306344) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (308344) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (310344) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (312344) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (314354) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (316354) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (318354) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (320364) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (322364) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (324364) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (326364) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (328364) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (330364) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (332374) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (334374) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (336374) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (338374) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (340374) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (342374) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (344374) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (346374) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (348374) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (350394) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (352394) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (354394) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (356394) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (358404) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (360414) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (362414) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (364414) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (366414) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (368424) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (370424) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (372424) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (374424) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (376424) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (378424) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (379964) mesh: 5127<assoc>parent layer:1, channel:6, rssi:-37, assoc:2, rssi threshold<-78,-82,-85>[0m
+[0;32mI (380424) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (382424) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (384424) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (386434) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (388434) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (390434) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (392434) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (394434) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (396434) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (398434) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (400444) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (402444) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (404454) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (406454) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (408454) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (410454) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (412454) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (414454) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (416454) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (418454) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (420454) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (422464) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (424464) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (426464) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (427194) mesh: 2004<arm>parent monitor, my layer:2(cap:6)(node), interval:6844ms, retries:1<>[0m
+[0;32mI (428464) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (430464) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (432464) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (434204) mesh: 5161<active>parent layer:1(node), channel:6, rssi:-34, assoc:2(cnx rssi threshold:-120)my_assoc:0[0m
+[0;32mI (434464) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (435704) mesh: 5966<scan>parent layer:1, rssi:-40, assoc:2(cnx rssi threshold:-120)[0m
+[0;32mI (435704) mesh: [SCAN][ch:6]AP:2, other(ID:0, RD:0), MAP:2, idle:0, candidate:2, root:1, topMAP:0[c:2,i:2][2c:67:be:4b:8b:28]<weak>[0m
+[0;32mI (435714) mesh: 7388[weak]try rssi_threshold:-120, backoff times:0, max:5<-78,-82,-85>[0m
+[0;32mI (435724) mesh: 714[monitor]no change, parent:1c:c3:ab:c4:7e:d5, rssi:-40[0m
+[0;32mI (435724) mesh: 2004<arm>parent monitor, my layer:2(cap:6)(node), interval:8991ms, retries:2<>[0m
+[0;32mI (436464) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (438464) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (440474) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (442474) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (444474) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (444944) mesh: 5161<active>parent layer:1(node), channel:6, rssi:-34, assoc:2(cnx rssi threshold:-120)my_assoc:0[0m
+[0;32mI (446444) mesh: 5966<scan>parent layer:1, rssi:-39, assoc:2(cnx rssi threshold:-120)[0m
+[0;32mI (446444) mesh: [SCAN][ch:6]AP:2, other(ID:0, RD:0), MAP:2, idle:0, candidate:2, root:1, topMAP:0[c:2,i:2][2c:67:be:4b:8b:28]<weak>[0m
+[0;32mI (446454) mesh: 7388[weak]try rssi_threshold:-120, backoff times:0, max:5<-78,-82,-85>[0m
+[0;32mI (446464) mesh: 714[monitor]no change, parent:1c:c3:ab:c4:7e:d5, rssi:-39[0m
+[0;32mI (446464) mesh: 2004<arm>parent monitor, my layer:2(cap:6)(node), interval:11167ms, retries:3<>[0m
+[0;32mI (446474) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (448494) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (450494) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (452494) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (454494) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (456494) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m
+[0;32mI (457914) mesh: 5161<active>parent layer:1(node), channel:6, rssi:-34, assoc:2(cnx rssi threshold:-120)my_assoc:0[0m
+[0;32mI (458514) mesh_main: [DRONE-TX] heartbeat drone_id:40 (no MAVLink yet)[0m

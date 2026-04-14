@@ -1,4 +1,3 @@
-"-specs=/home/blakecourtney/school/s26/EE496/mesh_code/ground/build/bootloader/specs/picolibc.specs"
 -Wno-frame-address
 -mlongcalls
 -fno-builtin-memcpy

@@ -33,7 +33,7 @@ menu "Example Configuration"
             Mesh PS device duty cycle type.
 
         config MESH_PS_DEV_DUTY_TYPE_REQUEST
-            bool "MESH_PS_DEV_DUTY_TYPE_REQUEST"
+            bool "MESH_PS_DE_DUTY_TYPE_REQUEST"
         config MESH_PS_DEV_DUTY_TYPE_DEMAND
             bool "MESH_PS_DEV_DUTY_TYPE_DEMAND"
     endchoice

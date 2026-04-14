@@ -22,4 +22,4 @@ set confirm off
 set confirm on
 
 # Load application symbols
-file /home/blakecourtney/school/s26/EE496/mesh_code/ground/build/internal_communication.elf
+file /home/blakecourtney/school/s26/EE496/mesh_code/ground/build/ground.elf
