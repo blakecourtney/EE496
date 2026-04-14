@@ -1,65 +1,88 @@
 import serial
-import cv2
 import numpy as np
+import cv2
+import sys
 
-# Make sure the baud rate matches your Arduino setup (we changed it to 2000000 earlier!)
-ser = serial.Serial('COM3', 2000000) 
+# --- CONFIGURATION ---
+PORT = '/dev/cu.usbmodem5B414825001'
+BAUD = 115200
+WIDTH = 240
+HEIGHT = 240
+IMG_SIZE = WIDTH * HEIGHT * 2  # 32768 bytes for RGB565
 
-current_img = None
+# --- SERIAL SETUP ---
+try:
+    ser = serial.Serial()
+    ser.port = PORT
+    ser.baudrate = BAUD
+    ser.timeout = 5
+    ser.dtr = True
+    ser.rts = True
+    
+    ser.open()
+    ser.reset_input_buffer()
+    print(f"Connected to {PORT}. Waiting for drone feed...")
+    print("Press 'q' in the video window to quit.\n")
+except Exception as e:
+    print(f"Failed to connect to camera: {e}")
+    sys.exit(1)
 
-print("Listening for ESP32-S3 Serial Data...")
-
+# --- MAIN STREAM LOOP ---
 while True:
     try:
         line = ser.readline()
+        # print(line)
         
-        # 1. Catch the Image Data
-        # (Checking for both IMAGE and JPEG depending on what you left in your Arduino code)
-        if b"START_IMAGE" in line or b"START_JPEG" in line:
-            end_marker = b"END_IMAGE" if b"START_IMAGE" in line else b"END_JPEG"
+        if b"START_IMAGE" in line:
+            raw_data = bytearray()
             
-            # Read raw bytes until the end marker
-            raw_data = ser.read_until(end_marker)
-            
-            # Strip the end marker from the bytes
-            frame_data = raw_data[:-len(end_marker)]
-            
-            # Convert bytes to an OpenCV image
-            frame = np.frombuffer(frame_data, dtype=np.uint8)
-            current_img = cv2.imdecode(frame, cv2.IMREAD_COLOR)
+            while len(raw_data) < IMG_SIZE:
+                # Read safely in chunks to prevent macOS buffer overflow
+                to_read = min(4096, IMG_SIZE - len(raw_data))
+                chunk = ser.read(to_read)
+                if not chunk:
+                    break
+                raw_data.extend(chunk)
 
-        # 2. Catch the Probability Score
-        elif b"PROBABILITY:" in line:
-            # Parse the float value from the serial string
-            score_str = line.decode('utf-8').split(":")[1].strip()
-            score = float(score_str)
+                # print((raw_data))
             
-            # If we successfully decoded an image right before this
-            if current_img is not None:
+            if len(raw_data) == IMG_SIZE:
+                # Interpret as 16-bit Big-Endian
+                data = np.frombuffer(raw_data, dtype='>u2').reshape((HEIGHT, WIDTH))
                 
-                # Logic: If probability is > 50%, it's a human
-                if score > 0.50:
-                    text = f"HUMAN DETECTED: {score:.2f}"
-                    color = (0, 255, 0) # Green (BGR format in OpenCV)
-                else:
-                    text = f"NO HUMAN: {score:.2f}"
-                    color = (0, 0, 255) # Red
+                # Unpack the 5-6-5 bits into 8-bit R, G, and B
+                r = ((data >> 11) & 0x1F) << 3
+                g = ((data >> 5) & 0x3F) << 2
+                b = (data & 0x1F) << 3
                 
-                # Draw the text overlay on the image
-                cv2.putText(current_img, text, (10, 30), 
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.7, color, 2, cv2.LINE_AA)
+                # Stack into an image and convert to OpenCV's BGR format
+                img = np.stack([r, g, b], axis=-1).astype(np.uint8)
+                img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+                cv2.imshow("Drone Feed", cv2.resize(img, (512, 512)))
                 
-                # Display the updated image in the window
-                cv2.imshow('ESP32-CAM AI Stream', current_img)
-                
-                # Required for OpenCV window to refresh
+                # Press 'q' to exit
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
-                    
+            else:
+                print(f"Dropped frame: Received {len(raw_data)}/{IMG_SIZE} bytes.")
+                ser.reset_input_buffer()
+                
+        elif line.strip():
+            try:
+                text_log = line.decode('utf-8').strip()
+                # Ignore the END_IMAGE marker so the terminal stays clean
+                if "PROBABILITY" in text_log:
+                    print(f"{text_log}")
+            except UnicodeDecodeError:
+                pass # Ignore random bits of binary noise that fail to decode
+
+    except KeyboardInterrupt:
+        print("\nExiting stream...")
+        break
     except Exception as e:
-        # Serial data over USB can sometimes drop bytes and get corrupted. 
-        # This prevents the script from crashing if a frame is garbled.
-        pass
-        
-cv2.destroyAllWindows()
+        print(f"Stream error: {e}")
+        break
+
+# --- CLEANUP ---
 ser.close()
+cv2.destroyAllWindows()

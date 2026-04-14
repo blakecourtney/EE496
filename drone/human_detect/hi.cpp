@@ -136,74 +136,7 @@ void setup() {
 
 void loop() {
   if (!detect_flag){
-    camera_fb_t * fb = esp_camera_fb_get();
-    if (!fb) return;
-
-    uint8_t* input_ptr = input->data.uint8;
-    int total_bytes = 240 * 240 * 2;
-
-    for (int i = 0; i < total_bytes; i++) {
-      // 1. Grab the 2 bytes for the current pixel (ESP32 sends Big-Endian)
-      uint16_t pixel = (fb->buf[i * 2] << 8) | fb->buf[i * 2 + 1];
-
-      // 2. Extract the Red, Green, and Blue bits and expand them to 8 bits
-      uint8_t r = ((pixel >> 11) & 0x1F) << 3;
-      uint8_t g = ((pixel >> 5)  & 0x3F) << 2;
-      uint8_t b = (pixel & 0x1F)       << 3;
-
-      // 0->255
-      input_ptr[i * 3 + 0] = r; // Red channel
-      input_ptr[i * 3 + 1] = g; // Green channel
-      input_ptr[i * 3 + 2] = b; // Blue channel
-    }
-
-    if (interpreter->Invoke() == kTfLiteOk) {
-      int8_t raw_score = output->data.int8[0];
-      float score = (raw_score + 128) / 255.0f;
-      
-      if (score > detect_thresh)
-        detect_count += 1;
-
-        // capture drone shot if it's a better image, store in pSRAM
-        if (score > probability_capture){
-          if (frame_capture != NULL) {
-            free(frame_capture);
-            frame_capture = NULL; 
-          }
-          frame_capture = (uint8_t *)ps_malloc(fb->len);
-          // DEBUG ONLY
-          if (!image_copy) {
-            Serial.println("PSRAM Allocation failed! Image too big.");
-            esp_camera_fb_return(fb);
-            return;
-          }
-
-          memcpy(frame_capture, fb->buf, fb->len);
-          probability_capture = score;
-        }
-
-        if (detect_count == 5){
-          detect_flag = 1;
-          detect_count = 0;
-          probability_capture = 0;
-        }
-
-      // DEBUG VISUALIZATION
-      // Serial.println("START_IMAGE");
-      // size_t chunk_size = 2048; // Send in 2KB blocks
-      // uint8_t *buffer_ptr = fb->buf;
-
-      // for (size_t i = 0; i < total_bytes; i += chunk_size) {
-      //   size_t bytes_to_send = (total_bytes - i < chunk_size) ? (total_bytes - i) : chunk_size;
-      //   Serial.write(buffer_ptr + i, bytes_to_send);
-      //   Serial.flush();
-      // }
-      // Serial.println("END_IMAGE");
-      // Serial.printf("PROBABILITY: %.2f\n", score);
-      // Serial.printf("HUMAN DETECTED: %d\n", (score > detect_thresh));
-    }
-
-    esp_camera_fb_return(fb);
+      // camera / model stuff
   }    
   
   if (detect_flag == 1){
