@@ -533,19 +533,22 @@ void mesh_event_handler(void *arg, esp_event_base_t event_base,
     }
 }
 
-//               app_main
+//app_main
 void app_main(void)
 {
+    //system init
     ESP_ERROR_CHECK(nvs_flash_init());
     ESP_ERROR_CHECK(esp_netif_init());
     ESP_ERROR_CHECK(esp_event_loop_create_default());
     ESP_ERROR_CHECK(esp_netif_create_default_wifi_mesh_netifs(&netif_sta, NULL));
 
+    //wifi init
     wifi_init_config_t config = WIFI_INIT_CONFIG_DEFAULT();
     ESP_ERROR_CHECK(esp_wifi_init(&config));
     ESP_ERROR_CHECK(esp_wifi_set_storage(WIFI_STORAGE_FLASH));
     ESP_ERROR_CHECK(esp_wifi_start());
 
+    //mesh init
     ESP_ERROR_CHECK(esp_mesh_init());
     ESP_ERROR_CHECK(esp_event_handler_register(MESH_EVENT, ESP_EVENT_ANY_ID, &mesh_event_handler, NULL));
     ESP_ERROR_CHECK(esp_mesh_set_topology(CONFIG_MESH_TOPOLOGY));
@@ -555,30 +558,35 @@ void app_main(void)
     ESP_ERROR_CHECK(esp_mesh_disable_ps());
     ESP_ERROR_CHECK(esp_mesh_set_ap_assoc_expire(10));
 
+    //mesh config — channel 6 matches ground station and GND_ANCHOR
     mesh_cfg_t cfg = MESH_INIT_CONFIG_DEFAULT();
     memcpy((uint8_t *) &cfg.mesh_id, s_mesh_id, 6);
-
     cfg.channel = 6;
     char anchor_ssid[] = "GND_ANCHOR";
     cfg.router.ssid_len = strlen(anchor_ssid);
     memcpy((uint8_t *) &cfg.router.ssid, anchor_ssid, cfg.router.ssid_len);
     memcpy((uint8_t *) &cfg.router.password, "gndanchor", strlen("gndanchor"));
 
+    //self-organizing on, no parent search — drone finds ground station mesh AP automatically
     ESP_ERROR_CHECK(esp_mesh_set_self_organized(true, false));
 
-    ESP_ERROR_CHECK(esp_mesh_set_self_organized(true, false));
+    //mesh AP config — allows other drones to connect through this node for multi-hop
     ESP_ERROR_CHECK(esp_mesh_set_ap_authmode(CONFIG_MESH_AP_AUTHMODE));
     cfg.mesh_ap.max_connection = CONFIG_MESH_AP_CONNECTIONS;
     memcpy((uint8_t *) &cfg.mesh_ap.password, CONFIG_MESH_AP_PASSWD, strlen(CONFIG_MESH_AP_PASSWD));
     ESP_ERROR_CHECK(esp_mesh_set_config(&cfg));
 
+    //TODO
+    //enable when Pixhawk and ML ESP32 UART
     // mavlink_init();
     // ml_uart_init();
     // xTaskCreate(mavlink_task, "MAVLink", 4096, NULL, 5, NULL);
     // xTaskCreate(ml_uart_task, "ML_UART", 4096, NULL, 5, NULL);
 
+    // low capacity ensures drone never wins root election over ground station
     ESP_ERROR_CHECK(esp_mesh_set_capacity_num(10));
 
+    // start mesh
     ESP_ERROR_CHECK(esp_mesh_start());
     ESP_LOGI(MESH_TAG, "DRONE NODE STARTED heap:%" PRId32, esp_get_minimum_free_heap_size());
 }
