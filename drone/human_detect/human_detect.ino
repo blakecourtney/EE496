@@ -1,10 +1,11 @@
+#include <Arduino.h>
 #include "esp_camera.h"
 #include <TensorFlowLite_ESP32.h>
 #include "tensorflow/lite/micro/all_ops_resolver.h"
 #include "tensorflow/lite/micro/micro_error_reporter.h"
 #include "tensorflow/lite/micro/micro_interpreter.h"
 #include "tensorflow/lite/schema/schema_generated.h"
-#include "drone_model_quant.h" 
+#include "drone_model_quant.h"
 
 uint8_t *tensor_arena = NULL;
 const int arena_size = 1024 * 1024;
@@ -27,12 +28,12 @@ const int arena_size = 1024 * 1024;
 #define HREF_GPIO_NUM  7
 #define PCLK_GPIO_NUM  13
 
-
 // Hardware Serial for Board-to-Board Communication
-// Using pins 43 and 44 as they are usually free on the Freenove S3
-// HardwareSerial DroneSerial(1);
+HardwareSerial DroneSerial(1);
 #define MESH_TX_PIN 43
 #define MESH_RX_PIN 44
+
+#define MAX_INPUT 10
 
 // TFLite Globals
 const tflite::Model* model = nullptr;
@@ -41,18 +42,17 @@ tflite::ErrorReporter* error_reporter = nullptr;
 TfLiteTensor* input = nullptr;
 TfLiteTensor* output = nullptr;
 
-float detect_thresh = .8;
+float detect_thresh = .0;
 uint8_t detect_count = 0;
 char detect_flag = 0;
 char detect_ack_flag = 0;
-uint8_t frame_capture = NULL;
-float probability_capture;
+uint8_t *frame_capture = NULL; 
+size_t capture_len = 0;
+float probability_capture = 0;
+float best_probability = 0;
 
 void setup() {
-  // Serial 0: For your PC/Python Script (High Speed)
   Serial.begin(115200);
-
-  // Serial 1: For sending data to the Mesh ESP32 (Baud rate: 115200)
   DroneSerial.begin(115200, SERIAL_8N1, MESH_RX_PIN, MESH_TX_PIN);
 
   // Camera Init
@@ -75,8 +75,8 @@ void setup() {
   config.pin_sscb_scl = SIOC_GPIO_NUM;
   config.pin_pwdn = PWDN_GPIO_NUM;
   config.pin_reset = RESET_GPIO_NUM;
-  config.xclk_freq_hz = 10000000; 
-  config.pixel_format = PIXFORMAT_RGB565; 
+  config.xclk_freq_hz = 10000000;
+  config.pixel_format = PIXFORMAT_RGB565;
   config.frame_size = FRAMESIZE_240X240;
   config.grab_mode = CAMERA_GRAB_WHEN_EMPTY;
   config.fb_location = CAMERA_FB_IN_PSRAM;
@@ -87,8 +87,8 @@ void setup() {
   } else {
       Serial.printf("PSRAM found. Free: %d bytes\n", ESP.getFreePsram());
   }
-  
-  config.jpeg_quality = 10; // 0-63, lower is higher quality
+
+  config.jpeg_quality = 10;
   config.fb_count = 1;
 
   if (esp_camera_init(&config) != ESP_OK) {
@@ -98,22 +98,18 @@ void setup() {
 
   sensor_t * s = esp_camera_sensor_get();
   if (s->id.PID == OV3660_PID) {
-      s->set_vflip(s, 1);      // Flip vertically if the image is upside down
-      s->set_hmirror(s, 1);    // Mirror horizontally for more natural drone view
-      s->set_brightness(s, 1); // Boost brightness slightly for AI detection
+      s->set_vflip(s, 1);
+      s->set_hmirror(s, 1);
+      s->set_brightness(s, 1);
   }
 
-
   // TFLite Init
-  // allocate memory for tensor, put in PSRAM because it doesn't fit in SRAM
-  // tensor_arena = (uint8_t *)heap_caps_malloc(arena_size, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT);
   tensor_arena = (uint8_t *)heap_caps_aligned_alloc(16, arena_size, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT);
 
   if (tensor_arena == NULL) {
       Serial.println("Arena allocation failed!");
       return;
   }
-  // Check alignment - TFLite on S3 needs 16-byte alignment
   if ((uintptr_t)tensor_arena % 16 != 0) {
       Serial.println("Warning: Arena not 16-byte aligned. Acceleration might fail.");
   }
@@ -124,7 +120,7 @@ void setup() {
   static tflite::AllOpsResolver resolver;
   static tflite::MicroInterpreter static_interpreter(
       model, resolver, tensor_arena, arena_size, error_reporter);
-  
+
   interpreter = &static_interpreter;
   if (interpreter->AllocateTensors() != kTfLiteOk) {
     Serial.println("AllocateTensors Failed!");
@@ -143,43 +139,37 @@ void loop() {
     int total_bytes = 240 * 240 * 2;
 
     for (int i = 0; i < total_bytes; i++) {
-      // 1. Grab the 2 bytes for the current pixel (ESP32 sends Big-Endian)
       uint16_t pixel = (fb->buf[i * 2] << 8) | fb->buf[i * 2 + 1];
-
-      // 2. Extract the Red, Green, and Blue bits and expand them to 8 bits
       uint8_t r = ((pixel >> 11) & 0x1F) << 3;
       uint8_t g = ((pixel >> 5)  & 0x3F) << 2;
       uint8_t b = (pixel & 0x1F)       << 3;
-
-      // 0->255
-      input_ptr[i * 3 + 0] = r; // Red channel
-      input_ptr[i * 3 + 1] = g; // Green channel
-      input_ptr[i * 3 + 2] = b; // Blue channel
+      input_ptr[i * 3 + 0] = r;
+      input_ptr[i * 3 + 1] = g;
+      input_ptr[i * 3 + 2] = b;
     }
 
     if (interpreter->Invoke() == kTfLiteOk) {
       int8_t raw_score = output->data.int8[0];
       float score = (raw_score + 128) / 255.0f;
-      
+
       if (score > detect_thresh)
         detect_count += 1;
 
-        // capture drone shot if it's a better image, store in pSRAM
         if (score > probability_capture){
           if (frame_capture != NULL) {
             free(frame_capture);
-            frame_capture = NULL; 
+            frame_capture = NULL;
           }
           frame_capture = (uint8_t *)ps_malloc(fb->len);
-          // DEBUG ONLY
-          if (!image_copy) {
+          if (!frame_capture) { 
             Serial.println("PSRAM Allocation failed! Image too big.");
             esp_camera_fb_return(fb);
             return;
           }
-
           memcpy(frame_capture, fb->buf, fb->len);
+          capture_len = fb->len;      // track size for ACK transmission
           probability_capture = score;
+          best_probability = score;   // save before probability_capture resets to 0
         }
 
         if (detect_count == 5){
@@ -189,76 +179,69 @@ void loop() {
         }
 
       // DEBUG VISUALIZATION
-      // Serial.println("START_IMAGE");
-      // size_t chunk_size = 2048; // Send in 2KB blocks
-      // uint8_t *buffer_ptr = fb->buf;
+      Serial.println("START_IMAGE");
+      size_t chunk_size = 2048;
+      uint8_t *buffer_ptr = fb->buf;
 
-      // for (size_t i = 0; i < total_bytes; i += chunk_size) {
-      //   size_t bytes_to_send = (total_bytes - i < chunk_size) ? (total_bytes - i) : chunk_size;
-      //   Serial.write(buffer_ptr + i, bytes_to_send);
-      //   Serial.flush();
-      // }
-      // Serial.println("END_IMAGE");
-      // Serial.printf("PROBABILITY: %.2f\n", score);
-      // Serial.printf("HUMAN DETECTED: %d\n", (score > detect_thresh));
+      for (size_t i = 0; i < (size_t)total_bytes; i += chunk_size) {
+        size_t bytes_to_send = ((size_t)total_bytes - i < chunk_size) ? ((size_t)total_bytes - i) : chunk_size;
+        Serial.write(buffer_ptr + i, bytes_to_send);
+        Serial.flush();
+      }
+      Serial.println("END_IMAGE");
+      Serial.printf("HUMAN DETECTED: %d\n", (score > detect_thresh));
     }
 
     esp_camera_fb_return(fb);
-  }    
-  
-  if (detect_flag == 1){
-    // Send to Mesh ESP32 (via Hardware Serial wires) ---
-    DroneSerial.println("human detected!\n");
   }
-  
-  
-  while (Serial.available () > 0)
+
+  if (detect_flag == 1){
+    DroneSerial.println("human detected!");
+  }
+
+  while (Serial.available() > 0)
     processSerialByte(Serial.read());
 
   if (detect_ack_flag){
-    // start transmitting frame_capture
     Serial.println("START_IMAGE");
-    size_t chunk_size = 2048; // Send in 2KB blocks
-    uint8_t *buffer_ptr = ->buf;
+    size_t chunk_size = 2048;
+    uint8_t *buffer_ptr = frame_capture; 
 
-    for (size_t i = 0; i < total_bytes; i += chunk_size) {
-      size_t bytes_to_send = (total_bytes - i < chunk_size) ? (total_bytes - i) : chunk_size;
+    for (size_t i = 0; i < capture_len; i += chunk_size) { 
+      size_t bytes_to_send = (capture_len - i < chunk_size) ? (capture_len - i) : chunk_size;
       Serial.write(buffer_ptr + i, bytes_to_send);
       Serial.flush();
     }
     Serial.println("END_IMAGE");
-    Serial.printf("PROBABILITY: %.2f\n", score);
+    Serial.printf("PROBABILITY: %.2f\n", best_probability);
   }
-
 }
 
 
-void processSerialByte(const byte ){
-  static char input_line [5];
+void processSerialByte(const byte inByte) {
+  static char input_line[MAX_INPUT];
   static unsigned int input_pos = 0;
 
   switch (inByte){
-    case '\n':   // end of text
-      input_line [input_pos] = 0;  // terminating null byte
-      
-      if (input_line.compare("ACK") == 0){
+    case '\n':
+      input_line[input_pos] = 0;
+
+      if (strcmp(input_line, "ACK") == 0){  
         detect_ack_flag = 1;
       }
-
-      if (input_line.compare("CLEAR") == 0){
+      if (strcmp(input_line, "CLEAR") == 0){ 
         detect_flag = 0;
       }
-    
-      input_pos = 0;  
+
+      input_pos = 0;
       break;
 
-    case '\r':   // discard carriage return
+    case '\r':
       break;
 
     default:
       if (input_pos < (MAX_INPUT - 1))
-        input_line [input_pos++] = inByte;
+        input_line[input_pos++] = inByte;
       break;
-    }   
-} 
-
+  }
+}
