@@ -11,9 +11,7 @@
 #include "common/mavlink.h"
 #include "config.h"
 
-/*******************************************************
- *                Constants
- *******************************************************/
+//constants
 #define RX_SIZE          (1500)
 
 // MAVLink UART (Pixhawk)
@@ -187,99 +185,125 @@ void ml_uart_task(void *arg)
     esp_read_mac(mac, ESP_MAC_WIFI_STA);
     uint8_t drone_id = mac[5];
 
+    uint8_t buf[512];
+    static uint8_t image_buf[150 * 1024];  // 150KB max
+    size_t image_len = 0;
+    bool receiving_image = false;
+    bool human_detected = false;
+    uint16_t chunk_index = 0;
+    uint16_t total_chunks = 0;
+
     while (1) {
-        uint8_t pkt_type;
-        int len = uart_read_bytes(ML_UART, &pkt_type, 1, pdMS_TO_TICKS(100));
+        int len = uart_read_bytes(ML_UART, buf, sizeof(buf) - 1, pdMS_TO_TICKS(100));
         if (len <= 0) continue;
+        buf[len] = '\0';
 
-        if (pkt_type == INTERNAL_PKT_FLAG) {
-            internal_flag_t flag;
-            flag.type = pkt_type;
-            uart_read_bytes(ML_UART, ((uint8_t *)&flag) + 1,
-                            sizeof(internal_flag_t) - 1, pdMS_TO_TICKS(100));
+        if (!human_detected) {
+            // waiting for "human detected!\n"
+            if (strncmp((char *)buf, "human detected!\n", 16) == 0) {
+                human_detected = true;
+                ESP_LOGW(MESH_TAG, "[ML-RX] human detected");
 
-            ESP_LOGW(MESH_TAG, "[ML-RX] person detected confidence:%.2f", flag.confidence);
+                // send ACK back to ML ESP
+                uart_write_bytes(ML_UART, "ACK\n", 4);
 
-            if (root_addr_known) {
-                packet_t pkt = {
-                    .start    = PKT_START,
-                    .drone_id = drone_id,
-                    .type     = PKT_TYPE_FLAG,
-                    .end      = PKT_END,
-                };
-                flag_t flag_payload = {
-                    .lat        = latest_telemetry.lat,
-                    .lon        = latest_telemetry.lon,
-                    .alt        = latest_telemetry.alt,
-                    .confidence = flag.confidence,
-                };
-                memcpy(pkt.payload, &flag_payload, sizeof(flag_t));
+                // forward flag to ground over mesh
+                if (root_addr_known) {
+                    packet_t pkt = {
+                        .start    = PKT_START,
+                        .drone_id = drone_id,
+                        .type     = PKT_TYPE_FLAG,
+                        .end      = PKT_END,
+                    };
+                    flag_t flag_payload = {
+                        .lat        = latest_telemetry.lat,
+                        .lon        = latest_telemetry.lon,
+                        .alt        = latest_telemetry.alt,
+                        .confidence = 1.0f,  // ML ESP doesn't send confidence yet
+                    };
+                    memcpy(pkt.payload, &flag_payload, sizeof(flag_t));
+                    mesh_data_t data = {
+                        .data  = (uint8_t *)&pkt,
+                        .size  = sizeof(pkt),
+                        .proto = MESH_PROTO_BIN,
+                        .tos   = MESH_TOS_P2P,
+                    };
+                    esp_err_t err = esp_mesh_send(&root_addr, &data, MESH_DATA_P2P, NULL, 0);
+                    ESP_LOGW(MESH_TAG, "[ML-TX] flag sent err:0x%x", err);
+                }
+            }
+        } else if (!receiving_image) {
+            // waiting for "START_IMAGE\n"
+            if (strncmp((char *)buf, "START_IMAGE\n", 12) == 0) {
+                receiving_image = true;
+                image_len = 0;
+                chunk_index = 0;
+                ESP_LOGI(MESH_TAG, "[ML-RX] image transfer started");
+            }
+        } else {
+            // receiving image data
+            if (len >= 10 && strncmp((char *)buf, "END_IMAGE\n", 10) == 0) {
+                // image complete — send in chunks over mesh
+                receiving_image = false;
+                human_detected = false;
+                ESP_LOGI(MESH_TAG, "[ML-RX] image complete %d bytes", image_len);
 
-                mesh_data_t data = {
-                    .data  = (uint8_t *)&pkt,
-                    .size  = sizeof(pkt),
-                    .proto = MESH_PROTO_BIN,
-                    .tos   = MESH_TOS_P2P,
-                };
-                esp_err_t err = esp_mesh_send(&root_addr, &data, MESH_DATA_P2P, NULL, 0);
-                ESP_LOGW(MESH_TAG, "[ML-TX] flag sent to GND err:0x%x", err);
+                if (root_addr_known && image_len > 0) {
+                    uint16_t chunk_size = PHOTO_CHUNK_SIZE;
+                    total_chunks = (image_len + chunk_size - 1) / chunk_size;
+
+                    for (chunk_index = 0; chunk_index < total_chunks; chunk_index++) {
+                        size_t offset = chunk_index * chunk_size;
+                        size_t this_chunk = (offset + chunk_size > image_len) ?
+                                            (image_len - offset) : chunk_size;
+
+                        photo_packet_t pkt = {
+                            .start        = PKT_START,
+                            .drone_id     = drone_id,
+                            .type         = PKT_TYPE_PHOTO_CHUNK,
+                            .chunk_index  = chunk_index,
+                            .total_chunks = total_chunks,
+                            .data_len     = this_chunk,
+                            .end          = PKT_END,
+                        };
+                        memcpy(pkt.data, image_buf + offset, this_chunk);
+
+                        mesh_data_t data = {
+                            .data  = (uint8_t *)&pkt,
+                            .size  = sizeof(pkt),
+                            .proto = MESH_PROTO_BIN,
+                            .tos   = MESH_TOS_P2P,
+                        };
+                        esp_err_t err = esp_mesh_send(&root_addr, &data, MESH_DATA_P2P, NULL, 0);
+                        ESP_LOGI(MESH_TAG, "[ML-TX] chunk %d/%d sent err:0x%x",
+                                 chunk_index + 1, total_chunks, err);
+                        vTaskDelay(10 / portTICK_PERIOD_MS);  // small delay between chunks
+                    }
+
+                    // send photo done
+                    packet_t done_pkt = {
+                        .start    = PKT_START,
+                        .drone_id = drone_id,
+                        .type     = PKT_TYPE_PHOTO_DONE,
+                        .end      = PKT_END,
+                    };
+                    memset(done_pkt.payload, 0, sizeof(done_pkt.payload));
+                    mesh_data_t done_data = {
+                        .data  = (uint8_t *)&done_pkt,
+                        .size  = sizeof(done_pkt),
+                        .proto = MESH_PROTO_BIN,
+                        .tos   = MESH_TOS_P2P,
+                    };
+                    esp_mesh_send(&root_addr, &done_data, MESH_DATA_P2P, NULL, 0);
+                }
             } else {
-                ESP_LOGW(MESH_TAG, "[ML-TX] flag detected but root not known yet");
-            }
-
-        } 
-        else if (pkt_type == INTERNAL_PKT_IMG_CHUNK) {
-            internal_img_chunk_t chunk;
-            chunk.type = pkt_type;
-            uart_read_bytes(ML_UART, ((uint8_t *)&chunk) + 1,
-                            sizeof(internal_img_chunk_t) - 1, pdMS_TO_TICKS(500));
-
-            ESP_LOGI(MESH_TAG, "[ML-RX] image chunk %d/%d len:%d",
-                     chunk.chunk_index, chunk.total_chunks, chunk.data_len);
-
-            if (root_addr_known) {
-                photo_packet_t pkt = {
-                    .start        = PKT_START,
-                    .drone_id     = drone_id,
-                    .type         = PKT_TYPE_PHOTO_CHUNK,
-                    .chunk_index  = chunk.chunk_index,
-                    .total_chunks = chunk.total_chunks,
-                    .data_len     = chunk.data_len,
-                    .end          = PKT_END,
-                };
-                memcpy(pkt.data, chunk.data, chunk.data_len);
-
-                mesh_data_t data = {
-                    .data  = (uint8_t *)&pkt,
-                    .size  = sizeof(pkt),
-                    .proto = MESH_PROTO_BIN,
-                    .tos   = MESH_TOS_P2P,
-                };
-                esp_err_t err = esp_mesh_send(&root_addr, &data, MESH_DATA_P2P, NULL, 0);
-                ESP_LOGI(MESH_TAG, "[ML-TX] chunk %d/%d sent err:0x%x",
-                         chunk.chunk_index, chunk.total_chunks, err);
-            }
-
-        } 
-        else if (pkt_type == INTERNAL_PKT_IMG_DONE) {
-            ESP_LOGI(MESH_TAG, "[ML-RX] image transfer complete");
-
-            if (root_addr_known) {
-                packet_t pkt = {
-                    .start    = PKT_START,
-                    .drone_id = drone_id,
-                    .type     = PKT_TYPE_PHOTO_DONE,
-                    .end      = PKT_END,
-                };
-                memset(pkt.payload, 0, sizeof(pkt.payload));
-
-                mesh_data_t data = {
-                    .data  = (uint8_t *)&pkt,
-                    .size  = sizeof(pkt),
-                    .proto = MESH_PROTO_BIN,
-                    .tos   = MESH_TOS_P2P,
-                };
-                esp_mesh_send(&root_addr, &data, MESH_DATA_P2P, NULL, 0);
+                // accumulate image data
+                if (image_len + len <= sizeof(image_buf)) {
+                    memcpy(image_buf + image_len, buf, len);
+                    image_len += len;
+                } else {
+                    ESP_LOGE(MESH_TAG, "[ML-RX] image buffer overflow");
+                }
             }
         }
     }
@@ -370,9 +394,9 @@ void esp_mesh_p2p_rx_main(void *arg)
                     }
 
                     case PKT_TYPE_FLAG_ACK: {
-                        ESP_LOGI(MESH_TAG, "[DRONE-RX] flag ACK - requesting photo from ML ESP32");
-                        uint8_t trigger = INTERNAL_PKT_PHOTO_REQUEST;
-                        uart_write_bytes(ML_UART, &trigger, 1);
+                        ESP_LOGI(MESH_TAG, "[DRONE-RX] flag ACK received");
+                        // ML ESP sends image automatically after detection
+                        // no need to trigger it
                         break;
                     }
 
@@ -404,9 +428,7 @@ esp_err_t esp_mesh_comm_p2p_start(void)
     return ESP_OK;
 }
 
-/*******************************************************
- *                Mesh Event Handler
- *******************************************************/
+// Event Handler
 void mesh_event_handler(void *arg, esp_event_base_t event_base,
                         int32_t event_id, void *event_data)
 {
@@ -511,21 +533,22 @@ void mesh_event_handler(void *arg, esp_event_base_t event_base,
     }
 }
 
-/*******************************************************
- *                app_main
- *******************************************************/
+//app_main
 void app_main(void)
 {
+    //system init
     ESP_ERROR_CHECK(nvs_flash_init());
     ESP_ERROR_CHECK(esp_netif_init());
     ESP_ERROR_CHECK(esp_event_loop_create_default());
     ESP_ERROR_CHECK(esp_netif_create_default_wifi_mesh_netifs(&netif_sta, NULL));
 
+    //wifi init
     wifi_init_config_t config = WIFI_INIT_CONFIG_DEFAULT();
     ESP_ERROR_CHECK(esp_wifi_init(&config));
     ESP_ERROR_CHECK(esp_wifi_set_storage(WIFI_STORAGE_FLASH));
     ESP_ERROR_CHECK(esp_wifi_start());
 
+    //mesh init
     ESP_ERROR_CHECK(esp_mesh_init());
     ESP_ERROR_CHECK(esp_event_handler_register(MESH_EVENT, ESP_EVENT_ANY_ID, &mesh_event_handler, NULL));
     ESP_ERROR_CHECK(esp_mesh_set_topology(CONFIG_MESH_TOPOLOGY));
@@ -535,29 +558,35 @@ void app_main(void)
     ESP_ERROR_CHECK(esp_mesh_disable_ps());
     ESP_ERROR_CHECK(esp_mesh_set_ap_assoc_expire(10));
 
+    //mesh config — channel 6 matches ground station and GND_ANCHOR
     mesh_cfg_t cfg = MESH_INIT_CONFIG_DEFAULT();
     memcpy((uint8_t *) &cfg.mesh_id, s_mesh_id, 6);
+    cfg.channel = 6;
+    char anchor_ssid[] = "GND_ANCHOR";
+    cfg.router.ssid_len = strlen(anchor_ssid);
+    memcpy((uint8_t *) &cfg.router.ssid, anchor_ssid, cfg.router.ssid_len);
+    memcpy((uint8_t *) &cfg.router.password, "gndanchor", strlen("gndanchor"));
 
-    // replace dummy router with real router
-    cfg.channel = 0; 
-    char real_ssid[] = "Cougar Sanctuary";
-    cfg.router.ssid_len = strlen(real_ssid);
-    memcpy((uint8_t *) &cfg.router.ssid, real_ssid, cfg.router.ssid_len);
-    memcpy((uint8_t *) &cfg.router.password, "carlosdoyourdishes", strlen("carlosdoyourdishes"));
-
+    //self-organizing on, no parent search — drone finds ground station mesh AP automatically
     ESP_ERROR_CHECK(esp_mesh_set_self_organized(true, false));
+
+    //mesh AP config — allows other drones to connect through this node for multi-hop
     ESP_ERROR_CHECK(esp_mesh_set_ap_authmode(CONFIG_MESH_AP_AUTHMODE));
     cfg.mesh_ap.max_connection = CONFIG_MESH_AP_CONNECTIONS;
     memcpy((uint8_t *) &cfg.mesh_ap.password, CONFIG_MESH_AP_PASSWD, strlen(CONFIG_MESH_AP_PASSWD));
     ESP_ERROR_CHECK(esp_mesh_set_config(&cfg));
 
+    //TODO
+    //enable when Pixhawk and ML ESP32 UART
     // mavlink_init();
     // ml_uart_init();
     // xTaskCreate(mavlink_task, "MAVLink", 4096, NULL, 5, NULL);
     // xTaskCreate(ml_uart_task, "ML_UART", 4096, NULL, 5, NULL);
 
+    // low capacity ensures drone never wins root election over ground station
     ESP_ERROR_CHECK(esp_mesh_set_capacity_num(10));
 
+    // start mesh
     ESP_ERROR_CHECK(esp_mesh_start());
     ESP_LOGI(MESH_TAG, "DRONE NODE STARTED heap:%" PRId32, esp_get_minimum_free_heap_size());
 }

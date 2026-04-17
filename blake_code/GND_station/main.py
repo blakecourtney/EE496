@@ -83,10 +83,8 @@ class GroundStation:
             packet = CommandBuilder.arm(drone_id)
         elif cmd_type == 'disarm':
             packet = CommandBuilder.disarm(drone_id)
-        elif cmd_type == 'start_video':
-            packet = CommandBuilder.start_video(drone_id)
-        elif cmd_type == 'stop_video':
-            packet = CommandBuilder.stop_video(drone_id)
+        elif cmd_type == 'request_image':
+            packet = CommandBuilder.flag_ack(drone_id)
         elif cmd_type == 'waypoint':
             lat, lon, alt = args
             packet = CommandBuilder.waypoint(drone_id, lat, lon, alt)

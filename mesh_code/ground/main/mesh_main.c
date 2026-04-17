@@ -10,9 +10,7 @@
 #include "driver/uart.h"
 #include "config.h"
 
-/*******************************************************
- *                Constants
- *******************************************************/
+//Constants
 #define RX_SIZE          (1500)
 
 // Serial to Python GUI
@@ -21,9 +19,8 @@
 #define GUI_RX_PIN       3
 #define GUI_BAUD         115200
 
-/*******************************************************
- *                Variable Definitions
- *******************************************************/
+//Variable Definitions
+
 static const char *MESH_TAG = "mesh_main";
 static const uint8_t s_mesh_id[] = MESH_ID;
 static uint8_t rx_buf[RX_SIZE] = { 0, };
@@ -31,9 +28,7 @@ static bool is_mesh_connected = false;
 static int mesh_layer = -1;
 static esp_netif_t *netif_sta = NULL;
 
-/*******************************************************
- *                Serial (GUI) Functions
- *******************************************************/
+//Serial to GUI
 void gui_uart_init(void)
 {
     uart_config_t cfg = {
@@ -102,10 +97,11 @@ void gui_rx_task(void *arg)
     vTaskDelete(NULL);
 }
 
-/*******************************************************
- *                Mesh TX Task
- *                GND sends commands/waypoints to drones
- *******************************************************/
+//Mesh TX Task
+//checks if this esp is the root node (it should be)
+//every 5 seconds check how many drones are in the mesh
+//MAC address is used for routing table entries
+    //skips own MAC address to have accurate count of drones in air not nodes in network
 void esp_mesh_p2p_tx_main(void *arg)
 {
     mesh_addr_t route_table[CONFIG_MESH_ROUTE_TABLE_SIZE];
@@ -140,9 +136,9 @@ void esp_mesh_p2p_tx_main(void *arg)
     vTaskDelete(NULL);
 }
 
-/*******************************************************
- *                Helper: send ACK to drone
- *******************************************************/
+//Helper: send ACK to drone
+//haven't really used this yet
+//to use with photo transmission
 void send_ack(mesh_addr_t *dest, uint8_t ack_type, uint16_t chunk_index)
 {
     packet_t pkt = {
@@ -166,9 +162,7 @@ void send_ack(mesh_addr_t *dest, uint8_t ack_type, uint16_t chunk_index)
     esp_mesh_send(dest, &data, MESH_DATA_P2P, NULL, 0);
 }
 
-/*******************************************************
- *                Helper: send flag ACK (request photo)
- *******************************************************/
+//send flag ACK (request photo)
 void send_flag_ack(mesh_addr_t *dest)
 {
     packet_t pkt = {
@@ -189,10 +183,10 @@ void send_flag_ack(mesh_addr_t *dest)
     ESP_LOGI(MESH_TAG, "[GND-TX] flag ACK sent - photo requested");
 }
 
-/*******************************************************
- *                Mesh RX Task
- *                GND receives telemetry/flags/photos from drones
- *******************************************************/
+//Mesh RX Task
+//called on any received data from the mesh
+//primarily forwards to GUI in this case 
+//GND receives telemetry/flags/photos from drones
 void esp_mesh_p2p_rx_main(void *arg)
 {
     esp_err_t err;
@@ -280,6 +274,10 @@ void esp_mesh_p2p_rx_main(void *arg)
     vTaskDelete(NULL);
 }
 
+//starts the three "mesh tasks"
+    //esp_mesh_p2p_tx
+    //esp_mesh_p2p_rx
+    //gui_rx_task
 esp_err_t esp_mesh_comm_p2p_start(void)
 {
     static bool is_comm_p2p_started = false;
@@ -292,9 +290,7 @@ esp_err_t esp_mesh_comm_p2p_start(void)
     return ESP_OK;
 }
 
-/*******************************************************
- *                Mesh Event Handler
- *******************************************************/
+//Mesh Event Handler
 void mesh_event_handler(void *arg, esp_event_base_t event_base,
                         int32_t event_id, void *event_data)
 {
@@ -341,7 +337,7 @@ void mesh_event_handler(void *arg, esp_event_base_t event_base,
                  routing_table->rt_size_change, routing_table->rt_size_new, mesh_layer);
     }
     break;
-    case MESH_EVENT_NO_PARENT_FOUND: {
+    case MESH_EVENT_NO_PARENT_FOUND: { //logs how many attempts looking for parent
         mesh_event_no_parent_found_t *no_parent = (mesh_event_no_parent_found_t *)event_data;
         ESP_LOGI(MESH_TAG, "<MESH_EVENT_NO_PARENT_FOUND>scan times:%d", no_parent->scan_times);
     }
@@ -391,21 +387,22 @@ void mesh_event_handler(void *arg, esp_event_base_t event_base,
     }
 }
 
-/*******************************************************
- *                app_main
- *******************************************************/
+//app_main
 void app_main(void)
 {
+    //system init
     ESP_ERROR_CHECK(nvs_flash_init());
     ESP_ERROR_CHECK(esp_netif_init());
     ESP_ERROR_CHECK(esp_event_loop_create_default());
     ESP_ERROR_CHECK(esp_netif_create_default_wifi_mesh_netifs(&netif_sta, NULL));
 
+    //wifi init
     wifi_init_config_t config = WIFI_INIT_CONFIG_DEFAULT();
     ESP_ERROR_CHECK(esp_wifi_init(&config));
     ESP_ERROR_CHECK(esp_wifi_set_storage(WIFI_STORAGE_FLASH));
     ESP_ERROR_CHECK(esp_wifi_start());
 
+    //mesh init
     ESP_ERROR_CHECK(esp_mesh_init());
     ESP_ERROR_CHECK(esp_event_handler_register(MESH_EVENT, ESP_EVENT_ANY_ID, &mesh_event_handler, NULL));
     ESP_ERROR_CHECK(esp_mesh_set_topology(CONFIG_MESH_TOPOLOGY));
@@ -415,28 +412,29 @@ void app_main(void)
     ESP_ERROR_CHECK(esp_mesh_disable_ps());
     ESP_ERROR_CHECK(esp_mesh_set_ap_assoc_expire(10));
 
+    //mesh config — channel 6 anchored to GND_ANCHOR ESP32
     mesh_cfg_t cfg = MESH_INIT_CONFIG_DEFAULT();
     memcpy((uint8_t *) &cfg.mesh_id, s_mesh_id, 6);
+    cfg.channel = 6;
+    char anchor_ssid[] = "GND_ANCHOR";
+    cfg.router.ssid_len = strlen(anchor_ssid);
+    memcpy((uint8_t *) &cfg.router.ssid, anchor_ssid, cfg.router.ssid_len);
+    memcpy((uint8_t *) &cfg.router.password, "gndanchor", strlen("gndanchor"));
 
-    cfg.channel = 0;
-    char real_ssid[] = "Cougar Sanctuary";
-    cfg.router.ssid_len = strlen(real_ssid);
-    memcpy((uint8_t *) &cfg.router.ssid, real_ssid, cfg.router.ssid_len);
-    memcpy((uint8_t *) &cfg.router.password, "carlosdoyourdishes", strlen("carlosdoyourdishes"));
-
-    // ground station specific config
-    //ESP_ERROR_CHECK(esp_mesh_set_type(MESH_ROOT));
-    //ESP_ERROR_CHECK(esp_mesh_fix_root(true));
+    //force ground station to always be root
+    ESP_ERROR_CHECK(esp_mesh_set_type(MESH_ROOT));
+    ESP_ERROR_CHECK(esp_mesh_fix_root(true));
     ESP_ERROR_CHECK(esp_mesh_set_capacity_num(1000));
-    ESP_ERROR_CHECK(esp_mesh_set_self_organized(true, true));
+    ESP_ERROR_CHECK(esp_mesh_set_self_organized(true, false));
 
+    //mesh AP config — drones connect to this
     ESP_ERROR_CHECK(esp_mesh_set_ap_authmode(CONFIG_MESH_AP_AUTHMODE));
     cfg.mesh_ap.max_connection = CONFIG_MESH_AP_CONNECTIONS;
     memcpy((uint8_t *) &cfg.mesh_ap.password, CONFIG_MESH_AP_PASSWD, strlen(CONFIG_MESH_AP_PASSWD));
     ESP_ERROR_CHECK(esp_mesh_set_config(&cfg));
 
+    //start GUI serial and mesh
     gui_uart_init();
-
     ESP_ERROR_CHECK(esp_mesh_start());
     ESP_LOGW(MESH_TAG, "GROUND STATION (ROOT) STARTED heap:%" PRId32,
              esp_get_minimum_free_heap_size());
