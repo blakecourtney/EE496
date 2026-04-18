@@ -6,14 +6,9 @@
 #include <unordered_map>
 #include <sstream>
 #include <iomanip>
+#include "config.h"
 
 using namespace std;
-
-int num_drones = 3;
-double relay_ratio = 0.2;
-double drone_radius = 400.0;
-double drone_diameter = drone_radius * 2; // meters
-
 
 // *** SEARCH ALGORITHM *** //
 
@@ -95,11 +90,11 @@ Location interpolate(const Location& a, const Location& b, double fraction) {
 vector<Location> create_backbone(Location home, Location dest){
     double distance = dist(home, dest);
 
-    int num_segments = floor(distance / drone_diameter);
+    int num_segments = floor(distance / DRONE_DIAMETER);
 
     int needed_drones = max(0, num_segments - 1); // number of relay drones, not including search drone
 
-    if(num_drones < needed_drones){
+    if(NUM_DRONES < needed_drones){
         return {};
     }
     vector<Location> drone_locations;
@@ -124,7 +119,7 @@ SearchResult relay_search_drones(const Location& loctl,
     
     double height = (max(loctr.lat, locbr.lat) - min(loctl.lat, locbl.lat)) * 111.32; // km conversion
     double width = (max(loctr.lon, locbr.lon) - min(loctl.lon, locbl.lon)) * 111.32 * cos((loctr.lat - locbr.lat));
-    if((width > drone_diameter) || (height > drone_diameter)){ // need to divide into regions to search
+    if((width > DRONE_DIAMETER) || (height > DRONE_DIAMETER)){ // need to divide into regions to search
         cout << "Need to split into regions" << endl;
         return{ {}, {}, 1};
     }
