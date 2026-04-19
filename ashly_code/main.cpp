@@ -27,7 +27,7 @@ int main(){
 
     
 // 1. Open serial port (CHANGE THIS to your port)
-int fd = open("/dev/cu.usbserial-0001", O_RDWR | O_NOCTTY | O_SYNC);
+int fd = open("/dev/cu.usbserial-0001");
 
 if (fd < 0) {
     cout << "Failed to open serial port\n";
