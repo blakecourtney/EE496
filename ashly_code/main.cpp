@@ -26,13 +26,16 @@ int main(){
     cout << " flag " << result.update_backbone << endl;
 
     
-    // // 1. Open serial port (CHANGE THIS to your port)
-    // int fd = open("/dev/ttyUSB0", O_RDWR | O_NOCTTY | O_SYNC);
+// 1. Open serial port (CHANGE THIS to your port)
+int fd = open("/dev/cu.usbserial-0001", O_RDWR | O_NOCTTY | O_SYNC);
 
-    // if (fd < 0) {
-    //     std::cerr << "Failed to open serial port\n";
-    //     return 1;
-    // }
+if (fd < 0) {
+    std::cerr << "Failed to open serial port\n";
+    return 1;
+}
+else {
+    std::cerr << "Succeeded to open serial port\n";
+}
 
     // // 2. Configure serial (115200 baud like your Python)
     // struct termios tty;
