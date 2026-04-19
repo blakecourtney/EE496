@@ -30,11 +30,11 @@ int main(){
 int fd = open("/dev/cu.usbserial-0001", O_RDWR | O_NOCTTY | O_SYNC);
 
 if (fd < 0) {
-    std::cerr << "Failed to open serial port\n";
+    cout << "Failed to open serial port\n";
     return 1;
 }
 else {
-    std::cerr << "Succeeded to open serial port\n";
+    cout << "Succeeded to open serial port\n";
 }
 
     // // 2. Configure serial (115200 baud like your Python)
