@@ -1,3 +1,4 @@
+#include "dronegps.h"
 #include <iostream>
 #include <string>
 #include <cmath>
@@ -6,32 +7,37 @@
 #include <unordered_map>
 #include <sstream>
 #include <iomanip>
-#include "config.h"
 
 using namespace std;
+
+int num_drones = 3;
+double relay_ratio = 0.2;
+double drone_radius = 400.0;
+double drone_diameter = drone_radius * 2; // meters
+
 
 // *** SEARCH ALGORITHM *** //
 
 double EARTH_RADIUS = 6371000.0; // meters
 double PI = 3.14;
 
-struct Location{
-    double lat;
-    double lon;
-};
+// struct Location{
+//     double lat;
+//     double lon;
+// };
 
-struct Region {
-    Location tl;
-    Location tr;
-    Location br;
-    Location bl;
-};
+// struct Region {
+//     Location tl;
+//     Location tr;
+//     Location br;
+//     Location bl;
+// };
 
-struct SearchResult {
-    vector<Location> relay_drones;  // index 0
-    Location search_drone;          // index 1
-    int update_backbone;            // index 2
-};
+// struct SearchResult {
+//     vector<Location> relay_drones;  // index 0
+//     Location search_drone;          // index 1
+//     int update_backbone;            // index 2
+// };
 
 static Location lerp(const Location& p1, const Location& p2, double t) {
     return {
@@ -90,11 +96,11 @@ Location interpolate(const Location& a, const Location& b, double fraction) {
 vector<Location> create_backbone(Location home, Location dest){
     double distance = dist(home, dest);
 
-    int num_segments = floor(distance / DRONE_DIAMETER);
+    int num_segments = floor(distance / drone_diameter);
 
     int needed_drones = max(0, num_segments - 1); // number of relay drones, not including search drone
 
-    if(NUM_DRONES < needed_drones){
+    if(num_drones < needed_drones){
         return {};
     }
     vector<Location> drone_locations;
@@ -119,7 +125,7 @@ SearchResult relay_search_drones(const Location& loctl,
     
     double height = (max(loctr.lat, locbr.lat) - min(loctl.lat, locbl.lat)) * 111.32; // km conversion
     double width = (max(loctr.lon, locbr.lon) - min(loctl.lon, locbl.lon)) * 111.32 * cos((loctr.lat - locbr.lat));
-    if((width > DRONE_DIAMETER) || (height > DRONE_DIAMETER)){ // need to divide into regions to search
+    if((width > drone_diameter) || (height > drone_diameter)){ // need to divide into regions to search
         cout << "Need to split into regions" << endl;
         return{ {}, {}, 1};
     }
@@ -140,17 +146,17 @@ SearchResult relay_search_drones(const Location& loctl,
 
 // *** DRONE ASSIGNMENT *** //
 // May need to add to GND station code
-enum class DroneRole {
-    Unassigned,
-    Relay,
-    Search
-};
+// enum class DroneRole {
+//     Unassigned,
+//     Relay,
+//     Search
+// };
 
-struct Drone {
-    string mac;
-    DroneRole role;
-    Location target;
-};
+// struct Drone {
+//     string mac;
+//     DroneRole role;
+//     Location target;
+// };
 
 void assign_drones(vector<Drone>& drones,
                    const vector<Location>& locations,
