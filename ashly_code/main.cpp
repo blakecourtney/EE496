@@ -2,6 +2,11 @@
 #include "dronegps.h"
 #include "gndstation.h"
 #include <iostream>
+#include <vector>
+#include <cmath>
+#include <fcntl.h>
+#include <termios.h>
+#include <unistd.h>
 
 using namespace std;
 
@@ -55,7 +60,7 @@ int main(){
     cout << " dest: " << result.search_drone.lat << " " << result.search_drone.lon << endl;
     cout << " flag " << result.update_backbone << endl;
 
-    const char* port = "/dev/ttyUSB0";  // <-- CHANGE THIS
+    const char* port = "/dev/cu.usbserial-0001";  // <-- CHANGE THIS
     int fd = open_serial(port);
 
     if (fd < 0) {
