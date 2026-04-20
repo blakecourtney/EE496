@@ -1,12 +1,4 @@
 #include "dronegps.h"
-#include <iostream>
-#include <string>
-#include <cmath>
-#include <vector>
-#include <optional>
-#include <unordered_map>
-#include <sstream>
-#include <iomanip>
 
 using namespace std;
 
@@ -174,19 +166,19 @@ void assign_drones(vector<Drone>& drones,
 }
 
 // *** SERIAL TO GND *** //
-string role_to_string(DroneRole role) {
-    switch (role) {
-        case DroneRole::Relay:  return "RELAY";
-        case DroneRole::Search: return "SEARCH";
-        default:                return "UNASSIGNED";
-    }
-}
+// string role_to_string(DroneRole role) {
+//     switch (role) {
+//         case DroneRole::Relay:  return "RELAY";
+//         case DroneRole::Search: return "SEARCH";
+//         default:                return "UNASSIGNED";
+//     }
+// }
 
-string build_assign_packet(const Drone& d) {
-    std::ostringstream ss;
-    ss << "ASSIGN," << d.mac << "," << role_to_string(d.role) << ","
-       << std::fixed << std::setprecision(7)
-       << d.target.lat << "," << d.target.lon << "," << 50; // alt
-    return ss.str();
-}
+// string build_assign_packet(const Drone& d) {
+//     std::ostringstream ss;
+//     ss << "ASSIGN," << d.mac << "," << role_to_string(d.role) << ","
+//        << std::fixed << std::setprecision(7)
+//        << d.target.lat << "," << d.target.lon << "," << 50; // alt
+//     return ss.str();
+// }
 

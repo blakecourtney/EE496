@@ -1,8 +1,14 @@
 #ifndef DRONEGPS_H
 #define DRONEGPS_H
 
+#include <iostream>
 #include <string>
+#include <cmath>
 #include <vector>
+#include <optional>
+#include <unordered_map>
+#include <sstream>
+#include <iomanip>
 
 using namespace std;
 
@@ -52,6 +58,6 @@ void assign_drones(std::vector<Drone>& drones,
                    const std::vector<Location>& locations,
                    DroneRole givenrole);
 
-std::string role_to_string(DroneRole role);
+// std::string role_to_string(DroneRole role);
 
 #endif

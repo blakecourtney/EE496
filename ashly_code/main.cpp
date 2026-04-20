@@ -5,6 +5,36 @@
 
 using namespace std;
 
+// Setup serial port (Linux)
+int open_serial(const char* port) {
+    int fd = open(port, O_RDWR | O_NOCTTY | O_SYNC);
+    if (fd < 0) {
+        perror("open");
+        return -1;
+    }
+
+    struct termios tty{};
+    if (tcgetattr(fd, &tty) != 0) {
+        perror("tcgetattr");
+        close(fd);
+        return -1;
+    }
+
+    cfsetospeed(&tty, B115200);
+    cfsetispeed(&tty, B115200);
+
+    tty.c_cflag = (tty.c_cflag & ~CSIZE) | CS8;
+    tty.c_iflag = 0;
+    tty.c_oflag = 0;
+    tty.c_lflag = 0;
+
+    tty.c_cflag |= (CLOCAL | CREAD);
+
+    tcsetattr(fd, TCSANOW, &tty);
+
+    return fd;
+}
+
 int main(){
     cout << "testing" << endl;
     
@@ -25,8 +55,15 @@ int main(){
     cout << " dest: " << result.search_drone.lat << " " << result.search_drone.lon << endl;
     cout << " flag " << result.update_backbone << endl;
 
-    
+    const char* port = "/dev/ttyUSB0";  // <-- CHANGE THIS
+    int fd = open_serial(port);
 
+    if (fd < 0) {
+        std::cerr << "Failed to open serial\n";
+        return 1;
+    }
+
+    std::cout << "Serial opened\n";
 
     return 0;
 }
