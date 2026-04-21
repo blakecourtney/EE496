@@ -30,8 +30,8 @@ const int arena_size = 1024 * 1024;
 
 // Hardware Serial for Board-to-Board Communication
 HardwareSerial DroneSerial(1);
-#define MESH_TX_PIN 43
-#define MESH_RX_PIN 44
+#define MESH_TX_PIN 47
+#define MESH_RX_PIN 21
 
 #define MAX_INPUT 10
 
@@ -42,18 +42,25 @@ tflite::ErrorReporter* error_reporter = nullptr;
 TfLiteTensor* input = nullptr;
 TfLiteTensor* output = nullptr;
 
-float detect_thresh = .0;
+float detect_thresh = 0.2;
 uint8_t detect_count = 0;
 char detect_flag = 0;
 char detect_ack_flag = 0;
+bool waiting_for_ack = false;
+
 uint8_t *frame_capture = NULL; 
 size_t capture_len = 0;
 float probability_capture = 0;
 float best_probability = 0;
 
+// Function prototype so the compiler knows it exists
+void processSerialByte(const byte inByte);
+
 void setup() {
   Serial.begin(115200);
   DroneSerial.begin(115200, SERIAL_8N1, MESH_RX_PIN, MESH_TX_PIN);
+  pinMode(LED_BUILTIN, OUTPUT);
+  digitalWrite(LED_BUILTIN, LOW);
 
   // Camera Init
   camera_config_t config;
@@ -80,19 +87,10 @@ void setup() {
   config.frame_size = FRAMESIZE_240X240;
   config.grab_mode = CAMERA_GRAB_WHEN_EMPTY;
   config.fb_location = CAMERA_FB_IN_PSRAM;
-
-  if (!psramFound()) {
-      Serial.println("FATAL: PSRAM not found");
-      return;
-  } else {
-      Serial.printf("PSRAM found. Free: %d bytes\n", ESP.getFreePsram());
-  }
-
   config.jpeg_quality = 10;
   config.fb_count = 1;
 
   if (esp_camera_init(&config) != ESP_OK) {
-      Serial.println("OV3660 Init Failed!");
       return;
   }
 
@@ -106,13 +104,7 @@ void setup() {
   // TFLite Init
   tensor_arena = (uint8_t *)heap_caps_aligned_alloc(16, arena_size, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT);
 
-  if (tensor_arena == NULL) {
-      Serial.println("Arena allocation failed!");
-      return;
-  }
-  if ((uintptr_t)tensor_arena % 16 != 0) {
-      Serial.println("Warning: Arena not 16-byte aligned. Acceleration might fail.");
-  }
+  if (tensor_arena == NULL) return;
 
   static tflite::MicroErrorReporter micro_error_reporter;
   error_reporter = &micro_error_reporter;
@@ -122,105 +114,133 @@ void setup() {
       model, resolver, tensor_arena, arena_size, error_reporter);
 
   interpreter = &static_interpreter;
-  if (interpreter->AllocateTensors() != kTfLiteOk) {
-    Serial.println("AllocateTensors Failed!");
-    return;
-  }
+  if (interpreter->AllocateTensors() != kTfLiteOk) return;
+  
   input = interpreter->input(0);
   output = interpreter->output(0);
 }
 
 void loop() {
+  // --- CAMERA & INFERENCE LOGIC ---
   if (!detect_flag){
     camera_fb_t * fb = esp_camera_fb_get();
     if (!fb) return;
 
-    uint8_t* input_ptr = input->data.uint8;
-    int total_bytes = 240 * 240 * 2;
+    int8_t* input_ptr = input->data.int8;
+    int total_pixels = 240 * 240;
 
-    for (int i = 0; i < total_bytes; i++) {
+    for (int i = 0; i < total_pixels; i++) {
       uint16_t pixel = (fb->buf[i * 2] << 8) | fb->buf[i * 2 + 1];
       uint8_t r = ((pixel >> 11) & 0x1F) << 3;
       uint8_t g = ((pixel >> 5)  & 0x3F) << 2;
       uint8_t b = (pixel & 0x1F)       << 3;
-      input_ptr[i * 3 + 0] = r;
-      input_ptr[i * 3 + 1] = g;
-      input_ptr[i * 3 + 2] = b;
+      input_ptr[i * 3 + 0] = (int8_t)(r - 128);
+      input_ptr[i * 3 + 1] = (int8_t)(g - 128);
+      input_ptr[i * 3 + 2] = (int8_t)(b - 128);
     }
 
     if (interpreter->Invoke() == kTfLiteOk) {
       int8_t raw_score = output->data.int8[0];
       float score = (raw_score + 128) / 255.0f;
+      // MODEL DEBUG
+      // Serial.printf("input type: %d (uint8=3, int8=9)\n", input->type);
+      // Serial.printf("input params: scale=%.6f zp=%d\n", input->params.scale, input->params.zero_point);
+      // Serial.printf("output params: scale=%.6f zp=%d\n", output->params.scale, output->params.zero_point);
+      // Serial.printf("raw_score: %d\n", (int)raw_score);
+      // Serial.printf("sample input r=%d g=%d b=%d\n", (int)input->data.uint8[0], (int)input->data.uint8[1], (int)input->data.uint8[2]);
+
+      // MODEL VISUALATION DEBUG START
+      // Serial.println("START_IMAGE");
+      // size_t chunk_size = 2048;
+      // uint8_t *buffer_ptr = fb->buf;
+      // size_t total_bytes = fb->len;
+
+      // for (size_t i = 0; i < total_bytes; i += chunk_size) {
+      //   size_t bytes_to_send = (total_bytes - i < chunk_size) ? (total_bytes - i) : chunk_size;
+      //   Serial.write(buffer_ptr + i, bytes_to_send);
+      //   Serial.flush();
+      // }
+      // Serial.println("END_IMAGE");
+      // Serial.printf("PROBABILITY: %.4f\n", score);
+      // Serial.printf("HUMAN DETECTED: %d\n", (score > detect_thresh));
+      // MODEL VISUALATION DEBUG END 
+
+      if (request_flag){
+        DroneSerial.println("START_IMAGE");
+        size_t chunk_size = 2048;
+        uint8_t *buffer_ptr = fb->buf;
+        size_t total_bytes = fb->len;
+
+        for (size_t i = 0; i < total_bytes; i += chunk_size) {
+          size_t bytes_to_send = (total_bytes - i < chunk_size) ? (total_bytes - i) : chunk_size;
+          DroneSerial.write(buffer_ptr + i, bytes_to_send);
+          DroneSerial.flush();
+        }
+        request_flag = 0;
+      }
 
       if (score > detect_thresh)
         detect_count += 1;
 
-        if (score > probability_capture){
-          if (frame_capture != NULL) {
-            free(frame_capture);
-            frame_capture = NULL;
-          }
-          frame_capture = (uint8_t *)ps_malloc(fb->len);
-          if (!frame_capture) { 
-            Serial.println("PSRAM Allocation failed! Image too big.");
-            esp_camera_fb_return(fb);
-            return;
-          }
-          memcpy(frame_capture, fb->buf, fb->len);
-          capture_len = fb->len;      // track size for ACK transmission
-          probability_capture = score;
-          best_probability = score;   // save before probability_capture resets to 0
+      if (score > probability_capture){
+        if (frame_capture != NULL) {
+          free(frame_capture);
+          frame_capture = NULL;
         }
-
-        if (detect_count == 5){
-          detect_flag = 1;
-          detect_count = 0;
-          probability_capture = 0;
+        frame_capture = (uint8_t *)ps_malloc(fb->len);
+        if (!frame_capture) { 
+          esp_camera_fb_return(fb);
+          return;
         }
-
-      // DEBUG VISUALIZATION
-      Serial.println("START_IMAGE");
-      size_t chunk_size = 2048;
-      uint8_t *buffer_ptr = fb->buf;
-
-      for (size_t i = 0; i < (size_t)total_bytes; i += chunk_size) {
-        size_t bytes_to_send = ((size_t)total_bytes - i < chunk_size) ? ((size_t)total_bytes - i) : chunk_size;
-        Serial.write(buffer_ptr + i, bytes_to_send);
-        Serial.flush();
+        memcpy(frame_capture, fb->buf, fb->len);
+        capture_len = fb->len;      
+        probability_capture = score;
+        best_probability = score;   
       }
-      Serial.println("END_IMAGE");
-      Serial.printf("HUMAN DETECTED: %d\n", (score > detect_thresh));
+
+      if (detect_count == 2){
+        detect_flag = 1;
+        detect_count = 0;
+      }
     }
 
     esp_camera_fb_return(fb);
   }
 
-  if (detect_flag == 1){
+  // --- UART COMMUNICATION LOGIC ---
+
+  if (detect_flag == 1 && !waiting_for_ack){
     DroneSerial.println("human detected!");
+    digitalWrite(LED_BUILTIN, HIGH);
+    waiting_for_ack = true; 
   }
 
-  while (Serial.available() > 0)
-    processSerialByte(Serial.read());
-
+  while (DroneSerial.available() > 0) {
+    processSerialByte(DroneSerial.read());
+  }
   if (detect_ack_flag){
-    Serial.println("START_IMAGE");
+    DroneSerial.println("START_IMAGE");
     size_t chunk_size = 2048;
     uint8_t *buffer_ptr = frame_capture; 
 
     for (size_t i = 0; i < capture_len; i += chunk_size) { 
       size_t bytes_to_send = (capture_len - i < chunk_size) ? (capture_len - i) : chunk_size;
-      Serial.write(buffer_ptr + i, bytes_to_send);
-      Serial.flush();
+      DroneSerial.write(buffer_ptr + i, bytes_to_send);
+      DroneSerial.flush();
     }
-    Serial.println("END_IMAGE");
-    Serial.printf("PROBABILITY: %.2f\n", best_probability);
+    DroneSerial.println("END_IMAGE");
+    DroneSerial.printf("PROBABILITY: %.2f\n", best_probability);
+    
+    detect_ack_flag = 0;      
+    waiting_for_ack = false;  
   }
 }
-
 
 void processSerialByte(const byte inByte) {
   static char input_line[MAX_INPUT];
   static unsigned int input_pos = 0;
+
+  Serial.println(inByte);
 
   switch (inByte){
     case '\n':
@@ -228,15 +248,21 @@ void processSerialByte(const byte inByte) {
 
       if (strcmp(input_line, "ACK") == 0){  
         detect_ack_flag = 1;
+        digitalWrite(LED_BUILTIN, LOW);
       }
       if (strcmp(input_line, "CLEAR") == 0){ 
         detect_flag = 0;
+        probability_capture = 0; 
+      }
+      if (strcmp(input_line, "REQUEST") == 0){ 
+        request_flag = 0;
       }
 
       input_pos = 0;
       break;
 
     case '\r':
+      // Ignore carriage returns
       break;
 
     default:
