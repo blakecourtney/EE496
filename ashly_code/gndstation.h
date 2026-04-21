@@ -19,6 +19,6 @@ bool send_waypoint_fd(int fd, uint8_t drone_id, double lat, double lon, double a
 void send_locations_fd(int fd,
                        uint8_t drone_id,
                        const std::vector<Location>& locations,
-                       float alt = 50.0f);
+                       float alt);
 
 #endif
