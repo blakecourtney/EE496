@@ -6,12 +6,8 @@
 // [3..66] 64-byte payload
 // [67] 0xFF
 
-#include <cstdint>
-#include <cstring>
-#include <vector>
-#include <unistd.h>   // write()
-#include <errno.h>
 #include "dronegps.h"
+#include "gndstation.h"
 
 static constexpr uint8_t PACKET_START_BYTE = 0xFE;
 static constexpr uint8_t PACKET_END_BYTE   = 0xFF;

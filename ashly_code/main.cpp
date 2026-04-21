@@ -70,5 +70,28 @@ int main(){
 
     std::cout << "Serial opened\n";
 
+    uint8_t drone_id = 1;
+
+    cout << "Sending relay waypoints...\n";
+    for (const auto& loc : result.relay_drones) {
+        if (!send_waypoint_fd(fd, drone_id, loc.lat, loc.lon, 50.0)) {
+            cerr << "Send failed\n";
+            close(fd);
+            return 1;
+        }
+        cout << "Sent relay waypoint: " << loc.lat << ", " << loc.lon << endl;
+        usleep(200000);
+    }
+
+    cout << "Sending search waypoint...\n";
+    if (!send_waypoint_fd(fd, drone_id, result.search_drone.lat, result.search_drone.lon, 50.0)) {
+        cerr << "Send failed\n";
+        close(fd);
+        return 1;
+    }
+
+    cout << "Done\n";
+    close(fd);
+
     return 0;
 }
