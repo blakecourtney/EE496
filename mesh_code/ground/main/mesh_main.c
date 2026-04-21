@@ -204,6 +204,9 @@ void esp_mesh_p2p_rx_main(void *arg)
             continue;
         }
 
+        // DEBUG
+        ESP_LOGI(MESH_TAG, "[GND-RX] Caught a packet! Size: %d bytes (Expected: %d)", data.size, sizeof(packet_t));
+
         // handle photo chunks (larger packet type)
         if (data.size >= sizeof(photo_packet_t)) {
             photo_packet_t *photo = (photo_packet_t *)data.data;
@@ -435,6 +438,7 @@ void app_main(void)
 
     //start GUI serial and mesh
     gui_uart_init();
+    esp_mesh_set_type(MESH_ROOT);
     ESP_ERROR_CHECK(esp_mesh_start());
     ESP_LOGW(MESH_TAG, "GROUND STATION (ROOT) STARTED heap:%" PRId32,
              esp_get_minimum_free_heap_size());

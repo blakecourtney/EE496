@@ -3,20 +3,25 @@
 
 cmake_minimum_required(VERSION 3.5)
 
+# If CMAKE_DISABLE_SOURCE_CHANGES is set to true and the source directory is an
+# existing directory in our source tree, calling file(MAKE_DIRECTORY) on it
+# would cause a fatal error, even though it would be a no-op.
+if(NOT EXISTS "C:/Espressif/frameworks/esp-idf-v5.5.2/components/bootloader/subproject")
+  file(MAKE_DIRECTORY "C:/Espressif/frameworks/esp-idf-v5.5.2/components/bootloader/subproject")
+endif()
 file(MAKE_DIRECTORY
-  "/home/blakecourtney/esp/esp-idf/components/bootloader/subproject"
-  "/home/blakecourtney/school/s26/EE496/mesh_code/ground/build/bootloader"
-  "/home/blakecourtney/school/s26/EE496/mesh_code/ground/build/bootloader-prefix"
-  "/home/blakecourtney/school/s26/EE496/mesh_code/ground/build/bootloader-prefix/tmp"
-  "/home/blakecourtney/school/s26/EE496/mesh_code/ground/build/bootloader-prefix/src/bootloader-stamp"
-  "/home/blakecourtney/school/s26/EE496/mesh_code/ground/build/bootloader-prefix/src"
-  "/home/blakecourtney/school/s26/EE496/mesh_code/ground/build/bootloader-prefix/src/bootloader-stamp"
+  "C:/Users/sonia/esp/EE496/mesh_code/ground/build/bootloader"
+  "C:/Users/sonia/esp/EE496/mesh_code/ground/build/bootloader-prefix"
+  "C:/Users/sonia/esp/EE496/mesh_code/ground/build/bootloader-prefix/tmp"
+  "C:/Users/sonia/esp/EE496/mesh_code/ground/build/bootloader-prefix/src/bootloader-stamp"
+  "C:/Users/sonia/esp/EE496/mesh_code/ground/build/bootloader-prefix/src"
+  "C:/Users/sonia/esp/EE496/mesh_code/ground/build/bootloader-prefix/src/bootloader-stamp"
 )
 
 set(configSubDirs )
 foreach(subDir IN LISTS configSubDirs)
-    file(MAKE_DIRECTORY "/home/blakecourtney/school/s26/EE496/mesh_code/ground/build/bootloader-prefix/src/bootloader-stamp/${subDir}")
+    file(MAKE_DIRECTORY "C:/Users/sonia/esp/EE496/mesh_code/ground/build/bootloader-prefix/src/bootloader-stamp/${subDir}")
 endforeach()
 if(cfgdir)
-  file(MAKE_DIRECTORY "/home/blakecourtney/school/s26/EE496/mesh_code/ground/build/bootloader-prefix/src/bootloader-stamp${cfgdir}") # cfgdir has leading slash
+  file(MAKE_DIRECTORY "C:/Users/sonia/esp/EE496/mesh_code/ground/build/bootloader-prefix/src/bootloader-stamp${cfgdir}") # cfgdir has leading slash
 endif()
