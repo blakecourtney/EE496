@@ -26,6 +26,11 @@ class GroundStation:
         # Start drone timeout checker
         self.start_drone_timeout_checker()
 
+        try:
+            self.gui.start_camera('/dev/cu.usbmodem5B414825001')
+        except Exception as e:
+            print("Camera init skipped:", e)
+
     def connect_serial(self):
         """Prompt user to select serial port via dropdown"""
         ports = self.serial.list_ports()

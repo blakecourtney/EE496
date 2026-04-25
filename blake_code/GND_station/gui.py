@@ -5,6 +5,15 @@ import time
 from waypointalg import subdivide_region
 from config import DEFAULT_ALT
 
+
+import sys
+import os
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.append(BASE_DIR)
+
+from drone.human_detect.cam_handler import CameraHandler
+
 class GroundStationGUI:
     def __init__(self, root, command_callback, change_port_callback=None):
         self.root = root
@@ -18,11 +27,22 @@ class GroundStationGUI:
         self.current_plan = None
         self.region_queue = []
         self.current_region_index = 0
+        self.camera = None
 
         self.root.title("Drone Mesh Ground Control Station")
         self.root.geometry("900x650")
 
         self.setup_ui()
+
+    def start_camera(self, port):
+        try:
+            self.camera = CameraHandler(port)
+            self.camera.start()
+            print(f"Camera started on {port}")
+            self.update_camera_view()
+        except Exception as e:
+            print(f"[WARNING] Camera not available: {e}")
+            self.camera = None
 
     def setup_ui(self):
         main_frame = Frame(self.root)
@@ -44,9 +64,13 @@ class GroundStationGUI:
         right_panel = Frame(main_frame)
         right_panel.pack(side=RIGHT, fill=BOTH, expand=True)
 
+        # ---------------- TOP ROW (Telemetry + Camera side by side) ----------------
+        top_row = Frame(right_panel)
+        top_row.pack(fill=BOTH, expand=True, pady=(0, 10))
+
         # Telemetry display
-        telem_frame = LabelFrame(right_panel, text="Telemetry", font=("Arial", 11, "bold"))
-        telem_frame.pack(fill=BOTH, expand=True, pady=(0, 10))
+        telem_frame = LabelFrame(top_row, text="Telemetry", font=("Arial", 11, "bold"))
+        telem_frame.pack(side=LEFT, fill=BOTH, expand=True, padx=(0, 5))
 
         self.telem_labels = {}
         fields = [
@@ -71,6 +95,18 @@ class GroundStationGUI:
             value_label.pack(side=LEFT)
             Label(row_frame, text=unit, width=5, anchor=W).pack(side=LEFT)
             self.telem_labels[field] = value_label
+
+        # Camera display
+        cam_frame = LabelFrame(top_row, text="Camera", font=("Arial", 11, "bold"))
+        cam_frame.pack(side=RIGHT, fill=BOTH, expand=True, padx=(5, 0))
+
+        self.cam_label = Label(cam_frame)
+        self.cam_label.pack(expand=True)
+
+        self.cam_label = Label(cam_frame)
+        self.cam_label.pack()
+
+        self.cam_label.config(text="No Camera Connected", fg="gray")
 
         # Command panel
         cmd_frame = LabelFrame(right_panel, text="Commands", font=("Arial", 11, "bold"))
@@ -111,15 +147,18 @@ class GroundStationGUI:
         inner = Frame(home_frame)
         inner.pack(anchor='center')
 
-        self.home_lat = Entry(inner, width=10, justify='center')
+        self.home_lat = Entry(inner, width=10)
+        self.home_lat.pack(side=LEFT, padx=5)
         self.home_lat.insert(0, "lat")
         self.home_lat.pack(side=LEFT, padx=5)
 
-        self.home_lon = Entry(inner, width=10, justify='center')
+        self.home_lon = Entry(inner, width=10)
+        self.home_lon.pack(side=LEFT, padx=5)
         self.home_lon.insert(0, "lon")
         self.home_lon.pack(side=LEFT, padx=5)
 
-        self.home_alt = Entry(inner, width=6, justify='center')
+        self.home_alt = Entry(inner, width=6)
+        self.home_alt.pack(side=LEFT, padx=5)
         self.home_alt.insert(0, "alt")
         self.home_alt.pack(side=LEFT, padx=5)
 
@@ -159,7 +198,7 @@ class GroundStationGUI:
             self.multi_wp_entries.append((lat, lon, alt))
 
         Button(multi_wp_frame,
-            text="Generate Waypoint Alg",
+            text="Generate Waypoint Algorithm",
             bg="#9C27B0",
             fg="white",
             command=self.cmd_generate_waypoints).pack(pady=5)
@@ -330,6 +369,24 @@ class GroundStationGUI:
                 text="STREAMING" if data.get('streaming') else "OFF",
                 fg="blue" if data.get('streaming') else "gray"
             )
+
+    def update_camera_view(self):
+        if not self.camera:
+            return
+        if self.camera:
+            frame = self.camera.get_frame()
+
+            if frame is not None:
+                img = Image.fromarray(frame)
+                img = img.resize((256, 256))
+
+                imgtk = ImageTk.PhotoImage(image=img)
+
+                self.cam_label.imgtk = imgtk
+                self.cam_label.config(image=imgtk)
+
+        # loop every 50 ms (~20 FPS)
+        self.root.after(50, self.update_camera_view)
 
     # ------------------------------------------------------------------
     #  Commands
