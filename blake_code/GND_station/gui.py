@@ -2,7 +2,8 @@
 from tkinter import *
 from tkinter import ttk, messagebox
 import time
-
+from waypointalg import subdivide_region
+from config import DEFAULT_ALT
 
 class GroundStationGUI:
     def __init__(self, root, command_callback, change_port_callback=None):
@@ -13,6 +14,10 @@ class GroundStationGUI:
         self.selected_drone_id = None
         self.drone_widgets = {}
         self.heartbeat_counts = {}
+        self.home_location = None
+        self.current_plan = None
+        self.region_queue = []
+        self.current_region_index = 0
 
         self.root.title("Drone Mesh Ground Control Station")
         self.root.geometry("900x650")
@@ -96,6 +101,86 @@ class GroundStationGUI:
         self.wp_alt.insert(0, "alt")
         Button(wp_frame, text="Send Waypoint", bg="#FF9800", fg="white",
                command=self.cmd_waypoint).pack(side=LEFT, padx=5)
+        
+    # ------------------------------------------------------------------
+    #  Home Location
+    # ------------------------------------------------------------------
+        home_frame = LabelFrame(cmd_frame, text="Home Location", font=("Arial", 10, "bold"))
+        home_frame.pack(padx=10, pady=(5, 5), fill=X)
+
+        inner = Frame(home_frame)
+        inner.pack(anchor='center')
+
+        self.home_lat = Entry(inner, width=10, justify='center')
+        self.home_lat.insert(0, "lat")
+        self.home_lat.pack(side=LEFT, padx=5)
+
+        self.home_lon = Entry(inner, width=10, justify='center')
+        self.home_lon.insert(0, "lon")
+        self.home_lon.pack(side=LEFT, padx=5)
+
+        self.home_alt = Entry(inner, width=6, justify='center')
+        self.home_alt.insert(0, "alt")
+        self.home_alt.pack(side=LEFT, padx=5)
+
+        Button(inner,
+            text="Set Home",
+            bg="#607D8B",
+            fg="white",
+            command=self.set_home).pack(side=LEFT, padx=8)
+
+    # ------------------------------------------------------------------
+    #  Search Region Boundary
+    # ------------------------------------------------------------------
+        multi_wp_frame = LabelFrame(cmd_frame, text="Search Region Boundary", font=("Arial", 10, "bold"))
+        multi_wp_frame.pack(padx=10, pady=10, fill=X)
+
+        self.multi_wp_entries = []
+
+        for i in range(4):
+            row = Frame(multi_wp_frame)
+            row.pack(pady=2)
+
+            labels = ["Top Left", "Top Right", "Bottom Right", "Bottom Left"]
+            Label(row, text=labels[i]).pack(side=LEFT, padx=3)
+
+            lat = Entry(row, width=10)
+            lat.insert(0, "lat")
+            lat.pack(side=LEFT, padx=2)
+
+            lon = Entry(row, width=10)
+            lon.insert(0, "lon")
+            lon.pack(side=LEFT, padx=2)
+
+            alt = Entry(row, width=6)
+            alt.insert(0, "alt")
+            alt.pack(side=LEFT, padx=2)
+
+            self.multi_wp_entries.append((lat, lon, alt))
+
+        Button(multi_wp_frame,
+            text="Generate Waypoint Alg",
+            bg="#9C27B0",
+            fg="white",
+            command=self.cmd_generate_waypoints).pack(pady=5)
+        
+        Button(cmd_frame,
+            text="Send Waypoint Plan",
+            bg="#4CAF50",
+            fg="white",
+            command=self.cmd_send_plan).pack(pady=5)
+        
+        Button(cmd_frame,
+            text="Next Region",
+            bg="#FF5722",
+            fg="white",
+            command=self.cmd_next_region).pack(pady=3)
+
+        Button(cmd_frame,
+            text="Assign Relay → Search",
+            bg="#3F51B5",
+            fg="white",
+            command=self.cmd_assign_relay).pack(pady=3)
 
         # Bottom bar
         bottom_frame = Frame(self.root)
@@ -283,3 +368,203 @@ class GroundStationGUI:
             self.command_callback('waypoint', self.selected_drone_id, lat, lon, alt)
         except ValueError:
             messagebox.showerror("Invalid Input", "Please enter valid numeric coordinates.")
+
+    def set_home(self):
+        try:
+            lat = float(self.home_lat.get())
+            lon = float(self.home_lon.get())
+            alt = float(self.home_alt.get())
+
+            self.home_location = (lat, lon, alt)
+
+            self.status_label.config(
+                text=f"Home set: {lat:.5f}, {lon:.5f}, {alt:.1f}m"
+            )
+
+            print("Home location set:", self.home_location)
+
+        except ValueError:
+            messagebox.showerror("Invalid Input", "Enter valid home coordinates.")
+
+    def cmd_generate_waypoints(self):
+        if not self.home_location:
+            messagebox.showwarning("No Home Set", "Please set a home location first.")
+            return
+
+        coords = []
+        try:
+            for lat_e, lon_e, alt_e in self.multi_wp_entries:
+                lat = float(lat_e.get())
+                lon = float(lon_e.get())
+                alt = float(alt_e.get())
+                coords.append((lat, lon, alt))
+        except ValueError:
+            messagebox.showerror("Invalid Input", "Enter valid numbers.")
+            return
+
+        coords_sorted = sorted(coords, key=lambda c: c[0], reverse=True)
+        top = sorted(coords_sorted[:2], key=lambda c: c[1])
+        bottom = sorted(coords_sorted[2:], key=lambda c: c[1])
+
+        ordered = [
+            top[0], top[1],
+            bottom[1], bottom[0]
+        ]
+
+        home = (self.home_location[0], self.home_location[1])
+
+        from waypointalg import relay_search_drones
+        ordered_2d = [(lat, lon) for lat, lon, _ in ordered]
+        
+        print("INPUT TO ALGO:")
+        print("TL:", ordered_2d[0])
+        print("TR:", ordered_2d[1])
+        print("BR:", ordered_2d[2])
+        print("BL:", ordered_2d[3])
+        print("HOME:", home)
+
+        relay, center, flag = relay_search_drones(
+            ordered_2d[0],
+            ordered_2d[1],
+            ordered_2d[2],
+            ordered_2d[3],
+            home
+        )
+
+        regions = subdivide_region(
+            ordered_2d[0],
+            ordered_2d[1],
+            ordered_2d[2],
+            ordered_2d[3]
+        )
+
+        def region_center(region):
+            tl, tr, br, bl = region
+            return (
+                (tl[0] + tr[0] + br[0] + bl[0]) / 4,
+                (tl[1] + tr[1] + br[1] + bl[1]) / 4
+            )
+
+        def distance(a, b):
+            from waypointalg import dist
+            return dist(a, b)
+
+        home_2d = (self.home_location[0], self.home_location[1])
+
+        self.region_queue = sorted(
+            regions,
+            key=lambda r: distance(home_2d, region_center(r))
+        )
+
+        print("\n=== SORTED REGION QUEUE ===")
+        for i, r in enumerate(self.region_queue):
+            c = region_center(r)
+            d = distance(home_2d, c)
+            print(f"Region {i}: center={c}, dist={d:.1f} m")
+
+        self.current_region_index = 0
+        self.current_region_index = 0
+
+        print("\n=== REGION QUEUE ===")
+        for i, r in enumerate(regions):
+            tl, tr, br, bl = r
+            center = (
+                (tl[0]+tr[0]+br[0]+bl[0])/4,
+                (tl[1]+tr[1]+br[1]+bl[1])/4
+            )
+            print(f"Region {i}: center={center}")
+
+        if self.region_queue:
+            region = self.region_queue[0]
+
+            relay, center, flag = relay_search_drones(
+                region[0], region[1], region[2], region[3], home
+            )
+        else:
+            relay, center, flag = [], None, 1
+
+        self.current_plan = {
+            "corners": ordered,
+            "relay": relay,
+            "center": center
+        }
+
+        print("PLAN GENERATED:")
+        print(self.current_plan)
+
+    def cmd_send_plan(self):
+        if not self.selected_drone_id:
+            messagebox.showwarning("No Drone Selected", "Select a drone to send plan.")
+            return
+
+        if not self.current_plan:
+            messagebox.showwarning("No Plan", "Generate a plan first.")
+            return
+
+        drone_id = self.selected_drone_id
+
+        center = self.current_plan["center"]
+
+        if center:
+            lat, lon = center
+            alt = DEFAULT_ALT
+
+            self.command_callback('waypoint', drone_id, lat, lon, alt)
+
+        for wp in self.current_plan["relay"]:
+            lat, lon = wp
+            alt = DEFAULT_ALT
+
+            self.command_callback('waypoint', drone_id, lat, lon, alt)
+
+        print(f"Sent plan to Drone {drone_id}")
+
+    def cmd_next_region(self):
+        if not self.region_queue:
+            messagebox.showwarning("No Regions", "Generate regions first.")
+            return
+
+        if self.current_region_index >= len(self.region_queue) - 1:
+            messagebox.showinfo("Done", "All regions processed.")
+            return
+
+        self.current_region_index += 1
+
+        region = self.region_queue[self.current_region_index]
+
+        home = (self.home_location[0], self.home_location[1])
+
+        from waypointalg import relay_search_drones
+
+        relay, center, flag = relay_search_drones(
+            region[0], region[1], region[2], region[3], home
+        )
+
+        self.current_plan = {
+            "relay": relay,
+            "center": center
+        }
+
+        print(f"\n=== MOVED TO REGION {self.current_region_index} ===")
+        print("Center:", center)
+        print("Relay:", relay)
+
+    def cmd_assign_relay(self):
+        if not self.current_plan:
+            messagebox.showwarning("No Plan", "Generate a plan first.")
+            return
+
+        relay = self.current_plan.get("relay", [])
+
+        if not relay:
+            print("No relay drones available")
+            return
+
+        new_search = relay[-1]
+
+        print("\n=== RELAY HANDOFF ===")
+        print("New search position:", new_search)
+
+        if self.selected_drone_id:
+            lat, lon = new_search
+            self.command_callback('waypoint', self.selected_drone_id, lat, lon, DEFAULT_ALT)
