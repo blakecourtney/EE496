@@ -103,14 +103,14 @@ class GroundStationGUI:
         self.cam_label = Label(cam_frame)
         self.cam_label.pack(expand=True)
 
-        self.cam_label = Label(cam_frame)
-        self.cam_label.pack()
-
         self.cam_label.config(text="No Camera Connected", fg="gray")
+
+        bottom_row = Frame(right_panel)
+        bottom_row.pack(fill=BOTH, expand=True, pady=(0, 10))
 
         # Command panel
         cmd_frame = LabelFrame(right_panel, text="Commands", font=("Arial", 11, "bold"))
-        cmd_frame.pack(fill=X, pady=(0, 10))
+        cmd_frame.pack(side=LEFT, fill=Y, padx=(0, 5))
 
         btn_frame = Frame(cmd_frame)
         btn_frame.pack(padx=10, pady=10)
@@ -137,6 +137,12 @@ class GroundStationGUI:
         self.wp_alt.insert(0, "alt")
         Button(wp_frame, text="Send Waypoint", bg="#FF9800", fg="white",
                command=self.cmd_waypoint).pack(side=LEFT, padx=5)
+        
+        map_frame = LabelFrame(right_panel, text="Mini Map", font=("Arial", 11, "bold"))
+        map_frame.pack(side=RIGHT, fill=BOTH, expand=True, padx=(5, 0))
+
+        self.map_canvas = Canvas(map_frame, bg="black")
+        self.map_canvas.pack(fill=BOTH, expand=True, padx=10, pady=10)
         
     # ------------------------------------------------------------------
     #  Home Location
@@ -388,6 +394,101 @@ class GroundStationGUI:
         # loop every 50 ms (~20 FPS)
         self.root.after(50, self.update_camera_view)
 
+    def draw_waypoints_on_map(self, coords, home=None, relay=None, center=None):
+        self.map_canvas.delete("all")
+
+        if not coords:
+            return
+
+        # extract lists
+        lats = [c[0] for c in coords]
+        lons = [c[1] for c in coords]
+
+        if home:
+            lats.append(home[0])
+            lons.append(home[1])
+
+        if center:
+            lats.append(center[0])
+            lons.append(center[1])
+
+        if relay:
+            for lat, lon in relay:
+                lats.append(lat)
+                lons.append(lon)
+
+        min_lat, max_lat = min(lats), max(lats)
+        min_lon, max_lon = min(lons), max(lons)
+
+        width = self.map_canvas.winfo_width()
+        height = self.map_canvas.winfo_height()
+
+        if width < 10 or height < 10:
+            self.root.after(100, lambda: self.draw_waypoints_on_map(coords, home, relay, center))            
+            return
+
+        margin = 0.05
+
+        def transform(lat, lon):
+            x = (lon - min_lon) / (max_lon - min_lon + 1e-9)
+            y = (lat - min_lat) / (max_lat - min_lat + 1e-9)
+
+            y = 1 - y
+
+            # apply margin safely
+            x = margin + (1 - 2*margin) * x
+            y = margin + (1 - 2*margin) * y
+
+            return int(x * width), int(y * height)
+        
+        def safe_text(x, y, text, color):
+            x = max(20, min(x, width - 60))
+            y = max(10, min(y, height - 10))
+
+            self.map_canvas.create_text(x, y, text=text, fill=color, anchor=W)
+
+        points = []
+        for c in coords:
+            lat, lon = c[0], c[1]
+            points.append(transform(lat, lon))
+
+        # draw lines
+        for i in range(len(points) - 1):
+            self.map_canvas.create_line(
+                points[i][0], points[i][1],
+                points[i+1][0], points[i+1][1],
+                fill="cyan", width=2
+            )
+
+        # draw points
+        for i, (x, y) in enumerate(points):
+            self.map_canvas.create_oval(x-4, y-4, x+4, y+4, fill="red")
+            safe_text(x+8, y, f"P{i+1}", "white")
+
+        if home:
+            hx, hy = transform(home[0], home[1])
+            self.map_canvas.create_oval(hx-6, hy-6, hx+6, hy+6, fill="yellow")
+            safe_text(hx+10, hy, "HOME", "yellow")
+    
+        if center:
+            cx, cy = transform(center[0], center[1])
+            self.map_canvas.create_oval(cx-6, cy-6, cx+6, cy+6, fill="green")
+            safe_text(cx+10, cy, "SEARCH", "green")
+
+        if relay:
+            for i, (lat, lon) in enumerate(relay):
+                rx, ry = transform(lat, lon)
+                self.map_canvas.create_oval(rx-4, ry-4, rx+4, ry+4, fill="blue")
+                safe_text(rx+8, ry, f"R{i}", "blue")
+
+        # draw bounding box for region
+        for i in range(len(points)):
+            self.map_canvas.create_line(
+                points[i][0], points[i][1],
+                points[(i+1) % len(points)][0], points[(i+1) % len(points)][1],
+                fill="cyan"
+            )
+
     # ------------------------------------------------------------------
     #  Commands
     # ------------------------------------------------------------------
@@ -546,6 +647,13 @@ class GroundStationGUI:
             "center": center
         }
 
+        self.draw_waypoints_on_map(
+            ordered,
+            home=(self.home_location[0], self.home_location[1]),
+            relay=relay,
+            center=center
+        )
+
         print("PLAN GENERATED:")
         print(self.current_plan)
 
@@ -597,14 +705,19 @@ class GroundStationGUI:
             region[0], region[1], region[2], region[3], home
         )
 
-        self.current_plan = {
-            "relay": relay,
-            "center": center
-        }
+        self.current_plan["relay"] = relay
+        self.current_plan["center"] = center
 
         print(f"\n=== MOVED TO REGION {self.current_region_index} ===")
         print("Center:", center)
         print("Relay:", relay)
+
+        self.draw_waypoints_on_map(
+            self.current_plan["corners"],
+            home=(self.home_location[0], self.home_location[1]),
+            relay=relay,
+            center=center
+        )
 
     def cmd_assign_relay(self):
         if not self.current_plan:
