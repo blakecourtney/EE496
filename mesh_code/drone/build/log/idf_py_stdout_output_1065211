@@ -1,0 +1,349 @@
+Command: /home/blakecourtney/.espressif/python_env/idf6.1_py3.12_env/bin/python /home/blakecourtney/esp/esp-idf/tools/idf_monitor.py -p /dev/ttyUSB1 -b 115200 --toolchain-prefix xtensa-esp32-elf- --target esp32 --revision 0 /home/blakecourtney/school/s26/EE496/mesh_code/drone/build/internal_communication.elf /home/blakecourtney/school/s26/EE496/mesh_code/drone/build/bootloader/bootloader.elf -m '/home/blakecourtney/.espressif/python_env/idf6.1_py3.12_env/bin/python' '/home/blakecourtney/esp/esp-idf/tools/idf.py' '-p' '/dev/ttyUSB1'
+ets Jul 29 2019 12:21:46
+
+rst:0x1 (POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0040,len:6272
+load:0x40078000,len:15848
+load:0x40080400,len:3920
+entry 0x40080644
+[0;32mI (27) boot: ESP-IDF v6.1-dev-2748-g490691bc61 2nd stage bootloader[0m
+[0;32mI (27) boot: compile time Apr 23 2026 14:12:32[0m
+[0;32mI (28) boot: Multicore bootloader[0m
+[0;32mI (30) boot: chip revision: v3.1[0m
+[0;32mI (33) boot.esp32: SPI Speed      : 40MHz[0m
+[0;32mI (37) boot.esp32: SPI Mode       : DIO[0m
+[0;32mI (40) boot.esp32: SPI Flash Size : 2MB[0m
+[0;32mI (44) boot: Enabling RNG early entropy source...[0m
+[0;32mI (49) boot: Partition Table:[0m
+[0;32mI (51) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (57) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (64) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (71) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (77) boot: End of partition table[0m
+[0;32mI (80) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=233a4h (144292) map[0m
+[0;32mI (139) esp_image: segment 1: paddr=000333cc vaddr=3ffb0000 size=04b0ch ( 19212) load[0m
+[0;32mI (147) esp_image: segment 2: paddr=00037ee0 vaddr=40080000 size=08138h ( 33080) load[0m
+[0;32mI (161) esp_image: segment 3: paddr=00040020 vaddr=400d0020 size=ace1ch (708124) map[0m
+[0;32mI (413) esp_image: segment 4: paddr=000ece44 vaddr=40088138 size=0e83ch ( 59452) load[0m
+[0;32mI (438) esp_image: segment 5: paddr=000fb688 vaddr=50000000 size=00028h (    40) load[0m
+[0;32mI (449) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (449) boot: Disabling RNG early entropy source...[0m
+[0;32mI (460) cpu_start: Multicore app[0m
+[0;32mI (468) cpu_start: GPIO 3 and 1 are used as console UART I/O pins[0m
+[0;32mI (468) cpu_start: Pro cpu start user code[0m
+[0;32mI (468) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (470) app_init: Application information:[0m
+[0;32mI (474) app_init: Project name:     internal_communication[0m
+[0;32mI (479) app_init: App version:      7f5321c-dirty[0m
+[0;32mI (484) app_init: Compile time:     Apr 23 2026 14:12:39[0m
+[0;32mI (489) app_init: ELF file SHA256:  9ad9afa8e...[0m
+[0;32mI (493) app_init: ESP-IDF:          v6.1-dev-2748-g490691bc61[0m
+[0;32mI (498) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (502) efuse_init: Max chip rev:     v3.99 [0m
+[0;32mI (506) efuse_init: Chip rev:         v3.1[0m
+[0;32mI (510) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (516) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM[0m
+[0;32mI (521) heap_init: At 3FFBAAC8 len 00025538 (149 KiB): DRAM[0m
+[0;32mI (527) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM[0m
+[0;32mI (532) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM[0m
+[0;32mI (538) heap_init: At 40096974 len 0000968C (37 KiB): IRAM[0m
+[0;32mI (544) spi_flash: detected chip: generic[0m
+[0;32mI (546) spi_flash: flash io: dio[0m
+[0;33mW (549) spi_flash: Detected size(4096k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (563) main_task: Started on CPU0[0m
+[0;32mI (573) main_task: Calling app_main()[0m
+[0;32mI (573) mesh_main: image buffer allocated (115200 bytes)[0m
+[0;32mI (613) wifi:wifi driver task: 3ffde848, prio:23, stack:6656, core=0[0m
+[0;32mI (623) wifi:wifi firmware version: 0f5722b[0m
+[0;32mI (623) wifi:wifi certification version: v7.0[0m
+[0;32mI (623) wifi:config NVS flash: enabled[0m
+[0;32mI (623) wifi:config nano formatting: disabled[0m
+[0;32mI (633) wifi:Init data frame dynamic rx buffer num: 32[0m
+[0;32mI (633) wifi:Init static rx mgmt buffer num: 5[0m
+[0;32mI (643) wifi:Init management short buffer num: 32[0m
+[0;32mI (643) wifi:Init dynamic tx buffer num: 32[0m
+[0;32mI (653) wifi:Init static rx buffer size: 1600[0m
+[0;32mI (653) wifi:Init static rx buffer num: 10[0m
+[0;32mI (653) wifi:Init dynamic rx buffer num: 32[0m
+[0;32mI (663) wifi_init: rx ba win: 6[0m
+[0;32mI (663) wifi_init: accept mbox: 6[0m
+[0;32mI (663) wifi_init: tcpip mbox: 32[0m
+[0;32mI (673) wifi_init: udp mbox: 6[0m
+[0;32mI (673) wifi_init: tcp mbox: 6[0m
+[0;32mI (673) wifi_init: tcp tx win: 5760[0m
+[0;32mI (683) wifi_init: tcp rx win: 5760[0m
+[0;32mI (683) wifi_init: tcp mss: 1440[0m
+[0;32mI (683) wifi_init: WiFi IRAM OP enabled[0m
+[0;32mI (683) wifi_init: WiFi RX IRAM OP enabled[0m
+[0;32mI (693) phy_init: phy_version 4863,a3a4459,Oct 28 2025,14:30:06[0m
+[0;32mI (773) wifi:mode : sta (1c:c3:ab:c4:1f:e0) + softAP (1c:c3:ab:c4:1f:e1)[0m
+[0;32mI (773) wifi:enable tsf[0m
+[0;32mI (783) wifi:Total power save buffer number: 16[0m
+[0;32mI (783) wifi:Init max length of beacon: 752/752[0m
+[0;32mI (783) wifi:Init max length of beacon: 752/752[0m
+[0;32mI (783) mesh: <nvs>read layer:0[0m
+[0;32mI (783) mesh: <nvs>read assoc:0[0m
+[0;32mI (783) wifi:Set ps type: 0, coexist: 0[0m
+
+[0;32mI (793) mesh: [IO]enable self-organizing<adaptive>[0m
+[0;32mI (813) wifi:Total power save buffer number: 16[0m
+[0;32mI (1063) mesh_main: MAVLink UART initialized[0m
+[0;32mI (1073) mesh: [CONFIG]fail to set node, err:0x4008[0m
+[0;32mI (1083) wifi:mode : sta (1c:c3:ab:c4:1f:e0)[0m
+[0;32mI (1093) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x1, need_scan_router:0x0, look_for_nwk_count:1[0m
+[0;32mI (1093) mesh_main: <MESH_EVENT_STARTED>ID:77:77:77:77:77:77[0m
+[0;32mI (1093) mesh_main: DRONE NODE STARTED heap:34576[0m
+[0;32mI (1093) main_task: Returned from app_main()[0m
+[0;32mI (1393) mesh: [S4]GND_ANCHOR, 28:05:a5:32:e2:85, channel:6, rssi:-57[0m
+[0;32mI (1393) mesh: find router:[ssid_len:10]GND_ANCHOR, rssi:-57, 28:05:a5:32:e2:85(encrypted), new channel:6, old channel:0[0m
+[0;32mI (1403) mesh: find root:ESPM_C47ED4, root_cap:1(max:10), new channel:6, old channel:0[0m
+[0;32mI (1403) mesh: [FIND][ch:6]AP:11, otherID:0, MAP:1, idle:0, candidate:0, root:1[28:05:a5:32:e2:85]router found[0m
+[0;32mI (1413) mesh: [FIND:1]find a network, channel:6, cfg<channel:6, router:GND_ANCHOR, 00:00:00:00:00:00>[0m
+
+[0;32mI (1423) wifi:mode : sta (1c:c3:ab:c4:1f:e0) + softAP (1c:c3:ab:c4:1f:e1)[0m
+[0;33mW (1433) wifi:<MESH AP>adjust channel:6, secondary channel offset:1(40U)[0m
+[0;32mI (1443) wifi:Total power save buffer number: 16[0m
+[0;32mI (1443) wifi:Init max length of beacon: 752/752[0m
+[0;32mI (1453) wifi:Init max length of beacon: 752/752[0m
+[0;32mI (1423) mesh_main: unknown event id:22[0m
+[0;33mW (1463) wifi:<MESH AP>adjust channel:6, secondary channel offset:1(40U)[0m
+[0;32mI (1473) wifi:Total power save buffer number: 16[0m
+[0;32mI (1773) mesh: [SCAN][ch:6]AP:10, other(ID:0, RD:0), MAP:1, idle:0, candidate:1, root:1, topMAP:0[c:0,i:0][28:05:a5:32:e2:85]router found<>[0m
+[0;32mI (1783) mesh: 7388[selection]try rssi_threshold:-78, backoff times:0, max:5<-78,-82,-85>[0m
+[0;32mI (1783) mesh: [DONE]connect to parent:ESPM_C47ED4, channel:6, rssi:-48, 1c:c3:ab:c4:7e:d5[layer:1, assoc:0], my_vote_num:0/voter_num:0, rc[00:00:00:00:00:00/-120/0][0m
+[0;32mI (1803) mesh: set router bssid:28:05:a5:32:e2:85[0m
+[0;32mI (1973) wifi:new:<6,1>, old:<6,1>, ap:<6,1>, sta:<6,1>, prof:6, snd_ch_cfg:0x0[0m
+[0;32mI (1973) wifi:state: init -> auth (0xb0)[0m
+[0;32mI (1983) wifi:state: auth -> assoc (0x0)[0m
+[0;32mI (2003) wifi:state: assoc -> run (0x10)[0m
+[0;32mI (2003) mesh: <MESH_NWK_MIE_CHANGE><><><><ROOT ADDR><><><>[0m
+[0;32mI (2003) mesh: <MESH_NWK_ROOT_ADDR>from assoc, layer:2, root_addr:1c:c3:ab:c4:7e:d5, root_cap:1[0m
+[0;32mI (2013) mesh: <MESH_NWK_ROOT_ADDR>idle, layer:2, root_addr:1c:c3:ab:c4:7e:d5, conflict_roots.num:0<>[0m
+[0;32mI (2013) mesh_main: <MESH_EVENT_ROOT_ADDRESS>root:1c:c3:ab:c4:7e:d5[0m
+[0;32mI (2033) wifi:connected with ESPM_C47ED4, aid = 1, channel 6, 40U, bssid = 1c:c3:ab:c4:7e:d5[0m
+[0;32mI (2033) wifi:security: WPA2-PSK, phy: bgn, rssi: -49[0m
+[0;32mI (2043) wifi:pm start, type: 0[0m
+
+[0;32mI (2043) mesh: [scan]new scanning time:600ms, beacon interval:300ms[0m
+[0;32mI (2053) mesh: 2004<arm>parent monitor, my layer:2(cap:6)(node), interval:9753ms, retries:1<normal connected>[0m
+[0;32mI (2053) mesh_main: <MESH_EVENT_PARENT_CONNECTED>layer:0-->2, ID:77:77:77:77:77:77[0m
+[0;32mI (2063) mesh_main: unknown event id:11[0m
+[0;32mI (2063) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (2083) wifi:<ba-add>idx:0 (ifx:0, 1c:c3:ab:c4:7e:d5), tid:5, ssn:0, winSize:64[0m
+[0;32mI (2273) wifi:AP's beacon interval = 307200 us, DTIM period = 1[0m
+[1;31mE (3553) wifi:Invalid MMIE[0m
+[0;32mI (4103) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (6113) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (8113) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (9433) wifi:Invalid MMIE[0m
+[0;32mI (10123) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (11493) wifi:Invalid MMIE[0m
+[0;32mI (12043) mesh: 5161<active>parent layer:1(node), channel:6, rssi:-48, assoc:0(cnx rssi threshold:-120)my_assoc:0[0m
+[0;32mI (12123) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (13553) mesh: 5966<scan>parent layer:1, rssi:-54, assoc:1(cnx rssi threshold:-120)[0m
+[0;32mI (13553) mesh: [SCAN][ch:6]AP:1, other(ID:0, RD:0), MAP:1, idle:0, candidate:1, root:1, topMAP:0[c:2,i:2][28:05:a5:32:e2:85]<weak>[0m
+[0;32mI (13553) mesh: 7388[weak]try rssi_threshold:-120, backoff times:0, max:5<-78,-82,-85>[0m
+[0;32mI (13563) mesh: 714[monitor]no change, parent:1c:c3:ab:c4:7e:d5, rssi:-54[0m
+[0;32mI (13573) mesh: 2004<arm>parent monitor, my layer:2(cap:6)(node), interval:10931ms, retries:2<>[0m
+[0;32mI (14133) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (16143) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (17633) wifi:Invalid MMIE[0m
+[0;32mI (18143) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (20143) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (21733) wifi:Invalid MMIE[0m
+[0;32mI (22163) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (23793) wifi:Invalid MMIE[0m
+[1;31mE (24053) wifi:Invalid MMIE[0m
+[0;32mI (24163) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (24773) mesh: 5161<active>parent layer:1(node), channel:6, rssi:-48, assoc:1(cnx rssi threshold:-120)my_assoc:0[0m
+[1;31mE (26113) wifi:Invalid MMIE[0m
+[0;32mI (26163) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (26273) mesh: 5966<scan>parent layer:1, rssi:-56, assoc:1(cnx rssi threshold:-120)[0m
+[0;32mI (26273) mesh: [SCAN][ch:6]AP:1, other(ID:0, RD:0), MAP:1, idle:0, candidate:1, root:1, topMAP:0[c:2,i:2][28:05:a5:32:e2:85]<weak>[0m
+[0;32mI (26283) mesh: 7388[weak]try rssi_threshold:-120, backoff times:0, max:5<-78,-82,-85>[0m
+[0;32mI (26293) mesh: 714[monitor]no change, parent:1c:c3:ab:c4:7e:d5, rssi:-56[0m
+[0;32mI (26303) mesh: 2004<arm>parent monitor, my layer:2(cap:6)(node), interval:12229ms, retries:3<>[0m
+[1;31mE (27883) wifi:Invalid MMIE[0m
+[0;32mI (28163) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (30163) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (31993) wifi:Invalid MMIE[0m
+[0;32mI (32163) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (34163) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (36083) wifi:Invalid MMIE[0m
+[0;32mI (36163) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (36353) wifi:Invalid MMIE[0m
+[0;32mI (38163) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (38403) wifi:Invalid MMIE[0m
+[0;32mI (38833) mesh: 5161<active>parent layer:1(node), channel:6, rssi:-48, assoc:1(cnx rssi threshold:-120)my_assoc:0[0m
+[0;32mI (40183) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (40333) mesh: 5966<scan>parent layer:1, rssi:-51, assoc:1(cnx rssi threshold:-120)[0m
+[0;32mI (40333) mesh: [SCAN][ch:6]AP:1, other(ID:0, RD:0), MAP:1, idle:0, candidate:1, root:1, topMAP:0[c:2,i:2][28:05:a5:32:e2:85]<weak>[0m
+[0;32mI (40343) mesh: 7388[weak]try rssi_threshold:-120, backoff times:0, max:5<-78,-82,-85>[0m
+[0;32mI (40353) mesh: 714[monitor]no change, parent:1c:c3:ab:c4:7e:d5, rssi:-51[0m
+[0;32mI (40353) mesh: 2004<arm>parent monitor, my layer:2(cap:6)(node), interval:362770ms, retries:3<>[0m
+[1;31mE (40453) wifi:Invalid MMIE[0m
+[0;32mI (42193) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (44193) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (46203) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (48213) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (48653) wifi:Invalid MMIE[0m
+[0;32mI (50213) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (52223) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (54223) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (54533) wifi:Invalid MMIE[0m
+[1;31mE (54803) wifi:Invalid MMIE[0m
+[0;32mI (56223) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (58243) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (58633) wifi:Invalid MMIE[0m
+[0;32mI (60253) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (60693) wifi:Invalid MMIE[0m
+[0;32mI (62253) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (64253) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (66253) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (67103) wifi:Invalid MMIE[0m
+[0;32mI (68253) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (70253) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (70933) wifi:Invalid MMIE[0m
+[1;31mE (71213) wifi:Invalid MMIE[0m
+[0;32mI (72253) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (72993) wifi:Invalid MMIE[0m
+[0;32mI (74253) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (76283) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (77353) wifi:Invalid MMIE[0m
+[0;32mI (78283) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (79143) wifi:Invalid MMIE[0m
+[0;32mI (80283) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (81193) wifi:Invalid MMIE[0m
+[1;31mE (81453) wifi:Invalid MMIE[0m
+[0;32mI (82283) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (83503) wifi:Invalid MMIE[0m
+[0;32mI (84283) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (85293) wifi:Invalid MMIE[0m
+[1;31mE (85553) wifi:Invalid MMIE[0m
+[0;32mI (86283) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (87603) wifi:Invalid MMIE[0m
+[0;32mI (88283) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (89393) wifi:Invalid MMIE[0m
+[1;31mE (89653) wifi:Invalid MMIE[0m
+[0;32mI (90283) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (91433) wifi:Invalid MMIE[0m
+[1;31mE (91713) wifi:Invalid MMIE[0m
+[0;32mI (92283) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (93493) wifi:Invalid MMIE[0m
+[1;31mE (93773) wifi:Invalid MMIE[0m
+[0;32mI (94303) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (95823) wifi:Invalid MMIE[0m
+[0;32mI (96313) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (97853) wifi:Invalid MMIE[0m
+[0;32mI (98313) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (99913) wifi:Invalid MMIE[0m
+[0;32mI (100313) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (101703) wifi:Invalid MMIE[0m
+[1;31mE (101953) wifi:Invalid MMIE[0m
+[0;32mI (102313) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (103153) mesh: [scan]new scanning time:1500ms, beacon interval:1000ms[0m
+[1;31mE (104013) wifi:Invalid MMIE[0m
+[0;32mI (104313) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (106053) wifi:Invalid MMIE[0m
+[0;32mI (106313) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (107833) wifi:Invalid MMIE[0m
+[0;32mI (108313) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (110163) wifi:Invalid MMIE[0m
+[0;32mI (110333) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (111943) wifi:Invalid MMIE[0m
+[1;31mE (112213) wifi:Invalid MMIE[0m
+[0;32mI (112343) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (113993) wifi:Invalid MMIE[0m
+[0;32mI (114343) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (116343) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (118343) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (120143) wifi:Invalid MMIE[0m
+[0;32mI (120343) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (120413) wifi:Invalid MMIE[0m
+[0;32mI (122343) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (124343) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (124513) wifi:Invalid MMIE[0m
+[0;32mI (126343) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (126563) wifi:Invalid MMIE[0m
+[0;32mI (128353) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (128743) mesh: 5127<assoc>parent layer:1, channel:6, rssi:-46, assoc:1, rssi threshold<-78,-82,-85>[0m
+[0;32mI (130363) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (132363) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (134363) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (136363) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (138363) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (140373) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (142373) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (144373) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (146383) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (148393) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (150393) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (152393) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (154403) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (156403) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (158413) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (160413) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (162413) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (163463) wifi:Invalid MMIE[0m
+[0;32mI (164413) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (166423) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (168423) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (170433) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (171393) wifi:Invalid MMIE[0m
+[0;32mI (172443) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (174443) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (175493) wifi:Invalid MMIE[0m
+[0;32mI (176443) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (177543) wifi:Invalid MMIE[0m
+[1;31mE (177823) wifi:Invalid MMIE[0m
+[0;32mI (178443) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (179593) wifi:Invalid MMIE[0m
+[1;31mE (179863) wifi:Invalid MMIE[0m
+[0;32mI (180443) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (181643) wifi:Invalid MMIE[0m
+[0;32mI (182443) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (184463) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (186473) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (188473) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (190473) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (192473) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (194213) wifi:Invalid MMIE[0m
+[0;32mI (194473) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (196473) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (198473) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (200473) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (202493) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (204493) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (206493) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (208493) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (210493) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (212493) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (214493) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (216493) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (218503) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (220513) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (220593) wifi:Invalid MMIE[0m
+[0;32mI (222513) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (224513) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (224963) wifi:Invalid MMIE[0m
+[0;32mI (226513) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (226743) wifi:Invalid MMIE[0m
+[0;32mI (228513) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (228793) wifi:Invalid MMIE[0m
+[0;32mI (230513) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (231113) wifi:Invalid MMIE[0m
+[0;32mI (232513) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (232893) wifi:Invalid MMIE[0m
+[0;32mI (234513) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (234943) wifi:Invalid MMIE[0m
+[1;31mE (235213) wifi:Invalid MMIE[0m
+[0;32mI (236513) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (237263) wifi:Invalid MMIE[0m
+[0;32mI (238523) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (240523) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (241093) wifi:Invalid MMIE[0m
+[0;32mI (242533) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+p p p||pppp��p��p�p|�|���p�pp��� pp��p���p�p ��p�|pp�p��ppppp�pp��|���� � pp��p���p�p ��p�|pp�p��p��ppp|p p p p||pppp��p��p�p|�|��p�����|p p p p�p�pppp��p��p�p��|��� | p�|����p�� ��p�������p|���|����pp�p|� p p p p�p�pppp��p��p�pp||��p|� p|��|���| p|��p��� ���|�|ppp|�|pp�|�|pp|p p p p�p�pppp��p��p�pp||��p|� p|��|���| p|��p��� ���|�|ppp|�|pp�|�|pp|p p p p||pppp|���|pppp|����p��� �p|�����pp|p p p p||pppp|���|pppp|����p��� �p �����||�pp|p p p p||pppp��p��p�pp��p��p�����ppp p��|���p����ppp|p � p p p p||pppp|���|ppp|�p�p����|�|��p��|���|p|p��� ||p�p|��p �� ��p��p|p p p pp�pppp��p��p�p��|��� | p�|����p�� ��p�������p|���|����pp�p|� p p pp�p�p�pppp|���|���|�p|ppp|� �p|�||| p��p�pp||���p� ||p���|p p pp�p||pppp|���|ppp|� �p�p���p�������� �p| p��| p���p|�|��� p���pp| ppp|p p pp�p�p�pppp��p��p�p|�|���p�pp��� pp��p���p�p ��p�|pp�p��pppp|p p pp�p||pppp|���|pppp|��pp���p������p�p�p|p�����pp����p������pp�|p�p|������|��� |ppp��p p|������|��� |��p�|������ppp p|�|�|||�����|p���|������|�|��|���p�p|p p pp�p||pppp|���|���|�p|pppp|��pp������p����|���� p���pp��p|�|pp|�|pp|�|pp|�|pp|�|pp|�|� p p pp�p||pppp|���|���|�p|ppp�p�p�p��pp�p���pp�� p���p|��� �p�p||p�p|� p p pp�p||pppp|� �p|����� �����ppp�����|���p���|�| p ���|�p| � p p pp|�||pppp|���|ppp��p|��p��|�|���p�p��p��||�|���|� p��|�|����|� �p�p�|�p�pppp p|����p�||�|��|pp|� p|�|��p�||�|��|ppp|p p pp|�||pppp|���|ppp|�p|����p����p|p�pp�� p�pp�pp�p�p ��p�p�p�p�p�p�pp�p p�||�|��|pp|� p������p�p|p�p�p|p p pp|�||pppp|���|ppp��p|��p��|������p|�����p����|��|pp�pp����p����p|p�pp�� p������p�p|p�p�p p�pp�pp�p�p ��p�p�p�p�p�p�pp�p��||�������pp p|����p�||�|��|pp|� p|�|��p�||�|��|ppp|p p pp|�||pppp|���|ppp|��pp�����|�||pp|���ppp p|��|����p��pp p|� �pp�p pp�|���pp p�� |���p�� ���pp p��|�|���p�p|�pp�pp�p�p ��p�p�p�p�p�p�pp�p��p�|�����p��|��|���|p p pp| p�pppp|���|ppp|��pp���p�p�����p|��p p|������|p�� p�||�|��|pp|� p����p�||�|��|pp|� p��|������p�p����p|p�pp�� ppp�ppp�ppp�ppp�ppp�pppp|p � p p pp|p�pppp��p��p�p|�|���p�pp��� pp��p���p�p ��p�|pp�p��ppppp�pp��|���� � pp��p���p�p ��p�|pp�p��p��ppp|p ��pp�pp�pppp��p��p�pp|��pp p ��p �������p�||�|��|pp|� p�����|�|��� ���p�||�|��| p|��������p�p�| p��� p p pp�p�p�pppp��p��p�p��|��� | p�|����p�� ��p�������p|���|����pp�p|� p p pp�p�p�pppp��p��p�pp||��p|� p|��|���| p|��p��� ���|�|ppp|�|pp�|�|pp|p p pp�p�p�pppp��p��p�pp||��p|� p|��|���| p|��p��� ���|�|ppp|�|pp�|�|pp|p p pp|p�pppp|���|���|�p|ppp�|||�|�|��| p��|��pp��p�p�p|p ��pp�p�p�pppp��p��p�pp|��pp p ��p �������p�||�|��|pp|� p�����|�|��� ���p�||�|��| p|��������p�p�| p��� p p pp�p||pppp��p��p�p��|��� | p�|����p�� ��p�������p|���|����pp�p|� p p ppp||pppp|���|ppp|�p� � p��|�||pp|���pp�p p|��|���p���pp pp��pppp p|� �pp�p pp�|���pp p�� |���p�� ���p�p p��|�|���p�p p��| �|� �ppp|���pp|ppp��|�ppp�pp�p�p ��p�p�p�p�p�p�pp�p��p�|�����p��|��|��pp|p p ppp�p�pppp|���|ppp||ppp|���|������p�|�|�������p������p����|p���|�|�|���p|p| p p�� �����|���p��p�|����pp p|� �p�pp|p| p� p�p� p�pp|p p ppp�p�pppp|���|ppp|��p�p�����|�|�|�|�����p��| p� ��|���p�p��p��||�|���|� p�||�|��|pp|� p������p�p|p�p|� p�p��p���p�p ��p�|pp|���p���p||�����p�p p �����||�pp��� p|�������|������|���|�pp���|�������|���|�pp p����|pp�ppp�ppp�ppp�ppp�ppp�p�pp p��� p p ppp||pppp|���|ppp���p��|�����p������p��p�pp�pp�p�p ��p�p�p�p�p�p�pp�p|p p pp�p�p�pppp��p��p�p|�����pp|�pp p|�|���pp|�pp p �pp|�pp p��� �pp|�pp p��|���p|� p�|����||��|����ppp|p p pp�p�p�pppp��p��p�p��� ���ppp||��p|ppp ���| p p�ppp|p p pp�p||pppp��p��p�p��� ���pp ���| p|ppp �����||p pppp|p p pp�p||pppp��p��p�p��� ���pp �����||p|ppp���| p p��pppp|p p pp�p||pppp|���|pppp|��pp���p������pp����|pp���ppppppppp�p�p��p ��pppppppp|p p pp�p||pppp|���|pppp|��pp���p�����p��p�p������pp���|�| p �����|| p|�����p�p p��|�|��������p�p��p���p�p ��p�|pp|���p���p p��|�|����|� �p�p|p p pp�p||pppp|���|pppp|��pp���p�����p��p�p������ppp�|�� p|�����p�p p��|�|��������p�p��p���p�p ��p�|pp|���p���p p��|�|��|||���p�|�|�����|���|�pppp|p p pp�pp�pppp|���|���|�p|pppp|��pp������p����p��p�p������p��p�pp��|�|���p�p��p���p�p ��p�|pp|���p���p|p p pp�p�p�pppp��p��p�p��|�|�|�������p��p�| p�p��p��||�|���|� p �p�p�pp�p p�||�|��| p|� p| p��� p������p�p�pp�p��p���p�p ��p�|pp|���p���p|p p pp�p�p�pppp��p��p�p��������p����pp���p|p�|�|p� p|�pp���|� p������p�pp|p�p|� p p ppppp�pppp��p��p�p�|p��� �� p�����ppp|p � p p ppppp�pppp��p��p�p��pp�p p��p�pp�pp�p| pp p||ppp�p p���� |��p|||��| pp|������ | p���|�| p�pp|ppppp���p��| p�pp|ppppp����|p p pppp�p�pppp|���|ppp|����� |���|����p���� |�||�|��p��p�|��p| pp|�� p��� ���|�| pp|������ |pp�ppp|���|p p pppp�p�pppp|���|ppp�ppp|�p ��|p� ��|��p|�|�||���|p p|��p|�����p�p|� �p| �|�|����pp pp|������ |pp�p�p�p|pp|�� p�����p����p�pp|�|p�|� | p��|�|�|�������p|p p pppp�p�pppp|���|���|�p|pppp|��pp������p���� �p�p����|�p�p�p��� ���p|�����pp|p|pp�p pp��p|�|pp|�|pp|�|pp|�|pp|�|pp|�|� p p pppp�p�pppp��p��p�p ��p|p��� ���|�| pp|������ | p�pp�pp�p| ppp��� p���p�|p���p�|��p�pp�p|p p pppp�p�pppp|���|���|�p|ppp|�p�p�p���|p���� p|��� ����� �p���|�|����|���p�p�p| p�|�| p|� �p|�||| p����pp|p p pppp||pppp|���|���|�p|ppp�|||�|�|��| p��|��pp��p�p�p|p p pppp||pppp��p��p�pp�� �|p ��pp��ppp|���pp p�p��p���p�p ��p�|pp|���p���ppp p��p��p�p p���|ppp p��p||�|p��p|�|� p p p�| p||pppp|���|���|�p|ppp|�p�p�p���|p���� p|��� ����� �p���|�|����|���p�p�p| p�|�| p|� �p|�||| p����pp|p 

@@ -1,0 +1,807 @@
+Command: /home/blakecourtney/.espressif/python_env/idf6.1_py3.12_env/bin/python /home/blakecourtney/esp/esp-idf/tools/idf_monitor.py -p /dev/ttyUSB2 -b 115200 --toolchain-prefix xtensa-esp32-elf- --target esp32 --revision 0 /home/blakecourtney/school/s26/EE496/mesh_code/drone/build/internal_communication.elf /home/blakecourtney/school/s26/EE496/mesh_code/drone/build/bootloader/bootloader.elf -m '/home/blakecourtney/.espressif/python_env/idf6.1_py3.12_env/bin/python' '/home/blakecourtney/esp/esp-idf/tools/idf.py' '-p' '/dev/ttyUSB2'
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+29577 alt:58.2
+ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x1ip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0040,len:6272
+load:0x40078000,len:15848
+load:0x40080400,len:3920
+entry 0x40080644
+[0;32mI (27) boot: ESP-IDF v6.1-dev-2748-g490691bc61 2nd stage bootloader[0m
+[0;32mI (27) boot: compile time Apr 23 2026 14:12:32[0m
+[0;32mI (28) boot: Multicore bootloader[0m
+[0;32mI (30) boot: chip revision: v3.1[0m
+[0;32mI (33) boot.esp32: SPI Speed      : 40MHz[0m
+[0;32mI (37) boot.esp32: SPI Mode       : DIO[0m
+[0;32mI (40) boot.esp32: SPI Flash Size : 2MB[0m
+[0;32mI (44) boot: Enabling RNG early entropy source...[0m
+[0;32mI (49) boot: Partition Table:[0m
+[0;32mI (51) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (57) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (64) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (71) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (77) boot: End of partition table[0m
+[0;32mI (80) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=233d4h (144340) map[0m
+[0;32mI (139) esp_image: segment 1: paddr=000333fc vaddr=3ffb0000 size=04b0ch ( 19212) load[0m
+[0;32mI (147) esp_image: segment 2: paddr=00037f10 vaddr=40080000 size=08108h ( 33032) load[0m
+[0;32mI (161) esp_image: segment 3: paddr=00040020 vaddr=400d0020 size=ace38h (708152) map[0m
+[0;32mI (413) esp_image: segment 4: paddr=000ece60 vaddr=40088108 size=0e86ch ( 59500) load[0m
+[0;32mI (438) esp_image: segment 5: paddr=000fb6d4 vaddr=50000000 size=00028h (    40) load[0m
+[0;32mI (449) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (449) boot: Disabling RNG early entropy source...[0m
+[0;32mI (460) cpu_start: Multicore app[0m
+[0;32mI (468) cpu_start: GPIO 3 and 1 are used as console UART I/O pins[0m
+[0;32mI (468) cpu_start: Pro cpu start user code[0m
+[0;32mI (468) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (470) app_init: Application information:[0m
+[0;32mI (474) app_init: Project name:     internal_communication[0m
+[0;32mI (479) app_init: App version:      7f5321c-dirty[0m
+[0;32mI (484) app_init: Compile time:     Apr 23 2026 14:12:39[0m
+[0;32mI (489) app_init: ELF file SHA256:  e7954535e...[0m
+[0;32mI (493) app_init: ESP-IDF:          v6.1-dev-2748-g490691bc61[0m
+[0;32mI (498) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (502) efuse_init: Max chip rev:     v3.99 [0m
+[0;32mI (506) efuse_init: Chip rev:         v3.1[0m
+[0;32mI (510) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (516) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM[0m
+[0;32mI (521) heap_init: At 3FFBAAC8 len 00025538 (149 KiB): DRAM[0m
+[0;32mI (527) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM[0m
+[0;32mI (532) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM[0m
+[0;32mI (538) heap_init: At 40096974 len 0000968C (37 KiB): IRAM[0m
+[0;32mI (544) spi_flash: detected chip: generic[0m
+[0;32mI (546) spi_flash: flash io: dio[0m
+[0;33mW (549) spi_flash: Detected size(4096k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (563) main_task: Started on CPU0[0m
+[0;32mI (573) main_task: Calling app_main()[0m
+[0;32mI (573) mesh_main: image buffer allocated (115200 bytes)[0m
+[0;32mI (613) wifi:wifi driver task: 3ffde848, prio:23, stack:6656, core=0[0m
+[0;32mI (623) wifi:wifi firmware version: 0f5722b[0m
+[0;32mI (623) wifi:wifi certification version: v7.0[0m
+[0;32mI (623) wifi:config NVS flash: enabled[0m
+[0;32mI (623) wifi:config nano formatting: disabled[0m
+[0;32mI (633) wifi:Init data frame dynamic rx buffer num: 32[0m
+[0;32mI (633) wifi:Init static rx mgmt buffer num: 5[0m
+[0;32mI (643) wifi:Init management short buffer num: 32[0m
+[0;32mI (643) wifi:Init dynamic tx buffer num: 32[0m
+[0;32mI (653) wifi:Init static rx buffer size: 1600[0m
+[0;32mI (653) wifi:Init static rx buffer num: 10[0m
+[0;32mI (653) wifi:Init dynamic rx buffer num: 32[0m
+[0;32mI (663) wifi_init: rx ba win: 6[0m
+[0;32mI (663) wifi_init: accept mbox: 6[0m
+[0;32mI (663) wifi_init: tcpip mbox: 32[0m
+[0;32mI (673) wifi_init: udp mbox: 6[0m
+[0;32mI (673) wifi_init: tcp mbox: 6[0m
+[0;32mI (673) wifi_init: tcp tx win: 5760[0m
+[0;32mI (683) wifi_init: tcp rx win: 5760[0m
+[0;32mI (683) wifi_init: tcp mss: 1440[0m
+[0;32mI (683) wifi_init: WiFi IRAM OP enabled[0m
+[0;32mI (683) wifi_init: WiFi RX IRAM OP enabled[0m
+[0;32mI (693) phy_init: phy_version 4863,a3a4459,Oct 28 2025,14:30:06[0m
+[0;32mI (763) phy_init: Saving new calibration data due to checksum failure or outdated calibration data, mode(0)[0m
+[0;32mI (843) wifi:mode : sta (1c:c3:ab:c4:1f:e0) + softAP (1c:c3:ab:c4:1f:e1)[0m
+[0;32mI (843) wifi:enable tsf[0m
+[0;32mI (853) wifi:Total power save buffer number: 16[0m
+[0;32mI (853) wifi:Init max length of beacon: 752/752[0m
+[0;32mI (853) wifi:Init max length of beacon: 752/752[0m
+[0;32mI (873) mesh: <nvs>read layer:0[0m
+[0;32mI (873) mesh: <nvs>read assoc:0[0m
+[0;32mI (873) wifi:Set ps type: 0, coexist: 0[0m
+
+[0;32mI (873) mesh: [IO]enable self-organizing<adaptive>[0m
+[0;32mI (893) wifi:Total power save buffer number: 16[0m
+[0;32mI (1143) mesh_main: MAVLink UART initialized[0m
+[0;32mI (1143) mesh: [CONFIG]fail to set node, err:0x4008[0m
+[0;32mI (1153) wifi:mode : sta (1c:c3:ab:c4:1f:e0)[0m
+[0;32mI (1173) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x1, need_scan_router:0x0, look_for_nwk_count:1[0m
+[0;32mI (1173) mesh_main: <MESH_EVENT_STARTED>ID:77:77:77:77:77:77[0m
+[0;32mI (1173) mesh_main: DRONE NODE STARTED heap:34536[0m
+[0;32mI (1173) main_task: Returned from app_main()[0m
+[0;32mI (1473) mesh: [S2]GND_ANCHOR, 28:05:a5:32:e2:85, channel:6, rssi:-46[0m
+[0;32mI (1473) mesh: find router:[ssid_len:10]GND_ANCHOR, rssi:-46, 28:05:a5:32:e2:85(encrypted), new channel:6, old channel:0[0m
+[0;32mI (1483) mesh: find root:ESPM_C47ED4, root_cap:2(max:10), new channel:6, old channel:0[0m
+[0;32mI (1483) mesh: [FIND][ch:6]AP:13, otherID:0, MAP:1, idle:0, candidate:0, root:1[28:05:a5:32:e2:85]router found[0m
+[0;32mI (1493) mesh: [FIND:1]find a network, channel:6, cfg<channel:6, router:GND_ANCHOR, 00:00:00:00:00:00>[0m
+
+[0;32mI (1503) wifi:mode : sta (1c:c3:ab:c4:1f:e0) + softAP (1c:c3:ab:c4:1f:e1)[0m
+[0;33mW (1513) wifi:<MESH AP>adjust channel:6, secondary channel offset:1(40U)[0m
+[0;32mI (1523) wifi:Total power save buffer number: 16[0m
+[0;32mI (1523) wifi:Init max length of beacon: 752/752[0m
+[0;32mI (1533) wifi:Init max length of beacon: 752/752[0m
+[0;32mI (1503) mesh_main: unknown event id:22[0m
+[0;33mW (1543) wifi:<MESH AP>adjust channel:6, secondary channel offset:1(40U)[0m
+[0;32mI (1553) wifi:Total power save buffer number: 16[0m
+[0;32mI (1853) mesh: [SCAN][ch:6]AP:9, other(ID:0, RD:0), MAP:1, idle:0, candidate:1, root:1, topMAP:0[c:0,i:0][28:05:a5:32:e2:85]router found<>[0m
+[0;32mI (1863) mesh: 7388[selection]try rssi_threshold:-78, backoff times:0, max:5<-78,-82,-85>[0m
+[0;32mI (1863) mesh: [DONE]connect to parent:ESPM_C47ED4, channel:6, rssi:-39, 1c:c3:ab:c4:7e:d5[layer:1, assoc:1], my_vote_num:0/voter_num:0, rc[00:00:00:00:00:00/-120/0][0m
+[0;32mI (1883) mesh: set router bssid:28:05:a5:32:e2:85[0m
+[0;32mI (2113) wifi:new:<6,1>, old:<6,1>, ap:<6,1>, sta:<6,1>, prof:6, snd_ch_cfg:0x0[0m
+[0;32mI (2113) wifi:state: init -> auth (0xb0)[0m
+[0;32mI (2123) wifi:state: auth -> assoc (0x0)[0m
+[0;32mI (2143) wifi:Association refused temporarily time 1500, comeback time 1600 (TUs)[0m
+[0;32mI (3783) wifi:state: assoc -> assoc (0x0)[0m
+[0;32mI (3803) wifi:state: assoc -> run (0x10)[0m
+[0;32mI (3803) mesh: <MESH_NWK_MIE_CHANGE><><><><ROOT ADDR><><><>[0m
+[0;32mI (3803) mesh: <MESH_NWK_ROOT_ADDR>from assoc, layer:2, root_addr:1c:c3:ab:c4:7e:d5, root_cap:1[0m
+[0;32mI (3813) mesh: <MESH_NWK_ROOT_ADDR>idle, layer:2, root_addr:1c:c3:ab:c4:7e:d5, conflict_roots.num:0<>[0m
+[0;32mI (3823) mesh_main: <MESH_EVENT_ROOT_ADDRESS>root:1c:c3:ab:c4:7e:d5[0m
+[0;32mI (3833) wifi:connected with ESPM_C47ED4, aid = 1, channel 6, 40U, bssid = 1c:c3:ab:c4:7e:d5[0m
+[0;32mI (3833) wifi:security: WPA2-PSK, phy: bgn, rssi: -38[0m
+[0;32mI (3843) wifi:pm start, type: 0[0m
+
+[0;32mI (3843) mesh: [scan]new scanning time:600ms, beacon interval:300ms[0m
+[0;32mI (3853) mesh: 2004<arm>parent monitor, my layer:2(cap:6)(node), interval:10411ms, retries:1<normal connected>[0m
+[0;32mI (3853) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us[0m
+[0;32mI (3863) wifi:AP's beacon interval = 102400 us, DTIM period = 1[0m
+[0;32mI (3873) mesh_main: <MESH_EVENT_PARENT_CONNECTED>layer:0-->2, ID:77:77:77:77:77:77[0m
+[0;32mI (3873) mesh_main: unknown event id:11[0m
+[0;32mI (3873) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (3903) wifi:<ba-add>idx:0 (ifx:0, 1c:c3:ab:c4:7e:d5), tid:5, ssn:0, winSize:64[0m
+[0;32mI (5913) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (7913) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (8763) wifi:Invalid MMIE[0m
+[0;32mI (9913) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (11913) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[1;31mE (12863) wifi:Invalid MMIE[0m
+[0;32mI (13273) wifi:dp: 1, bi: 307200, li: 1, scale listen interval from 307200 us to 307200 us[0m
+[0;32mI (13933) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (14513) mesh: 5161<active>parent layer:1(node), channel:6, rssi:-39, assoc:1(cnx rssi threshold:-120)my_assoc:0[0m
+[0;32mI (15933) mesh_main: [DRONE-TX] heartbeat drone_id:224 (no MAVLink yet)[0m
+[0;32mI (16023) mesh: 5966<scan>parent layer:1, rssi:-44, assoc:1(cnx rssi threshold:-120)[0m
+[0;32mI (16023) mesh: [SCAN][ch:6]AP:1, other(ID:0, RD:0), MAP:1, idle:0, candidate:1, root:1, topMAP:0[c:2,i:2][28:05:a5:32:e2:85]<weak>[0m
+[0;32mI (16033) mesh: 7388[weak]try rssi_threshold:-120, backoff times:0, max:5<-78,-82,-85>[0m
+[0;32mI (16033) mesh: 714[monitor]no change, parent:1c:c3:ab:c4:7e:d5, rssi:-44[0m
+[0;32mI (16043) mesh: 2004<arm>parent monitor, my layer:2(cap:6)(node), interval:11996ms, retries:2<>[0m
+[0;32mI (17433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (17933) mesh_main: [DRONE-TX] telemetry lat:34.02390 lon:-118.29582 alt:61.7[0m
+[0;32mI (18433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (19433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (19933) mesh_main: [DRONE-TX] telemetry lat:34.02390 lon:-118.29582 alt:61.7[0m
+[0;32mI (20433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (21433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (21933) mesh_main: [DRONE-TX] telemetry lat:34.02390 lon:-118.29581 alt:61.7[0m
+[0;32mI (22433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[1;31mE (23363) wifi:Invalid MMIE[0m
+[0;32mI (23433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (23943) mesh_main: [DRONE-TX] telemetry lat:34.02390 lon:-118.29581 alt:61.8[0m
+[0;32mI (24433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[1;31mE (25413) wifi:Invalid MMIE[0m
+[0;32mI (25433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (25943) mesh_main: [DRONE-TX] telemetry lat:34.02390 lon:-118.29581 alt:62.0[0m
+[0;32mI (26433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (27433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[1;31mE (27463) wifi:Invalid MMIE[0m
+[0;32mI (27953) mesh_main: [DRONE-TX] telemetry lat:34.02390 lon:-118.29581 alt:62.1[0m
+[0;32mI (28333) mesh: 5161<active>parent layer:1(node), channel:6, rssi:-39, assoc:1(cnx rssi threshold:-120)my_assoc:0[0m
+[0;32mI (28433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (29433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (29843) mesh: 5966<scan>parent layer:1, rssi:-44, assoc:1(cnx rssi threshold:-120)[0m
+[0;32mI (29843) mesh: [SCAN][ch:6]AP:1, other(ID:0, RD:0), MAP:1, idle:0, candidate:1, root:1, topMAP:0[c:2,i:2][28:05:a5:32:e2:85]<weak>[0m
+[0;32mI (29853) mesh: 7388[weak]try rssi_threshold:-120, backoff times:0, max:5<-78,-82,-85>[0m
+[0;32mI (29853) mesh: 714[monitor]no change, parent:1c:c3:ab:c4:7e:d5, rssi:-44[0m
+[0;32mI (29863) mesh: 2004<arm>parent monitor, my layer:2(cap:6)(node), interval:10690ms, retries:3<>[0m
+[0;32mI (29953) mesh_main: [DRONE-TX] telemetry lat:34.02390 lon:-118.29581 alt:62.2[0m
+[0;32mI (30433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (31433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (31953) mesh_main: [DRONE-TX] telemetry lat:34.02389 lon:-118.29581 alt:62.3[0m
+[0;32mI (32433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[1;31mE (33363) wifi:Invalid MMIE[0m
+[0;32mI (33443) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[1;31mE (33613) wifi:Invalid MMIE[0m
+[0;32mI (33953) mesh_main: [DRONE-TX] telemetry lat:34.02390 lon:-118.29581 alt:62.4[0m
+[0;32mI (34443) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[1;31mE (35413) wifi:Invalid MMIE[0m
+[0;32mI (35433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (35953) mesh_main: [DRONE-TX] telemetry lat:34.02390 lon:-118.29581 alt:62.6[0m
+[0;32mI (36433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (37433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[1;31mE (37463) wifi:Invalid MMIE[0m
+[0;32mI (37953) mesh_main: [DRONE-TX] telemetry lat:34.02390 lon:-118.29581 alt:62.9[0m
+[0;32mI (38433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (39433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (39953) mesh_main: [DRONE-TX] telemetry lat:34.02390 lon:-118.29582 alt:63.2[0m
+[0;32mI (40433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (40823) mesh: 5161<active>parent layer:1(node), channel:6, rssi:-39, assoc:1(cnx rssi threshold:-120)my_assoc:0[0m
+[0;32mI (41433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[1;31mE (41573) wifi:Invalid MMIE[0m
+[0;32mI (41963) mesh_main: [DRONE-TX] telemetry lat:34.02390 lon:-118.29581 alt:63.5[0m
+[0;32mI (42323) mesh: 5966<scan>parent layer:1, rssi:-47, assoc:1(cnx rssi threshold:-120)[0m
+[0;32mI (42323) mesh: [SCAN][ch:6]AP:1, other(ID:0, RD:0), MAP:1, idle:0, candidate:1, root:1, topMAP:0[c:2,i:2][28:05:a5:32:e2:85]<weak>[0m
+[0;32mI (42333) mesh: 7388[weak]try rssi_threshold:-120, backoff times:0, max:5<-78,-82,-85>[0m
+[0;32mI (42343) mesh: 714[monitor]no change, parent:1c:c3:ab:c4:7e:d5, rssi:-47[0m
+[0;32mI (42343) mesh: 2004<arm>parent monitor, my layer:2(cap:6)(node), interval:404932ms, retries:3<>[0m
+[0;32mI (42433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (43433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[1;31mE (43613) wifi:Invalid MMIE[0m
+[0;32mI (43963) mesh_main: [DRONE-TX] telemetry lat:34.02390 lon:-118.29581 alt:63.6[0m
+[0;32mI (44433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (45433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[1;31mE (45663) wifi:Invalid MMIE[0m
+[0;32mI (45963) mesh_main: [DRONE-TX] telemetry lat:34.02390 lon:-118.29581 alt:63.7[0m
+[0;32mI (46433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (47433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[1;31mE (47713) wifi:Invalid MMIE[0m
+[0;32mI (47963) mesh_main: [DRONE-TX] telemetry lat:34.02390 lon:-118.29581 alt:63.8[0m
+[0;32mI (48433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (49433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[1;31mE (49763) wifi:Invalid MMIE[0m
+[0;32mI (49973) mesh_main: [DRONE-TX] telemetry lat:34.02390 lon:-118.29581 alt:64.1[0m
+[1;31mE (50013) wifi:Invalid MMIE[0m
+[0;32mI (50433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (51433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[1;31mE (51833) wifi:Invalid MMIE[0m
+[0;32mI (51973) mesh_main: [DRONE-TX] telemetry lat:34.02390 lon:-118.29581 alt:64.3[0m
+[0;32mI (52433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (53433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[1;31mE (53863) wifi:Invalid MMIE[0m
+[0;32mI (53983) mesh_main: [DRONE-TX] telemetry lat:34.02390 lon:-118.29579 alt:64.5[0m
+[1;31mE (54113) wifi:Invalid MMIE[0m
+[0;32mI (54433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (55443) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (55983) mesh_main: [DRONE-TX] telemetry lat:34.02390 lon:-118.29579 alt:64.6[0m
+[0;32mI (56433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (57433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (57983) mesh_main: [DRONE-TX] telemetry lat:34.02390 lon:-118.29579 alt:64.7[0m
+[0;32mI (58433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (59443) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (59993) mesh_main: [DRONE-TX] telemetry lat:34.02390 lon:-118.29578 alt:64.8[0m
+[0;32mI (60433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (61443) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (61993) mesh_main: [DRONE-TX] telemetry lat:34.02390 lon:-118.29579 alt:65.0[0m
+[0;32mI (62433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (63433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (63993) mesh_main: [DRONE-TX] telemetry lat:34.02390 lon:-118.29581 alt:65.5[0m
+[0;32mI (64433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (65433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (65993) mesh_main: [DRONE-TX] telemetry lat:34.02391 lon:-118.29582 alt:65.9[0m
+[1;31mE (66423) wifi:Invalid MMIE[0m
+[0;32mI (66433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (67433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (67993) mesh_main: [DRONE-TX] telemetry lat:34.02391 lon:-118.29585 alt:66.3[0m
+[0;32mI (68433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (69433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (69993) mesh_main: [DRONE-TX] telemetry lat:34.02392 lon:-118.29588 alt:67.1[0m
+[1;31mE (70263) wifi:Invalid MMIE[0m
+[0;32mI (70433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (71433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (71993) mesh_main: [DRONE-TX] telemetry lat:34.02391 lon:-118.29591 alt:68.3[0m
+[1;31mE (72313) wifi:Invalid MMIE[0m
+[0;32mI (72433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (73433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (73993) mesh_main: [DRONE-TX] telemetry lat:34.02391 lon:-118.29594 alt:69.1[0m
+[1;31mE (74363) wifi:Invalid MMIE[0m
+[0;32mI (74433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[1;31mE (74613) wifi:Invalid MMIE[0m
+[0;32mI (75433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (75993) mesh_main: [DRONE-TX] telemetry lat:34.02391 lon:-118.29594 alt:69.7[0m
+[1;31mE (76413) wifi:Invalid MMIE[0m
+[0;32mI (76433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (77433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (78003) mesh_main: [DRONE-TX] telemetry lat:34.02391 lon:-118.29594 alt:70.2[0m
+[0;32mI (78433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[1;31mE (78723) wifi:Invalid MMIE[0m
+[0;32mI (79433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (80003) mesh_main: [DRONE-TX] telemetry lat:34.02390 lon:-118.29594 alt:70.7[0m
+[0;32mI (80433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[1;31mE (80513) wifi:Invalid MMIE[0m
+[0;32mI (81433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (82003) mesh_main: [DRONE-TX] telemetry lat:34.02390 lon:-118.29592 alt:71.1[0m
+[0;32mI (82433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (83433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (84003) mesh_main: [DRONE-TX] telemetry lat:34.02390 lon:-118.29592 alt:71.4[0m
+[0;32mI (84433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (85433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (86003) mesh_main: [DRONE-TX] telemetry lat:34.02390 lon:-118.29592 alt:71.8[0m
+[0;32mI (86433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (87443) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (88013) mesh_main: [DRONE-TX] telemetry lat:34.02390 lon:-118.29592 alt:72.4[0m
+[0;32mI (88433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[1;31mE (88713) wifi:Invalid MMIE[0m
+[1;31mE (88973) wifi:Invalid MMIE[0m
+[0;32mI (89433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (90013) mesh_main: [DRONE-TX] telemetry lat:34.02389 lon:-118.29592 alt:73.0[0m
+[0;32mI (90433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[1;31mE (91023) wifi:Invalid MMIE[0m
+[0;32mI (91443) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (92013) mesh_main: [DRONE-TX] telemetry lat:34.02389 lon:-118.29592 alt:73.5[0m
+[0;32mI (92433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (93433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (94013) mesh_main: [DRONE-TX] telemetry lat:34.02388 lon:-118.29592 alt:74.0[0m
+[0;32mI (94433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[1;31mE (94863) wifi:Invalid MMIE[0m
+[0;32mI (95433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (96023) mesh_main: [DRONE-TX] telemetry lat:34.02388 lon:-118.29592 alt:74.4[0m
+[0;32mI (96433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[1;31mE (96913) wifi:Invalid MMIE[0m
+[0;32mI (97433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (98023) mesh_main: [DRONE-TX] telemetry lat:34.02388 lon:-118.29592 alt:74.8[0m
+[0;32mI (98433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (99433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (100033) mesh_main: [DRONE-TX] telemetry lat:34.02388 lon:-118.29591 alt:75.0[0m
+[0;32mI (100433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (101433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (102033) mesh_main: [DRONE-TX] telemetry lat:34.02388 lon:-118.29590 alt:75.2[0m
+[0;32mI (102433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (103433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (104033) mesh_main: [DRONE-TX] telemetry lat:34.02388 lon:-118.29590 alt:75.3[0m
+[0;32mI (104433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (104933) mesh: [scan]new scanning time:1500ms, beacon interval:1000ms[0m
+[1;31mE (105363) wifi:Invalid MMIE[0m
+[0;32mI (105433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (106033) mesh_main: [DRONE-TX] telemetry lat:34.02388 lon:-118.29588 alt:75.5[0m
+[0;32mI (106433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[1;31mE (107423) wifi:Invalid MMIE[0m
+[0;32mI (107433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (108033) mesh_main: [DRONE-TX] telemetry lat:34.02388 lon:-118.29588 alt:75.6[0m
+[0;32mI (108433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (109433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (110033) mesh_main: [DRONE-TX] telemetry lat:34.02387 lon:-118.29588 alt:75.9[0m
+[0;32mI (110433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (111433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (112053) mesh_main: [DRONE-TX] telemetry lat:34.02388 lon:-118.29588 alt:76.0[0m
+[0;32mI (112433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (113433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (114053) mesh_main: [DRONE-TX] telemetry lat:34.02391 lon:-118.29591 alt:76.5[0m
+[0;32mI (114433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (115433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (116053) mesh_main: [DRONE-TX] telemetry lat:34.02392 lon:-118.29592 alt:77.1[0m
+[0;32mI (116433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (117433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[1;31mE (117693) wifi:Invalid MMIE[0m
+[0;32mI (118063) mesh_main: [DRONE-TX] telemetry lat:34.02392 lon:-118.29592 alt:77.6[0m
+[0;32mI (118423) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (119433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (120063) mesh_main: [DRONE-TX] telemetry lat:34.02392 lon:-118.29592 alt:78.0[0m
+[0;32mI (120433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (121433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (122063) mesh_main: [DRONE-TX] telemetry lat:34.02392 lon:-118.29592 alt:78.2[0m
+[0;32mI (122433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (123433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (124063) mesh_main: [DRONE-TX] telemetry lat:34.02392 lon:-118.29592 alt:78.2[0m
+[0;32mI (124433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (125433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[1;31mE (125873) wifi:Invalid MMIE[0m
+[0;32mI (126073) mesh_main: [DRONE-TX] telemetry lat:34.02392 lon:-118.29591 alt:78.3[0m
+[0;32mI (126433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (127433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[1;31mE (127913) wifi:Invalid MMIE[0m
+[0;32mI (128073) mesh_main: [DRONE-TX] telemetry lat:34.02392 lon:-118.29590 alt:78.2[0m
+[0;32mI (128443) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (128473) mesh: 5127<assoc>parent layer:1, channel:6, rssi:-41, assoc:1, rssi threshold<-78,-82,-85>[0m
+[0;32mI (128873) mesh_main: [DRONE-RX] command type:1[0m
+[0;32mI (129433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (130083) mesh_main: [DRONE-TX] telemetry lat:34.02392 lon:-118.29590 alt:78.2[0m
+[0;32mI (130433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (131423) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (132093) mesh_main: [DRONE-TX] telemetry lat:34.02391 lon:-118.29590 alt:78.1[0m
+[0;32mI (132433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (133433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (134093) mesh_main: [DRONE-TX] telemetry lat:34.02392 lon:-118.29588 alt:78.0[0m
+[0;32mI (134433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (135433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (136093) mesh_main: [DRONE-TX] telemetry lat:34.02392 lon:-118.29588 alt:77.8[0m
+[0;32mI (136433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (137433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[1;31mE (137923) wifi:Invalid MMIE[0m
+[0;32mI (138093) mesh_main: [DRONE-TX] telemetry lat:34.02392 lon:-118.29588 alt:77.7[0m
+[1;31mE (138173) wifi:Invalid MMIE[0m
+[0;32mI (138433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (139433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (140103) mesh_main: [DRONE-TX] telemetry lat:34.02392 lon:-118.29588 alt:77.6[0m
+[0;32mI (140433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (140973) mesh_main: [DRONE-RX] command type:1[0m
+[0;32mI (141443) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (142103) mesh_main: [DRONE-TX] telemetry lat:34.02391 lon:-118.29588 alt:77.6[0m
+[0;32mI (142433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (143433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (144103) mesh_main: [DRONE-TX] telemetry lat:34.02391 lon:-118.29588 alt:77.6[0m
+[1;31mE (144323) wifi:Invalid MMIE[0m
+[0;32mI (144423) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (145313) mesh_main: [DRONE-RX] command type:0[0m
+[0;32mI (145433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (146113) mesh_main: [DRONE-TX] telemetry lat:34.02391 lon:-118.29588 alt:77.4[0m
+[0;32mI (146433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (147433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (148113) mesh_main: [DRONE-TX] telemetry lat:34.02391 lon:-118.29588 alt:77.2[0m
+[1;31mE (148413) wifi:Invalid MMIE[0m
+[0;32mI (148433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (149433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (150133) mesh_main: [DRONE-TX] telemetry lat:34.02391 lon:-118.29588 alt:77.2[0m
+[0;32mI (150433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (151443) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (152143) mesh_main: [DRONE-TX] telemetry lat:34.02391 lon:-118.29588 alt:77.1[0m
+[1;31mE (152273) wifi:Invalid MMIE[0m
+[0;32mI (152443) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (153423) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (154143) mesh_main: [DRONE-TX] telemetry lat:34.02391 lon:-118.29588 alt:76.8[0m
+[0;32mI (154423) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[1;31mE (154563) wifi:Invalid MMIE[0m
+[0;32mI (155423) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (156143) mesh_main: [DRONE-TX] telemetry lat:34.02391 lon:-118.29588 alt:76.6[0m
+[0;32mI (156423) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (157433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (158153) mesh_main: [DRONE-TX] telemetry lat:34.02391 lon:-118.29588 alt:76.3[0m
+[1;31mE (158413) wifi:Invalid MMIE[0m
+[0;32mI (158433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[1;31mE (158673) wifi:Invalid MMIE[0m
+[0;32mI (159433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (160153) mesh_main: [DRONE-TX] telemetry lat:34.02391 lon:-118.29588 alt:76.0[0m
+[0;32mI (160423) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[1;31mE (160463) wifi:Invalid MMIE[0m
+[1;31mE (160713) wifi:Invalid MMIE[0m
+[0;32mI (161433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (162153) mesh_main: [DRONE-TX] telemetry lat:34.02391 lon:-118.29588 alt:75.7[0m
+[0;32mI (162433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[1;31mE (162513) wifi:Invalid MMIE[0m
+[0;32mI (163433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (164163) mesh_main: [DRONE-TX] telemetry lat:34.02390 lon:-118.29588 alt:75.4[0m
+[0;32mI (164433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[1;31mE (164823) wifi:Invalid MMIE[0m
+[0;32mI (165433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (166173) mesh_main: [DRONE-TX] telemetry lat:34.02390 lon:-118.29588 alt:75.2[0m
+[0;32mI (166433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (167433) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (168183) mesh_main: [DRONE-TX] telemetry lat:34.02390 lon:-118.29586 alt:75.1[0m

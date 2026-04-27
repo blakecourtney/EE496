@@ -1,4 +1,4 @@
-// DRONE FIRMWARE
+//DRONE FIRMWARE
 #include <string.h>
 #include <inttypes.h>
 #include <stdlib.h>
@@ -9,19 +9,19 @@
 #include "esp_mesh.h"
 #include "nvs_flash.h"
 #include "driver/uart.h"
-// #include "common/mavlink.h"
+#include "common/mavlink.h"
 #include "config.h"
 
 //constants
 #define RX_SIZE          (1500)
 
-// MAVLink UART (Pixhawk)
-#define MAV_UART         UART_NUM_2 //CHANGE THIS BACK TO ZERO ONCE REAL DRONE  
+//mavlink uart (Pixhawk)
+#define MAV_UART         UART_NUM_0 
 #define MAV_TX_PIN       1
 #define MAV_RX_PIN       3
 #define MAV_BAUD         115200
 
-// ML ESP32 UART
+//esp cam uart
 #define ML_UART          UART_NUM_1
 #define ML_TX_PIN        17
 #define ML_RX_PIN        16
@@ -37,137 +37,140 @@ static mesh_addr_t root_addr;
 static bool root_addr_known = false;
 static esp_netif_t *netif_sta = NULL;
 
-// MAVLink telemetry - updated by mavlink_task, read by tx task
+//mavlink telemetry
+    //mavlink task updates this
+    //read by tx task
 static telemetry_t latest_telemetry = {0};
 static bool telemetry_valid = false;
 
-// Image buffer — allocated before WiFi/mesh starts so heap is still free
+//Image buffer 
 #define IMAGE_BUF_SIZE (115200)  // 240 * 240 * 2 (RGB565)
 static uint8_t *image_buf = NULL;
 
-//Mavlink UART functions
-// void mavlink_init(void)
-// {
-//     uart_config_t cfg = {
-//         .baud_rate = MAV_BAUD,
-//         .data_bits = UART_DATA_8_BITS,
-//         .parity    = UART_PARITY_DISABLE,
-//         .stop_bits = UART_STOP_BITS_1,
-//         .flow_ctrl = UART_HW_FLOWCTRL_DISABLE,
-//     };
-//     uart_param_config(MAV_UART, &cfg);
-//     uart_set_pin(MAV_UART, MAV_TX_PIN, MAV_RX_PIN,
-//                  UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
-//     uart_driver_install(MAV_UART, 2048, 0, 0, NULL, 0);
-//     ESP_LOGI(MESH_TAG, "MAVLink UART initialized");
-// }
+//mavlink uart functions
+void mavlink_init(void)
+{
+    uart_config_t cfg = {
+        .baud_rate = MAV_BAUD,
+        .data_bits = UART_DATA_8_BITS,
+        .parity    = UART_PARITY_DISABLE,
+        .stop_bits = UART_STOP_BITS_1,
+        .flow_ctrl = UART_HW_FLOWCTRL_DISABLE,
+    };
+    uart_param_config(MAV_UART, &cfg);
+    uart_set_pin(MAV_UART, MAV_TX_PIN, MAV_RX_PIN,
+                 UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
+    uart_driver_install(MAV_UART, 2048, 0, 0, NULL, 0);
+    ESP_LOGI(MESH_TAG, "MAVLink UART initialized");
+}
 
-// void send_mavlink_waypoint(waypoint_t *wp)
-// {
-//     mavlink_message_t msg;
-//     uint8_t buf[MAVLINK_MAX_PACKET_LEN];
+void send_mavlink_waypoint(waypoint_t *wp)
+{
+    mavlink_message_t msg;
+    uint8_t buf[MAVLINK_MAX_PACKET_LEN];
 
-//     mavlink_msg_mission_item_int_pack(
-//         1, 1, &msg,
-//         1, 1,                               // target system/component
-//         0,                                  // sequence
-//         MAV_FRAME_GLOBAL_RELATIVE_ALT_INT,
-//         MAV_CMD_NAV_WAYPOINT,
-//         1,                                  // current
-//         1,                                  // autocontinue
-//         0, 0, 0, 0,                         // params 1-4
-//         (int32_t)(wp->lat * 1e7),
-//         (int32_t)(wp->lon * 1e7),
-//         wp->alt,
-//         MAV_MISSION_TYPE_MISSION            // mission_type - missing arg
-//     );
+    mavlink_msg_mission_item_int_pack(
+        1, 1, &msg,
+        1, 1,                               // target system/component
+        0,                                  // sequence
+        MAV_FRAME_GLOBAL_RELATIVE_ALT_INT,
+        MAV_CMD_NAV_WAYPOINT,
+        1,                                  // current
+        1,                                  // autocontinue
+        0, 0, 0, 0,                         // params 1-4
+        (int32_t)(wp->lat * 1e7),
+        (int32_t)(wp->lon * 1e7),
+        wp->alt,
+        MAV_MISSION_TYPE_MISSION            // mission_type - missing arg
+    );
 
-//     uint16_t len = mavlink_msg_to_send_buffer(buf, &msg);
-//     uart_write_bytes(MAV_UART, buf, len);
-// }
+    uint16_t len = mavlink_msg_to_send_buffer(buf, &msg);
+    uart_write_bytes(MAV_UART, buf, len);
+}
 
-// void send_mavlink_command(uint8_t command_type)
-// {
-//     mavlink_message_t msg;
-//     uint8_t buf[MAVLINK_MAX_PACKET_LEN];
+void send_mavlink_command(uint8_t command_type)
+{
+    mavlink_message_t msg;
+    uint8_t buf[MAVLINK_MAX_PACKET_LEN];
 
-//     float param1 = (command_type == 1) ? 1.0f : 0.0f; // 1=arm, 0=disarm
+    float param1 = (command_type == 1) ? 1.0f : 0.0f; // 1=arm, 0=disarm
 
-//     mavlink_msg_command_long_pack(
-//         1, 1, &msg,
-//         1, 1,
-//         MAV_CMD_COMPONENT_ARM_DISARM,
-//         0,
-//         param1, 0, 0, 0, 0, 0, 0
-//     );
+    mavlink_msg_command_long_pack(
+        1, 1, &msg,
+        1, 1,
+        MAV_CMD_COMPONENT_ARM_DISARM,
+        0,
+        param1, 0, 0, 0, 0, 0, 0
+    );
 
-//     uint16_t len = mavlink_msg_to_send_buffer(buf, &msg);
-//     uart_write_bytes(MAV_UART, buf, len);
-//     ESP_LOGI(MESH_TAG, "[MAV-TX] command type:%d", command_type);
-// }
+    uint16_t len = mavlink_msg_to_send_buffer(buf, &msg);
+    uart_write_bytes(MAV_UART, buf, len);
+    ESP_LOGI(MESH_TAG, "[MAV-TX] command type:%d", command_type);
+}
 
-// void mavlink_task(void *arg)
-// {
-//     uint8_t byte;
-//     mavlink_message_t msg;
-//     mavlink_status_t status;
+void mavlink_task(void *arg)
+{
+    uint8_t byte;
+    mavlink_message_t msg;
+    mavlink_status_t status;
 
-//     // small delay on startup
-//     vTaskDelay(2000 / portTICK_PERIOD_MS);
+    //delay on startup
+    vTaskDelay(2000 / portTICK_PERIOD_MS);
 
-//     while (1) {
-//         int len = uart_read_bytes(MAV_UART, &byte, 1, pdMS_TO_TICKS(10));
-//         if (len > 0) {
-//             if (mavlink_parse_char(MAVLINK_COMM_0, byte, &msg, &status)) {
-//                 switch (msg.msgid) {
+    while (1) {
+        int len = uart_read_bytes(MAV_UART, &byte, 1, pdMS_TO_TICKS(10));
+        if (len > 0) {
+            if (mavlink_parse_char(MAVLINK_COMM_0, byte, &msg, &status)) {
+                switch (msg.msgid) {
 
-//                     case MAVLINK_MSG_ID_GLOBAL_POSITION_INT: {
-//                         mavlink_global_position_int_t pos;
-//                         mavlink_msg_global_position_int_decode(&msg, &pos);
-//                         latest_telemetry.lat = pos.lat / 1e7f;
-//                         latest_telemetry.lon = pos.lon / 1e7f;
-//                         latest_telemetry.alt = pos.alt / 1000.0f;
-//                         telemetry_valid = true;
-//                         break;
-//                     }
+                    case MAVLINK_MSG_ID_GLOBAL_POSITION_INT: {
+                        mavlink_global_position_int_t pos;
+                        mavlink_msg_global_position_int_decode(&msg, &pos);
+                        latest_telemetry.lat = pos.lat / 1e7f;
+                        latest_telemetry.lon = pos.lon / 1e7f;
+                        latest_telemetry.alt = pos.alt / 1000.0f;
+                        telemetry_valid = true;
+                        break;
+                    }
 
-//                     case MAVLINK_MSG_ID_ATTITUDE: {
-//                         mavlink_attitude_t att;
-//                         mavlink_msg_attitude_decode(&msg, &att);
-//                         latest_telemetry.roll  = att.roll;
-//                         latest_telemetry.pitch = att.pitch;
-//                         latest_telemetry.yaw   = att.yaw;
-//                         break;
-//                     }
+                    case MAVLINK_MSG_ID_ATTITUDE: {
+                        mavlink_attitude_t att;
+                        mavlink_msg_attitude_decode(&msg, &att);
+                        latest_telemetry.roll  = att.roll;
+                        latest_telemetry.pitch = att.pitch;
+                        latest_telemetry.yaw   = att.yaw;
+                        break;
+                    }
 
-//                     case MAVLINK_MSG_ID_SYS_STATUS: {
-//                         mavlink_sys_status_t sys;
-//                         mavlink_msg_sys_status_decode(&msg, &sys);
-//                         latest_telemetry.battery = sys.voltage_battery / 1000.0f;
-//                         break;
-//                     }
+                    case MAVLINK_MSG_ID_SYS_STATUS: {
+                        mavlink_sys_status_t sys;
+                        mavlink_msg_sys_status_decode(&msg, &sys);
+                        latest_telemetry.battery = sys.voltage_battery / 1000.0f;
+                        break;
+                    }
 
-//                     case MAVLINK_MSG_ID_GPS_RAW_INT: {
-//                         mavlink_gps_raw_int_t gps;
-//                         mavlink_msg_gps_raw_int_decode(&msg, &gps);
-//                         latest_telemetry.satellites = gps.satellites_visible;
-//                         break;
-//                     }
+                    case MAVLINK_MSG_ID_GPS_RAW_INT: {
+                        mavlink_gps_raw_int_t gps;
+                        mavlink_msg_gps_raw_int_decode(&msg, &gps);
+                        latest_telemetry.satellites = gps.satellites_visible;
+                        break;
+                    }
 
-//                     case MAVLINK_MSG_ID_HEARTBEAT: {
-//                         mavlink_heartbeat_t hb;
-//                         mavlink_msg_heartbeat_decode(&msg, &hb);
-//                         latest_telemetry.armed = (hb.base_mode & MAV_MODE_FLAG_SAFETY_ARMED) ? 1 : 0;
-//                         break;
-//                     }
-//                 }
-//             }
-//         }
-//         vTaskDelay(1 / portTICK_PERIOD_MS);
-//     }
-// }
+                    case MAVLINK_MSG_ID_HEARTBEAT: {
+                        mavlink_heartbeat_t hb;
+                        mavlink_msg_heartbeat_decode(&msg, &hb);
+                        latest_telemetry.armed = (hb.base_mode & MAV_MODE_FLAG_SAFETY_ARMED) ? 1 : 0;
+                        ESP_LOGI(MESH_TAG, "[MAV-RX] heartbeat armed:%d", latest_telemetry.armed);
+                        break;
+                    }
+                }
+            }
+        }
+        vTaskDelay(1 / portTICK_PERIOD_MS);
+    }
+}
 
-//UART to ESPCAM
+//esp cam uart and functions
 void ml_uart_init(void)
 {
     uart_config_t cfg = {
@@ -203,15 +206,15 @@ void ml_uart_task(void *arg)
         buf[len] = '\0';
 
         if (!human_detected && !receiving_image) {
-            // waiting for "human detected!\n"
+            //wait for "human detected!\n"
             if (strncmp((char *)buf, "human detected!\r\n", 17) == 0) {
                 human_detected = true;
                 ESP_LOGW(MESH_TAG, "[ML-RX] human detected");
 
-                // send ACK back to ML ESP
+                //send ACK back
                 uart_write_bytes(ML_UART, "ACK\n", 4);
 
-                // forward flag to ground over mesh
+                //forward flag to ground over mesh
                 if (root_addr_known) {
                     packet_t pkt = {
                         .start    = PKT_START,
@@ -237,13 +240,13 @@ void ml_uart_task(void *arg)
                 }
             }
         } else if (!receiving_image && human_detected) {
-            // waiting for "START_IMAGE\n"
+            //wait for "START_IMAGE\n"
             if (strncmp((char *)buf, "START_IMAGE\r\n", 13) == 0) {
                 receiving_image = true;
                 image_len = 0;
                 chunk_index = 0;
                 ESP_LOGI(MESH_TAG, "[ML-RX] image transfer started");
-                // capture any image bytes that arrived in the same read as START_IMAGE
+                //capture any image bytes arrived during read of START_IMAGE
                 size_t extra = len - 13;
                 if (extra > 0 && extra <= IMAGE_BUF_SIZE) {
                     memcpy(image_buf, buf + 13, extra);
@@ -251,16 +254,17 @@ void ml_uart_task(void *arg)
                 }
             }
         } else if (human_detected && receiving_image){
-            // receiving image data
+            //receive image data
             uint8_t *end_marker = (uint8_t *)memmem(buf, len, "END_IMAGE", 9);
             if (end_marker != NULL) {
-                // flush any bytes before END_IMAGE into image_buf
+                //flush bytes before 'END_IMAGE' into image_buf
                 size_t bytes_before = end_marker - buf;
                 if (bytes_before > 0 && image_len + bytes_before <= IMAGE_BUF_SIZE) {
                     memcpy(image_buf + image_len, buf, bytes_before);
                     image_len += bytes_before;
                 }
-                // image complete — send in chunks over mesh
+                //send complete image over meshg
+                //break into chunks
                 receiving_image = false;
                 human_detected = false;
                 ESP_LOGI(MESH_TAG, "[ML-RX] image complete %d bytes", image_len);
@@ -289,16 +293,16 @@ void ml_uart_task(void *arg)
                             .data  = (uint8_t *)&pkt,
                             .size  = sizeof(pkt),
                             .proto = MESH_PROTO_BIN,
-                            // .tos   = MESH_TOS_P2P,
                             .tos = MESH_TOS_DEF,
                         };
                         esp_err_t err = esp_mesh_send(&root_addr, &data, MESH_DATA_P2P, NULL, 0);
                         ESP_LOGI(MESH_TAG, "[ML-TX] chunk %d/%d sent err:0x%x",
                                  chunk_index + 1, total_chunks, err);
-                        vTaskDelay(10 / portTICK_PERIOD_MS);  // small delay between chunks
+                        vTaskDelay(10 / portTICK_PERIOD_MS);  
+                        // small delay between chunks
                     }
 
-                    // send photo done
+                    //send photo done
                     packet_t done_pkt = {
                         .start    = PKT_START,
                         .drone_id = drone_id,
@@ -317,7 +321,7 @@ void ml_uart_task(void *arg)
                     image_len = 0;
                 }
             } else {
-                // accumulate image data
+                //accumulate image data
                 if (image_len + len <= IMAGE_BUF_SIZE) {
                     memcpy(image_buf + image_len, buf, len);
                     image_len += len;
@@ -329,7 +333,7 @@ void ml_uart_task(void *arg)
     }
 }
 
-//Mesh Tx task
+//mesh Tx task
 void esp_mesh_p2p_tx_main(void *arg)
 {
     uint8_t mac[6];
@@ -361,7 +365,6 @@ void esp_mesh_p2p_tx_main(void *arg)
                 .proto = MESH_PROTO_BIN,
                 .tos   = MESH_TOS_P2P,
             };
-            // esp_err_t err = esp_mesh_send(&root_addr, &data, MESH_DATA_P2P, NULL, 0);
             esp_err_t err = esp_mesh_send(NULL, &data, MESH_DATA_P2P, NULL, 0);
             if (err) {
                 ESP_LOGE(MESH_TAG, "[DRONE-TX] send failed err:0x%x", err);
@@ -374,7 +377,7 @@ void esp_mesh_p2p_tx_main(void *arg)
     vTaskDelete(NULL);
 }
 
-// Mesh RX Task
+//mes Rx task
 void esp_mesh_p2p_rx_main(void *arg)
 {
     esp_err_t err;
@@ -401,7 +404,7 @@ void esp_mesh_p2p_rx_main(void *arg)
                         waypoint_t *wp = (waypoint_t *)pkt->payload;
                         ESP_LOGI(MESH_TAG, "[DRONE-RX] waypoint lat:%.5f lon:%.5f alt:%.1f",
                                 wp->lat, wp->lon, wp->alt);
-                        // send_mavlink_waypoint(wp);  // TODO: enable when Pixhawk connected
+                        send_mavlink_waypoint(wp);  // TODO: enable when Pixhawk connected
                         // internal_waypoint_t iwp = { ... };
                         // uart_write_bytes(ML_UART, ...);  // TODO: enable when ML ESP connected
                         break;
@@ -410,7 +413,7 @@ void esp_mesh_p2p_rx_main(void *arg)
                     case PKT_TYPE_COMMAND: {
                         uint8_t cmd = pkt->payload[0];
                         ESP_LOGI(MESH_TAG, "[DRONE-RX] command type:%d", cmd);
-                        // send_mavlink_command(cmd);  // TODO: enable when Pixhawk connected
+                        send_mavlink_command(cmd);  // TODO: enable when Pixhawk connected
                         break;
                     }
 
@@ -596,7 +599,8 @@ void app_main(void)
     memcpy((uint8_t *) &cfg.router.ssid, anchor_ssid, cfg.router.ssid_len);
     memcpy((uint8_t *) &cfg.router.password, "gndanchor", strlen("gndanchor"));
 
-    //self-organizing on, no parent search — drone finds ground station mesh AP automatically
+    //self-organizing
+    // drone finds ground station mesh AP automatically
     ESP_ERROR_CHECK(esp_mesh_set_self_organized(true, false));
 
     //mesh AP config — allows other drones to connect through this node for multi-hop
@@ -605,17 +609,16 @@ void app_main(void)
     memcpy((uint8_t *) &cfg.mesh_ap.password, CONFIG_MESH_AP_PASSWD, strlen(CONFIG_MESH_AP_PASSWD));
     ESP_ERROR_CHECK(esp_mesh_set_config(&cfg));
 
-    //TODO
     //enable when Pixhawk and ML ESP32 UART
-    // mavlink_init();
+    mavlink_init();
     ml_uart_init();
-    // xTaskCreate(mavlink_task, "MAVLink", 4096, NULL, 5, NULL);
+    xTaskCreate(mavlink_task, "MAVLink", 4096, NULL, 5, NULL);
     xTaskCreate(ml_uart_task, "ML_UART", 4096, NULL, 5, NULL);
 
-    // low capacity ensures drone never wins root election over ground station
+    //low capacity ensures drone never wins root election over ground station
     ESP_ERROR_CHECK(esp_mesh_set_capacity_num(10));
 
-    // start mesh
+    //start mesh
     esp_mesh_set_type(MESH_NODE);
     ESP_ERROR_CHECK(esp_mesh_start());
     ESP_LOGI(MESH_TAG, "DRONE NODE STARTED heap:%" PRId32, esp_get_minimum_free_heap_size());
