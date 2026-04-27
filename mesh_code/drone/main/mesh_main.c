@@ -83,9 +83,11 @@ void send_mavlink_waypoint(waypoint_t *wp)
         wp->alt,
         MAV_MISSION_TYPE_MISSION            // mission_type - missing arg
     );
-
+    
     uint16_t len = mavlink_msg_to_send_buffer(buf, &msg);
     uart_write_bytes(MAV_UART, buf, len);
+    ESP_LOGI(MESH_TAG, "[MAV-TX] waypoint lat:%.5f lon:%.5f alt:%.1f",
+            wp->lat, wp->lon, wp->alt);
 }
 
 void send_mavlink_command(uint8_t command_type)
