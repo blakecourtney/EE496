@@ -394,7 +394,7 @@ class GroundStationGUI:
         # loop every 50 ms (~20 FPS)
         self.root.after(50, self.update_camera_view)
 
-    def draw_waypoints_on_map(self, coords, home=None, relay=None, center=None):
+    def draw_waypoints_on_map(self, coords, home=None, relay=None, center=None, subregions=None):
         self.map_canvas.delete("all")
 
         if not coords:
@@ -429,13 +429,20 @@ class GroundStationGUI:
 
         margin = 0.05
 
-        def transform(lat, lon):
-            x = (lon - min_lon) / (max_lon - min_lon + 1e-9)
-            y = (lat - min_lat) / (max_lat - min_lat + 1e-9)
+        import math
 
+        avg_lat = sum(lats) / len(lats)
+
+        def transform(lat, lon):
+            # scale longitude correctly
+            x = (lon - min_lon) * math.cos(math.radians(avg_lat))
+            x = x / ((max_lon - min_lon) * math.cos(math.radians(avg_lat)) + 1e-9)
+
+            y = (lat - min_lat) / (max_lat - min_lat + 1e-9)
             y = 1 - y
 
-            # apply margin safely
+            # margin
+            margin = 0.05
             x = margin + (1 - 2*margin) * x
             y = margin + (1 - 2*margin) * y
 
@@ -480,6 +487,18 @@ class GroundStationGUI:
                 rx, ry = transform(lat, lon)
                 self.map_canvas.create_oval(rx-4, ry-4, rx+4, ry+4, fill="blue")
                 safe_text(rx+8, ry, f"R{i}", "blue")
+
+        if subregions:
+            for sub in subregions:
+                sub_points = [transform(lat, lon) for lat, lon in sub]
+
+                for i in range(len(sub_points)):
+                    self.map_canvas.create_line(
+                        sub_points[i][0], sub_points[i][1],
+                        sub_points[(i+1) % len(sub_points)][0], sub_points[(i+1) % len(sub_points)][1],
+                        fill="#444444",  # faint gray
+                        width=1
+                    )
 
         # draw bounding box for region
         for i in range(len(points)):
@@ -614,6 +633,14 @@ class GroundStationGUI:
             key=lambda r: distance(home_2d, region_center(r))
         )
 
+        self.draw_waypoints_on_map(
+            ordered,
+            home=(self.home_location[0], self.home_location[1]),
+            relay=relay,
+            center=center,
+            subregions=self.region_queue
+        )
+
         print("\n=== SORTED REGION QUEUE ===")
         for i, r in enumerate(self.region_queue):
             c = region_center(r)
@@ -716,7 +743,8 @@ class GroundStationGUI:
             self.current_plan["corners"],
             home=(self.home_location[0], self.home_location[1]),
             relay=relay,
-            center=center
+            center=center,
+            subregions=self.region_queue
         )
 
     def cmd_assign_relay(self):
