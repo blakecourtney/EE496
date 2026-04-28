@@ -4,7 +4,9 @@ from tkinter import ttk, messagebox
 import sys
 import time
 import threading
+import os
 import numpy as np
+from PIL import Image
 from serial_handler import SerialHandler
 from telemetry_parser import TelemetryParser
 from command_builder import CommandBuilder
@@ -81,13 +83,20 @@ class GroundStation:
             print(f"Parse error: {e}")
 
     def on_image_data(self, raw_data):
-        """Decode RGB565 frame and push to GUI"""
+        """Decode RGB565 frame, save to disk, and push to GUI"""
         try:
             data = np.frombuffer(raw_data, dtype='>u2').reshape((240, 240))
             r = ((data >> 11) & 0x1F) << 3
             g = ((data >> 5)  & 0x3F) << 2
             b = ( data        & 0x1F) << 3
             img = np.stack([r, g, b], axis=-1).astype(np.uint8)
+
+            save_dir = os.path.join(os.path.dirname(__file__), 'received_images')
+            os.makedirs(save_dir, exist_ok=True)
+            filename = os.path.join(save_dir, f"img_{time.strftime('%Y%m%d_%H%M%S')}.png")
+            Image.fromarray(img).save(filename)
+            print(f"[camera] Image saved: {filename}")
+
             self.root.after(0, self.gui.display_image, img)
         except Exception as e:
             print(f"Image decode error: {e}")
