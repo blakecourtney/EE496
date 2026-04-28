@@ -14,7 +14,7 @@ PKT_TYPE_PHOTO_CHUNK = 9
 PKT_TYPE_PHOTO_DONE  = 10
 
 PACKET_SIZE       = 68   # sizeof(packet_t):  1+1+1+64+1
-PHOTO_PACKET_SIZE = 240  # sizeof(photo_packet_t): 1+1+1+2+2+2+230+1
+PHOTO_PACKET_SIZE = 242  # sizeof(photo_packet_t): 1+1+1+1pad+2+2+2+230+1+1pad
 PHOTO_CHUNK_SIZE  = 230
 
 class TelemetryParser:
@@ -52,22 +52,25 @@ class TelemetryParser:
 
     @staticmethod
     def _parse_photo_chunk(drone_id, data):
-        # photo_packet_t layout:
-        #   [0]      start      (0xFE)
+        # photo_packet_t layout (with 1-byte compiler padding after `type`):
+        #   [0]      start        (0xFE)
         #   [1]      drone_id
-        #   [2]      type       (9)
-        #   [3:5]    chunk_index  uint16_t LE
-        #   [5:7]    total_chunks uint16_t LE
-        #   [7:9]    data_len     uint16_t LE
-        #   [9:239]  data         230 bytes
-        #   [239]    end          (0xFF)
+        #   [2]      type         (9)
+        #   [3]      pad          (alignment byte — uint16_t needs 2-byte align)
+        #   [4:6]    chunk_index  uint16_t LE
+        #   [6:8]    total_chunks uint16_t LE
+        #   [8:10]   data_len     uint16_t LE
+        #   [10:240] data         230 bytes
+        #   [240]    end          (0xFF)
+        #   [241]    trailing pad (sizeof = 242)
+        print(f"[chunk] received {len(data)} bytes, last_byte={hex(data[-1]) if data else 'none'}, end@240={hex(data[240]) if len(data)>240 else 'n/a'}")
         if len(data) < PHOTO_PACKET_SIZE:
             return None
-        if data[PHOTO_PACKET_SIZE - 1] != PACKET_END_BYTE:
+        if data[240] != PACKET_END_BYTE:
             return None
         try:
-            chunk_index, total_chunks, data_len = struct.unpack_from('<HHH', data, 3)
-            chunk_data = bytes(data[9:9 + data_len])
+            chunk_index, total_chunks, data_len = struct.unpack_from('<HHH', data, 4)
+            chunk_data = bytes(data[10:10 + data_len])
             return {
                 'type':         'photo_chunk',
                 'id':           drone_id,
