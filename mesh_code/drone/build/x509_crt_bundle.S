@@ -1,4 +1,4 @@
-/* * Data converted from C:/Users/sonia/esp/EE496/mesh_code/drone/build/esp-idf/mbedtls/x509_crt_bundle
+/* * Data converted from /Users/blakecourtney/Documents/EE496/mesh_code/drone/build/esp-idf/mbedtls/x509_crt_bundle
  */
 .data
 #if !defined (__APPLE__) && !defined (__linux__)

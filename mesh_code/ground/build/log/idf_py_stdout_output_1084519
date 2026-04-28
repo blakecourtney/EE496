@@ -1,0 +1,308 @@
+Command: /home/blakecourtney/.espressif/python_env/idf6.1_py3.12_env/bin/python /home/blakecourtney/esp/esp-idf/tools/idf_monitor.py -p /dev/ttyUSB2 -b 115200 --toolchain-prefix xtensa-esp32-elf- --target esp32 --revision 0 /home/blakecourtney/school/s26/EE496/mesh_code/ground/build/ground.elf /home/blakecourtney/school/s26/EE496/mesh_code/ground/build/bootloader/bootloader.elf -m '/home/blakecourtney/.espressif/python_env/idf6.1_py3.12_env/bin/python' '/home/blakecourtney/esp/esp-idf/tools/idf.py' '-p' '/dev/ttyUSB2'
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+artbeat armed:0
+ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:0x1 (POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0040,len:6272
+load:0x40078000,len:15848
+load:0x40080400,len:3920
+entry 0x40080644
+[0;32mI (27) boot: ESP-IDF v6.1-dev-2748-g490691bc61 2nd stage bootloader[0m
+[0;32mI (27) boot: compile time Apr 23 2026 14:12:32[0m
+[0;32mI (28) boot: Multicore bootloader[0m
+[0;32mI (30) boot: chip revision: v3.1[0m
+[0;32mI (33) boot.esp32: SPI Speed      : 40MHz[0m
+[0;32mI (37) boot.esp32: SPI Mode       : DIO[0m
+[0;32mI (40) boot.esp32: SPI Flash Size : 2MB[0m
+[0;32mI (44) boot: Enabling RNG early entropy source...[0m
+[0;32mI (49) boot: Partition Table:[0m
+[0;32mI (51) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (57) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (64) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (71) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (77) boot: End of partition table[0m
+[0;32mI (80) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=233d4h (144340) map[0m
+[0;32mI (139) esp_image: segment 1: paddr=000333fc vaddr=3ffb0000 size=04b0ch ( 19212) load[0m
+[0;32mI (147) esp_image: segment 2: paddr=00037f10 vaddr=40080000 size=08108h ( 33032) load[0m
+[0;32mI (161) esp_image: segment 3: paddr=00040020 vaddr=400d0020 size=ace38h (708152) map[0m
+[0;32mI (413) esp_image: segment 4: paddr=000ece60 vaddr=40088108 size=0e86ch ( 59500) load[0m
+[0;32mI (438) esp_image: segment 5: paddr=000fb6d4 vaddr=50000000 size=00028h (    40) load[0m
+[0;32mI (449) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (449) boot: Disabling RNG early entropy source...[0m
+[0;32mI (460) cpu_start: Multicore app[0m
+[0;32mI (468) cpu_start: GPIO 3 and 1 are used as console UART I/O pins[0m
+[0;32mI (468) cpu_start: Pro cpu start user code[0m
+[0;32mI (468) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (470) app_init: Application information:[0m
+[0;32mI (474) app_init: Project name:     internal_communication[0m
+[0;32mI (479) app_init: App version:      7f5321c-dirty[0m
+[0;32mI (484) app_init: Compile time:     Apr 23 2026 14:12:39[0m
+[0;32mI (489) app_init: ELF file SHA256:  e7954535e...[0m
+[0;32mI (493) app_init: ESP-IDF:          v6.1-dev-2748-g490691bc61[0m
+[0;32mI (498) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (502) efuse_init: Max chip rev:     v3.99 [0m
+[0;32mI (506) efuse_init: Chip rev:         v3.1[0m
+[0;32mI (510) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (516) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM[0m
+[0;32mI (521) heap_init: At 3FFBAAC8 len 00025538 (149 KiB): DRAM[0m
+[0;32mI (527) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM[0m
+[0;32mI (532) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM[0m
+[0;32mI (538) heap_init: At 40096974 len 0000968C (37 KiB): IRAM[0m
+[0;32mI (544) spi_flash: detected chip: generic[0m
+[0;32mI (546) spi_flash: flash io: dio[0m
+[0;33mW (549) spi_flash: Detected size(4096k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (563) main_task: Started on CPU0[0m
+[0;32mI (573) main_task: Calling app_main()[0m
+[0;32mI (573) mesh_main: image buffer allocated (115200 bytes)[0m
+[0;32mI (613) wifi:wifi driver task: 3ffde8cc, prio:23, stack:6656, core=0[0m
+[0;32mI (623) wifi:wifi firmware version: 0f5722b[0m
+[0;32mI (623) wifi:wifi certification version: v7.0[0m
+[0;32mI (623) wifi:config NVS flash: enabled[0m
+[0;32mI (623) wifi:config nano formatting: disabled[0m
+[0;32mI (633) wifi:Init data frame dynamic rx buffer num: 32[0m
+[0;32mI (633) wifi:Init static rx mgmt buffer num: 5[0m
+[0;32mI (643) wifi:Init management short buffer num: 32[0m
+[0;32mI (643) wifi:Init dynamic tx buffer num: 32[0m
+[0;32mI (653) wifi:Init static rx buffer size: 1600[0m
+[0;32mI (653) wifi:Init static rx buffer num: 10[0m
+[0;32mI (653) wifi:Init dynamic rx buffer num: 32[0m
+[0;32mI (663) wifi_init: rx ba win: 6[0m
+[0;32mI (663) wifi_init: accept mbox: 6[0m
+[0;32mI (663) wifi_init: tcpip mbox: 32[0m
+[0;32mI (673) wifi_init: udp mbox: 6[0m
+[0;32mI (673) wifi_init: tcp mbox: 6[0m
+[0;32mI (673) wifi_init: tcp tx win: 5760[0m
+[0;32mI (673) wifi_init: tcp rx win: 5760[0m
+[0;32mI (683) wifi_init: tcp mss: 1440[0m
+[0;32mI (683) wifi_init: WiFi IRAM OP enabled[0m
+[0;32mI (683) wifi_init: WiFi RX IRAM OP enabled[0m
+[0;32mI (693) phy_init: phy_version 4863,a3a4459,Oct 28 2025,14:30:06[0m
+[0;32mI (763) wifi:mode : sta (1c:c3:ab:c4:1f:e0) + softAP (1c:c3:ab:c4:1f:e1)[0m
+[0;32mI (773) wifi:enable tsf[0m
+[0;32mI (773) wifi:Total power save buffer number: 16[0m
+[0;32mI (773) wifi:Init max length of beacon: 752/752[0m
+[0;32mI (773) wifi:Init max length of beacon: 752/752[0m
+[0;32mI (793) mesh: <nvs>read layer:0[0m
+[0;32mI (793) mesh: <nvs>read assoc:0[0m
+[0;32mI (793) wifi:Set ps type: 0, coexist: 0[0m
+
+[0;32mI (793) mesh: [IO]enable self-organizing<adaptive>[0m
+[0;32mI (813) wifi:Total power save buffer number: 16[0m
+[0;32mI (1063) mesh_main: MAVLink UART initialized[0m
+[0;32mI (1073) mesh: [CONFIG]fail to set node, err:0x4008[0m
+[0;32mI (1083) wifi:mode : sta (1c:c3:ab:c4:1f:e0)[0m
+[0;32mI (1093) mesh: <MESH_NWK_LOOK_FOR_NETWORK>need_scan:0x1, need_scan_router:0x0, look_for_nwk_count:1[0m
+[0;32mI (1093) mesh_main: <MESH_EVENT_STARTED>ID:77:77:77:77:77:77[0m
+[0;32mI (1093) mesh_main: DRONE NODE STARTED heap:34420[0m
+[0;32mI (1093) main_task: Returned from app_main()[0m
+[0;32mI (1393) mesh: [S2]GND_ANCHOR, 28:05:a5:32:e2:85, channel:6, rssi:-42[0m
+[0;32mI (1393) mesh: find router:[ssid_len:10]GND_ANCHOR, rssi:-42, 28:05:a5:32:e2:85(encrypted), new channel:6, old channel:0[0m
+[0;32mI (1403) mesh: find root:ESPM_C47ED4, root_cap:2(max:10), new channel:6, old channel:0[0m
+[0;32mI (1403) mesh: [FIND][ch:6]AP:15, otherID:0, MAP:1, idle:0, candidate:0, root:1[28:05:a5:32:e2:85]router found[0m
+[0;32mI (1413) mesh: [FIND:1]find a network, channel:6, cfg<channel:6, router:GND_ANCHOR, 00:00:00:00:00:00>[0m
+
+[0;32mI (1423) wifi:mode : sta (1c:c3:ab:c4:1f:e0) + softAP (1c:c3:ab:c4:1f:e1)[0m
+[0;33mW (1433) wifi:<MESH AP>adjust channel:6, secondary channel offset:1(40U)[0m
+[0;32mI (1443) wifi:Total power save buffer number: 16[0m
+[0;32mI (1443) wifi:Init max length of beacon: 752/752[0m
+[0;32mI (1453) wifi:Init max length of beacon: 752/752[0m
+[0;32mI (1423) mesh_main: unknown event id:22[0m
+[0;33mW (1463) wifi:<MESH AP>adjust channel:6, secondary channel offset:1(40U)[0m
+[0;32mI (1473) wifi:Total power save buffer number: 16[0m
+[0;32mI (1773) mesh: [SCAN][ch:6]AP:16, other(ID:0, RD:0), MAP:1, idle:0, candidate:1, root:1, topMAP:0[c:0,i:0][28:05:a5:32:e2:85]router found<>[0m
+[0;32mI (1783) mesh: 7388[selection]try rssi_threshold:-78, backoff times:0, max:5<-78,-82,-85>[0m
+[0;32mI (1793) mesh: [DONE]connect to parent:ESPM_C47ED4, channel:6, rssi:-42, 1c:c3:ab:c4:7e:d5[layer:1, assoc:1], my_vote_num:0/voter_num:0, rc[00:00:00:00:00:00/-120/0][0m
+[0;32mI (1803) mesh: set router bssid:28:05:a5:32:e2:85[0m
+[0;32mI (1843) wifi:new:<6,1>, old:<6,1>, ap:<6,1>, sta:<6,1>, prof:6, snd_ch_cfg:0x0[0m
+[0;32mI (1843) wifi:state: init -> auth (0xb0)[0m
+[0;32mI (1843) wifi:state: auth -> assoc (0x0)[0m
+[0;32mI (1873) wifi:Association refused temporarily time 1500, comeback time 1600 (TUs)[0m
+[0;32mI (3083) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (3093) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (3243) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (3503) wifi:state: assoc -> assoc (0x0)[0m
+[0;32mI (3523) wifi:state: assoc -> run (0x10)[0m
+[0;32mI (3533) mesh: <MESH_NWK_MIE_CHANGE><><><><ROOT ADDR><><><>[0m
+[0;32mI (3533) mesh: <MESH_NWK_ROOT_ADDR>from assoc, layer:2, root_addr:1c:c3:ab:c4:7e:d5, root_cap:1[0m
+[0;32mI (3533) mesh: <MESH_NWK_ROOT_ADDR>idle, layer:2, root_addr:1c:c3:ab:c4:7e:d5, conflict_roots.num:0<>[0m
+[0;32mI (3553) mesh_main: <MESH_EVENT_ROOT_ADDRESS>root:1c:c3:ab:c4:7e:d5[0m
+[0;32mI (3553) wifi:connected with ESPM_C47ED4, aid = 1, channel 6, 40U, bssid = 1c:c3:ab:c4:7e:d5[0m
+[0;32mI (3563) wifi:security: WPA2-PSK, phy: bgn, rssi: -41[0m
+[0;32mI (3563) wifi:pm start, type: 0[0m
+
+[0;32mI (3573) mesh: [scan]new scanning time:600ms, beacon interval:300ms[0m
+[0;32mI (3583) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us[0m
+[0;32mI (3583) wifi:AP's beacon interval = 102400 us, DTIM period = 1[0m
+[0;32mI (3593) mesh: 2004<arm>parent monitor, my layer:2(cap:6)(node), interval:11715ms, retries:1<normal connected>[0m
+[0;32mI (3593) mesh_main: <MESH_EVENT_PARENT_CONNECTED>layer:0-->2, ID:77:77:77:77:77:77[0m
+[0;32mI (3603) mesh_main: unknown event id:11[0m
+[0;32mI (3603) mesh_main: [DRONE-TX] telemetry lat:34.02380 lon:-118.29569 alt:42.9[0m
+[0;32mI (3623) wifi:<ba-add>idx:0 (ifx:0, 1c:c3:ab:c4:7e:d5), tid:5, ssn:0, winSize:64[0m
+[0;32mI (4243) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[1;31mE (4883) wifi:Invalid MMIE[0m
+[0;32mI (5253) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (5633) mesh_main: [DRONE-TX] telemetry lat:34.02381 lon:-118.29569 alt:42.7[0m
+[0;32mI (6253) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (7253) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (7633) mesh_main: [DRONE-TX] telemetry lat:34.02382 lon:-118.29571 alt:42.5[0m
+[0;32mI (8253) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[1;31mE (8963) wifi:Invalid MMIE[0m
+[1;31mE (9233) wifi:Invalid MMIE[0m
+[0;32mI (9243) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (9633) mesh_main: [DRONE-TX] telemetry lat:34.02383 lon:-118.29572 alt:42.4[0m
+[0;32mI (10253) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[1;31mE (11023) wifi:Invalid MMIE[0m
+[0;32mI (11253) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[1;31mE (11273) wifi:Invalid MMIE[0m
+[0;32mI (11643) mesh_main: [DRONE-TX] telemetry lat:34.02385 lon:-118.29573 alt:42.5[0m
+[0;32mI (12253) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (12993) wifi:dp: 1, bi: 307200, li: 1, scale listen interval from 307200 us to 307200 us[0m
+[0;32mI (13253) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[1;31mE (13323) wifi:Invalid MMIE[0m
+[0;32mI (13653) mesh_main: [DRONE-TX] telemetry lat:34.02386 lon:-118.29575 alt:42.8[0m
+[0;32mI (14253) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (15253) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[1;31mE (15373) wifi:Invalid MMIE[0m
+[0;32mI (15593) mesh: 5161<active>parent layer:1(node), channel:6, rssi:-42, assoc:1(cnx rssi threshold:-120)my_assoc:0[0m
+[0;32mI (15653) mesh_main: [DRONE-TX] telemetry lat:34.02388 lon:-118.29577 alt:43.0[0m
+[0;32mI (16253) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (17093) mesh: 5966<scan>parent layer:1, rssi:-46, assoc:1(cnx rssi threshold:-120)[0m
+[0;32mI (17093) mesh: [SCAN][ch:6]AP:1, other(ID:0, RD:0), MAP:1, idle:0, candidate:1, root:1, topMAP:0[c:2,i:2][28:05:a5:32:e2:85]<weak>[0m
+[0;32mI (17103) mesh: 7388[weak]try rssi_threshold:-120, backoff times:0, max:5<-78,-82,-85>[0m
+[0;32mI (17113) mesh: 714[monitor]no change, parent:1c:c3:ab:c4:7e:d5, rssi:-46[0m
+[0;32mI (17123) mesh: 2004<arm>parent monitor, my layer:2(cap:6)(node), interval:5722ms, retries:2<>[0m
+[1;31mE (17173) wifi:Invalid MMIE[0m
+[0;32mI (17253) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[1;31mE (17423) wifi:Invalid MMIE[0m
+[0;32mI (17653) mesh_main: [DRONE-TX] telemetry lat:34.02388 lon:-118.29578 alt:43.2[0m
+[0;32mI (18253) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[1;31mE (19223) wifi:Invalid MMIE[0m
+[0;32mI (19243) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[1;31mE (19473) wifi:Invalid MMIE[0m
+[0;32mI (19653) mesh_main: [DRONE-TX] telemetry lat:34.02390 lon:-118.29578 alt:43.5[0m
+[0;32mI (20243) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (21243) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[1;31mE (21273) wifi:Invalid MMIE[0m
+[0;32mI (21653) mesh_main: [DRONE-TX] telemetry lat:34.02390 lon:-118.29578 alt:43.7[0m
+[0;32mI (22243) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (22983) mesh: 5161<active>parent layer:1(node), channel:6, rssi:-42, assoc:1(cnx rssi threshold:-120)my_assoc:0[0m
+[0;32mI (23243) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (23663) mesh_main: [DRONE-TX] telemetry lat:34.02390 lon:-118.29579 alt:43.9[0m
+[0;32mI (24243) mesh_main: [MAV-RX] heartbeat armed:0[0m
+[0;32mI (24493) mesh: 5966<scan>parent layer:1, rssi:-44, assoc:1(cnx rssi threshold:-120)[0m
+[0;32mI (24493) mesh: [SCAN][ch:6]AP:1, other(ID:0, RD:0), MAP:1, idle:0, candidate:1, root:1, topMAP:0[c:2,i:2][28:05:a5:32:e2:85]<weak>[0m
+[0;32mI (24493) mesh: 7388[weak]try rssi_threshold:-120, backoff times:0, max:5<-78,-82,-85>[0m
+[0;32mI (24503) mesh: 714[monitor]no change, parent:1c:c3:ab:c4:7e:d5, rssi:-44[0m
+[0;32mI (24513) mesh: 2004<arm>parent monitor, my layer:2(cap:6)(node), interval:11365ms, retries:3<>[0m

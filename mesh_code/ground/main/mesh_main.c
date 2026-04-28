@@ -9,24 +9,65 @@
 #include "nvs_flash.h"
 #include "driver/uart.h"
 #include "config.h"
+#include "driver/gpio.h"
 
 //Constants
 #define RX_SIZE          (1500)
 
-// Serial to Python GUI
+//Serial to Python GUI
 #define GUI_UART         UART_NUM_0
 #define GUI_TX_PIN       1
 #define GUI_RX_PIN       3
 #define GUI_BAUD         115200
 
-//Variable Definitions
+//Rx/Tx LEDs
+#define LED_RX_PIN   25
+#define LED_TX_PIN   26
+#define LED_BLINK_MS 50
+static QueueHandle_t led_queue = NULL;
+#define LED_BLINK_RX 0
+#define LED_BLINK_TX 1
 
+#define BLINK_RX() do { uint8_t _b = LED_BLINK_RX; xQueueSend(led_queue, &_b, 0); } while(0)
+#define BLINK_TX() do { uint8_t _b = LED_BLINK_TX; xQueueSend(led_queue, &_b, 0); } while(0)
+
+//Variable Definitions
 static const char *MESH_TAG = "mesh_main";
 static const uint8_t s_mesh_id[] = MESH_ID;
 static uint8_t rx_buf[RX_SIZE] = { 0, };
 static bool is_mesh_connected = false;
 static int mesh_layer = -1;
 static esp_netif_t *netif_sta = NULL;
+
+//LED functions
+void led_init(void)
+{
+    gpio_config_t io_conf = {
+        .pin_bit_mask = (1ULL << LED_RX_PIN) | (1ULL << LED_TX_PIN),
+        .mode         = GPIO_MODE_OUTPUT,
+        .pull_up_en   = GPIO_PULLUP_DISABLE,
+        .pull_down_en = GPIO_PULLDOWN_DISABLE,
+        .intr_type    = GPIO_INTR_DISABLE,
+    };
+    gpio_config(&io_conf);
+    gpio_set_level(LED_RX_PIN, 0);
+    gpio_set_level(LED_TX_PIN, 0);
+    ESP_LOGI(MESH_TAG, "LEDs initialized");
+}
+
+void led_task(void *arg)
+{
+    uint8_t which;
+    while (1) {
+        if (xQueueReceive(led_queue, &which, portMAX_DELAY) == pdTRUE) {
+            int pin = (which == LED_BLINK_RX) ? LED_RX_PIN : LED_TX_PIN;
+            gpio_set_level(pin, 1);
+            vTaskDelay(pdMS_TO_TICKS(LED_BLINK_MS));
+            gpio_set_level(pin, 0);
+        }
+    }
+    vTaskDelete(NULL);
+}
 
 //Serial to GUI
 void gui_uart_init(void)
@@ -60,7 +101,7 @@ void gui_rx_task(void *arg)
     uint8_t ap_mac[6];
 
     while (1) {
-        // read exactly one packet from GUI
+        //read exactly one packet from GUI
         int len = uart_read_bytes(GUI_UART, buf, sizeof(packet_t), 100 / portTICK_PERIOD_MS);
         if (len < sizeof(packet_t)) continue;
 
@@ -69,13 +110,13 @@ void gui_rx_task(void *arg)
 
         ESP_LOGI(MESH_TAG, "[GND] received cmd type:%d for drone:%d", pkt->type, pkt->drone_id);
 
-        // get routing table
+        //get routing table
         esp_wifi_get_mac(WIFI_IF_STA, sta_mac);
         esp_wifi_get_mac(WIFI_IF_AP, ap_mac);
         esp_mesh_get_routing_table((mesh_addr_t *)&route_table,
                                    CONFIG_MESH_ROUTE_TABLE_SIZE * 6, &route_table_size);
 
-        // forward to target drone or broadcast to all
+        //forward to target drone or broadcast 
         for (int i = 0; i < route_table_size; i++) {
             if (memcmp(route_table[i].addr, sta_mac, 6) == 0) continue;
             if (memcmp(route_table[i].addr, ap_mac, 6) == 0) continue;
@@ -92,6 +133,7 @@ void gui_rx_task(void *arg)
             esp_err_t err = esp_mesh_send(&route_table[i], &data, MESH_DATA_P2P, NULL, 0);
             ESP_LOGI(MESH_TAG, "[GND-TX] forwarded to drone:%d err:0x%x",
                      route_table[i].addr[5], err);
+            BLINK_TX();
         }
     }
     vTaskDelete(NULL);
@@ -203,6 +245,7 @@ void esp_mesh_p2p_rx_main(void *arg)
             ESP_LOGE(MESH_TAG, "err:0x%x, size:%d", err, data.size);
             continue;
         }
+        BLINK_RX();
 
         // DEBUG
         ESP_LOGI(MESH_TAG, "[GND-RX] Caught a packet! Size: %d bytes (Expected: %d)", data.size, sizeof(packet_t));
@@ -415,6 +458,11 @@ void app_main(void)
     ESP_ERROR_CHECK(esp_mesh_disable_ps());
     ESP_ERROR_CHECK(esp_mesh_set_ap_assoc_expire(10));
 
+    //led init
+    led_queue = xQueueCreate(10, sizeof(uint8_t));
+    led_init();
+    xTaskCreate(led_task, "LED", 1024, NULL, 3, NULL);
+
     //mesh config — channel 6 anchored to GND_ANCHOR ESP32
     mesh_cfg_t cfg = MESH_INIT_CONFIG_DEFAULT();
     memcpy((uint8_t *) &cfg.mesh_id, s_mesh_id, 6);
@@ -425,8 +473,6 @@ void app_main(void)
     memcpy((uint8_t *) &cfg.router.password, "gndanchor", strlen("gndanchor"));
 
     //force ground station to always be root
-    ESP_ERROR_CHECK(esp_mesh_set_type(MESH_ROOT));
-    ESP_ERROR_CHECK(esp_mesh_fix_root(true));
     ESP_ERROR_CHECK(esp_mesh_set_capacity_num(1000));
     ESP_ERROR_CHECK(esp_mesh_set_self_organized(true, false));
 
@@ -438,7 +484,6 @@ void app_main(void)
 
     //start GUI serial and mesh
     gui_uart_init();
-    esp_mesh_set_type(MESH_ROOT);
     ESP_ERROR_CHECK(esp_mesh_start());
     ESP_LOGW(MESH_TAG, "GROUND STATION (ROOT) STARTED heap:%" PRId32,
              esp_get_minimum_free_heap_size());

@@ -1,2 +1,2 @@
-source C:/Users/sonia/esp/EE496/mesh_code/drone/build/gdbinit/symbols
-source C:/Users/sonia/esp/EE496/mesh_code/drone/build/gdbinit/connect
+source /Users/blakecourtney/Documents/EE496/mesh_code/drone/build/gdbinit/symbols
+source /Users/blakecourtney/Documents/EE496/mesh_code/drone/build/gdbinit/connect
