@@ -4,6 +4,7 @@ from tkinter import ttk, messagebox
 import sys
 import time
 import threading
+import numpy as np
 from serial_handler import SerialHandler
 from telemetry_parser import TelemetryParser
 from command_builder import CommandBuilder
@@ -12,7 +13,8 @@ from gui import GroundStationGUI
 
 class GroundStation:
     def __init__(self):
-        self.serial = SerialHandler(callback=self.on_serial_data)
+        self.serial = SerialHandler(callback=self.on_serial_data,
+                                    image_callback=self.on_image_data)
         self.parser = TelemetryParser()
 
         # Setup GUI
@@ -26,10 +28,6 @@ class GroundStation:
         # Start drone timeout checker
         self.start_drone_timeout_checker()
 
-        try:
-            self.gui.start_camera('/dev/cu.usbmodem5B414825001')
-        except Exception as e:
-            print("Camera init skipped:", e)
 
     def connect_serial(self):
         """Prompt user to select serial port via dropdown"""
@@ -81,6 +79,18 @@ class GroundStation:
                 self.root.after(0, self.gui.update_drone, parsed)
         except Exception as e:
             print(f"Parse error: {e}")
+
+    def on_image_data(self, raw_data):
+        """Decode RGB565 frame and push to GUI"""
+        try:
+            data = np.frombuffer(raw_data, dtype='>u2').reshape((240, 240))
+            r = ((data >> 11) & 0x1F) << 3
+            g = ((data >> 5)  & 0x3F) << 2
+            b = ( data        & 0x1F) << 3
+            img = np.stack([r, g, b], axis=-1).astype(np.uint8)
+            self.root.after(0, self.gui.display_image, img)
+        except Exception as e:
+            print(f"Image decode error: {e}")
 
     def on_command(self, cmd_type, drone_id, *args):
         """Called when user clicks a command button"""

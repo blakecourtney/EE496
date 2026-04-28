@@ -4,15 +4,7 @@ from tkinter import ttk, messagebox
 import time
 from waypointalg import subdivide_region
 from config import DEFAULT_ALT
-
-
-import sys
-import os
-
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-sys.path.append(BASE_DIR)
-
-from drone.human_detect.cam_handler import CameraHandler
+from PIL import Image, ImageTk
 
 class GroundStationGUI:
     def __init__(self, root, command_callback, change_port_callback=None):
@@ -27,22 +19,18 @@ class GroundStationGUI:
         self.current_plan = None
         self.region_queue = []
         self.current_region_index = 0
-        self.camera = None
 
         self.root.title("Drone Mesh Ground Control Station")
         self.root.geometry("900x650")
 
         self.setup_ui()
 
-    def start_camera(self, port):
-        try:
-            self.camera = CameraHandler(port)
-            self.camera.start()
-            print(f"Camera started on {port}")
-            self.update_camera_view()
-        except Exception as e:
-            print(f"[WARNING] Camera not available: {e}")
-            self.camera = None
+    def display_image(self, img):
+        """Display a numpy RGB image in the camera panel"""
+        pil_img = Image.fromarray(img).resize((256, 256))
+        imgtk = ImageTk.PhotoImage(image=pil_img)
+        self.cam_label.imgtk = imgtk
+        self.cam_label.config(image=imgtk, text='')
 
     def setup_ui(self):
         main_frame = Frame(self.root)
@@ -319,6 +307,12 @@ class GroundStationGUI:
             self._show_flag_alert(drone_data)
             return
 
+        if drone_data.get('type') == 'photo_start':
+            self.status_label.config(
+                text=f"Receiving photo from Drone {drone_id} | {time.strftime('%H:%M:%S')}"
+            )
+            return
+
         if drone_data.get('type') == 'photo_done':
             self.status_label.config(
                 text=f"Photo transfer complete from Drone {drone_id} | {time.strftime('%H:%M:%S')}"
@@ -375,24 +369,6 @@ class GroundStationGUI:
                 text="STREAMING" if data.get('streaming') else "OFF",
                 fg="blue" if data.get('streaming') else "gray"
             )
-
-    def update_camera_view(self):
-        if not self.camera:
-            return
-        if self.camera:
-            frame = self.camera.get_frame()
-
-            if frame is not None:
-                img = Image.fromarray(frame)
-                img = img.resize((256, 256))
-
-                imgtk = ImageTk.PhotoImage(image=img)
-
-                self.cam_label.imgtk = imgtk
-                self.cam_label.config(image=imgtk)
-
-        # loop every 50 ms (~20 FPS)
-        self.root.after(50, self.update_camera_view)
 
     def draw_waypoints_on_map(self, coords, home=None, relay=None, center=None, subregions=None):
         self.map_canvas.delete("all")

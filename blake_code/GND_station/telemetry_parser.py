@@ -12,6 +12,7 @@ PKT_TYPE_ACK        = 7
 PKT_TYPE_FLAG_ACK   = 8
 PKT_TYPE_PHOTO_CHUNK = 9
 PKT_TYPE_PHOTO_DONE = 10
+PKT_TYPE_PHOTO_START = 11
 
 PACKET_SIZE = 68  # 1 start + 1 drone_id + 1 type + 64 payload + 1 end
 
@@ -38,6 +39,9 @@ class TelemetryParser:
             return TelemetryParser._parse_flag(drone_id, payload)
         elif packet_type == PKT_TYPE_PHOTO_DONE:
             return {'type': 'photo_done', 'id': drone_id}
+        elif packet_type == PKT_TYPE_PHOTO_START:
+            return {'type': 'photo_start', 'id': drone_id}
+
 
         return None
 
