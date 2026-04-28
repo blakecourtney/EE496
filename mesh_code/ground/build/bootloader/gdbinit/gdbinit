@@ -1,2 +1,2 @@
-source /home/blakecourtney/school/s26/EE496/mesh_code/ground/build/bootloader/gdbinit/symbols
-source /home/blakecourtney/school/s26/EE496/mesh_code/ground/build/bootloader/gdbinit/connect
+source /Users/blakecourtney/Documents/EE496/mesh_code/ground/build/bootloader/gdbinit/symbols
+source /Users/blakecourtney/Documents/EE496/mesh_code/ground/build/bootloader/gdbinit/connect

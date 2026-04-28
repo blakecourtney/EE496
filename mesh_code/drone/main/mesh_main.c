@@ -189,6 +189,14 @@ void ml_uart_init(void)
     ESP_LOGI(MESH_TAG, "ML UART initialized");
 }
 
+typedef enum {
+    ML_STATE_IDLE,
+    ML_STATE_WAITING_START,
+    ML_STATE_RECEIVING,
+} ml_state_t;
+
+static ml_state_t ml_state = ML_STATE_IDLE;
+
 void ml_uart_task(void *arg)
 {
     uint8_t mac[6];
@@ -197,8 +205,6 @@ void ml_uart_task(void *arg)
 
     uint8_t buf[512];
     size_t image_len = 0;
-    bool receiving_image = false;
-    bool human_detected = false;
     uint16_t chunk_index = 0;
     uint16_t total_chunks = 0;
 
@@ -207,16 +213,14 @@ void ml_uart_task(void *arg)
         if (len <= 0) continue;
         buf[len] = '\0';
 
-        if (!human_detected && !receiving_image) {
-            //wait for "human detected!\n"
+        if (ml_state == ML_STATE_IDLE) {
+            // wait for human detected
             if (strncmp((char *)buf, "human detected!\r\n", 17) == 0) {
-                human_detected = true;
                 ESP_LOGW(MESH_TAG, "[ML-RX] human detected");
-
-                //send ACK back
                 uart_write_bytes(ML_UART, "ACK\n", 4);
+                ml_state = ML_STATE_WAITING_START;
 
-                //forward flag to ground over mesh
+                // forward flag to ground
                 if (root_addr_known) {
                     packet_t pkt = {
                         .start    = PKT_START,
@@ -225,53 +229,71 @@ void ml_uart_task(void *arg)
                         .end      = PKT_END,
                     };
                     flag_t flag_payload = {
-                        .lat        = latest_telemetry.lat,
-                        .lon        = latest_telemetry.lon,
-                        .alt        = latest_telemetry.alt,
-                        .confidence = 1.0f,  // ML ESP doesn't send confidence yet
+                        .lat = latest_telemetry.lat,
+                        .lon = latest_telemetry.lon,
+                        .alt = latest_telemetry.alt,
+                        .confidence = 1.0f,
                     };
                     memcpy(pkt.payload, &flag_payload, sizeof(flag_t));
                     mesh_data_t data = {
-                        .data  = (uint8_t *)&pkt,
-                        .size  = sizeof(pkt),
+                        .data = (uint8_t *)&pkt,
+                        .size = sizeof(pkt),
                         .proto = MESH_PROTO_BIN,
-                        .tos   = MESH_TOS_P2P,
+                        .tos = MESH_TOS_P2P,
                     };
-                    esp_err_t err = esp_mesh_send(&root_addr, &data, MESH_DATA_P2P, NULL, 0);
-                    ESP_LOGW(MESH_TAG, "[ML-TX] flag sent err:0x%x", err);
+                    esp_mesh_send(&root_addr, &data, MESH_DATA_P2P, NULL, 0);
                 }
             }
-        } else if (!receiving_image && human_detected) {
-            //wait for "START_IMAGE\n"
+        }
+        else if (ml_state == ML_STATE_WAITING_START) {
+            //wait for start image
             if (strncmp((char *)buf, "START_IMAGE\r\n", 13) == 0) {
-                receiving_image = true;
-                image_len = 0;
-                chunk_index = 0;
                 ESP_LOGI(MESH_TAG, "[ML-RX] image transfer started");
-                //capture any image bytes arrived during read of START_IMAGE
+                image_len = 0;
+                ml_state = ML_STATE_RECEIVING;
+                
+                // capture any image bytes after START_IMAGE
                 size_t extra = len - 13;
                 if (extra > 0 && extra <= IMAGE_BUF_SIZE) {
                     memcpy(image_buf, buf + 13, extra);
                     image_len = extra;
                 }
             }
-        } else if (human_detected && receiving_image){
-            //receive image data
+        }
+        else if (ml_state == ML_STATE_RECEIVING) {
             uint8_t *end_marker = (uint8_t *)memmem(buf, len, "END_IMAGE", 9);
             if (end_marker != NULL) {
-                //flush bytes before 'END_IMAGE' into image_buf
                 size_t bytes_before = end_marker - buf;
                 if (bytes_before > 0 && image_len + bytes_before <= IMAGE_BUF_SIZE) {
                     memcpy(image_buf + image_len, buf, bytes_before);
                     image_len += bytes_before;
                 }
-                //send complete image over meshg
-                //break into chunks
-                receiving_image = false;
-                human_detected = false;
+
+                uart_write_bytes(ML_UART, "CLEAR\n", 6);
+                ESP_LOGI(MESH_TAG, "[ML-TX] CLEAR sent");
+                ml_state = ML_STATE_IDLE;
                 ESP_LOGI(MESH_TAG, "[ML-RX] image complete %d bytes", image_len);
 
+                // send chunks over mesh
                 if (root_addr_known && image_len > 0) {
+
+                    //send photo start
+                    packet_t start_pkt = {
+                        .start    = PKT_START,
+                        .drone_id = drone_id,
+                        .type     = PKT_TYPE_PHOTO_START,
+                        .end      = PKT_END,
+                    };
+                    memset(start_pkt.payload, 0, sizeof(start_pkt.payload));
+                    mesh_data_t start_data = {
+                        .data  = (uint8_t *)&start_pkt,
+                        .size  = sizeof(start_pkt),
+                        .proto = MESH_PROTO_BIN,
+                        .tos   = MESH_TOS_P2P,
+                    };
+                    esp_mesh_send(&root_addr, &start_data, MESH_DATA_P2P, NULL, 0);
+                    ESP_LOGI(MESH_TAG, "[ML-TX] photo START sent");
+
                     uint16_t chunk_size = PHOTO_CHUNK_SIZE;
                     total_chunks = (image_len + chunk_size - 1) / chunk_size;
 
@@ -319,10 +341,12 @@ void ml_uart_task(void *arg)
                         .tos   = MESH_TOS_P2P,
                     };
                     esp_mesh_send(&root_addr, &done_data, MESH_DATA_P2P, NULL, 0);
+                    ESP_LOGI(MESH_TAG, "[ML-TX] photo DONE sent");
 
                     image_len = 0;
                 }
-            } else {
+            } 
+            else {
                 //accumulate image data
                 if (image_len + len <= IMAGE_BUF_SIZE) {
                     memcpy(image_buf + image_len, buf, len);
@@ -420,9 +444,9 @@ void esp_mesh_p2p_rx_main(void *arg)
                     }
 
                     case PKT_TYPE_FLAG_ACK: {
-                        ESP_LOGI(MESH_TAG, "[DRONE-RX] flag ACK received");
-                        // ML ESP sends image automatically after detection
-                        // no need to trigger it
+                        ESP_LOGI(MESH_TAG, "[DRONE-RX] flag ACK - requesting photo");
+                        uart_write_bytes(ML_UART, "REQUEST\n", 8);
+                        ml_state = ML_STATE_WAITING_START; //set ML state to skip 'human detected'
                         break;
                     }
 

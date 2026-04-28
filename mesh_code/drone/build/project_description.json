@@ -1,7 +1,7 @@
 {
     "version":            "1.2",
     "project_name":       "internal_communication",
-    "project_version":    "606559d-dirty",
+    "project_version":    "a6f5078-dirty",
     "project_path":       "/Users/blakecourtney/Documents/EE496/mesh_code/drone",
     "idf_path":           "/Users/blakecourtney/esp/esp-idf",
     "build_dir":          "/Users/blakecourtney/Documents/EE496/mesh_code/drone/build",

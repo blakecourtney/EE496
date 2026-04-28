@@ -309,6 +309,12 @@ void esp_mesh_p2p_rx_main(void *arg)
                         break;
                     }
 
+                    case PKT_TYPE_PHOTO_START: {
+                        ESP_LOGI(MESH_TAG, "[GND-RX] photo transfer started drone:%d", pkt->drone_id);
+                        send_to_gui((uint8_t *)pkt, sizeof(packet_t));
+                        break;
+                    }
+
                     default:
                         ESP_LOGW(MESH_TAG, "[GND-RX] unknown type:%d drone:%d",
                                  pkt->type, pkt->drone_id);

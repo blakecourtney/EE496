@@ -19,6 +19,8 @@
 #define PKT_TYPE_FLAG_ACK    8   // GND -> drone: flag received, send photo
 #define PKT_TYPE_PHOTO_CHUNK 9   // drone -> GND: photo data chunk
 #define PKT_TYPE_PHOTO_DONE  10  // drone -> GND: all chunks sent
+#define PKT_TYPE_PHOTO_START 11  // drone -> GND: start photo
+
 
 // ─── Packet Framing ──────────────────────────────────────────
 #define PKT_START            0xFE
