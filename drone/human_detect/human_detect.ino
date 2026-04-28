@@ -42,11 +42,12 @@ tflite::ErrorReporter* error_reporter = nullptr;
 TfLiteTensor* input = nullptr;
 TfLiteTensor* output = nullptr;
 
-float detect_thresh = 0.2;
+float detect_thresh = 0.1;
 uint8_t detect_count = 0;
 char detect_flag = 0;
 char detect_ack_flag = 0;
 bool waiting_for_ack = false;
+char request_flag = 0;
 
 uint8_t *frame_capture = NULL; 
 size_t capture_len = 0;
@@ -82,13 +83,13 @@ void setup() {
   config.pin_sscb_scl = SIOC_GPIO_NUM;
   config.pin_pwdn = PWDN_GPIO_NUM;
   config.pin_reset = RESET_GPIO_NUM;
-  config.xclk_freq_hz = 10000000;
+  config.xclk_freq_hz = 20000000;
   config.pixel_format = PIXFORMAT_RGB565;
   config.frame_size = FRAMESIZE_240X240;
-  config.grab_mode = CAMERA_GRAB_WHEN_EMPTY;
+  config.grab_mode = CAMERA_GRAB_LATEST;
   config.fb_location = CAMERA_FB_IN_PSRAM;
   config.jpeg_quality = 10;
-  config.fb_count = 1;
+  config.fb_count = 2;
 
   if (esp_camera_init(&config) != ESP_OK) {
       return;
@@ -161,11 +162,13 @@ void loop() {
       //   Serial.flush();
       // }
       // Serial.println("END_IMAGE");
-      // Serial.printf("PROBABILITY: %.4f\n", score);
-      // Serial.printf("HUMAN DETECTED: %d\n", (score > detect_thresh));
+      Serial.printf("PROBABILITY: %.4f\n", score);
+      Serial.printf("HUMAN DETECTED: %d\n", (score > detect_thresh));
       // MODEL VISUALATION DEBUG END 
 
       if (request_flag){
+        Serial.println("Sending requested\n");
+        digitalWrite(LED_BUILTIN, HIGH);
         DroneSerial.println("START_IMAGE");
         size_t chunk_size = 2048;
         uint8_t *buffer_ptr = fb->buf;
@@ -176,6 +179,8 @@ void loop() {
           DroneSerial.write(buffer_ptr + i, bytes_to_send);
           DroneSerial.flush();
         }
+        DroneSerial.println("END_IMAGE");
+        digitalWrite(LED_BUILTIN, LOW);
         request_flag = 0;
       }
 
@@ -201,6 +206,7 @@ void loop() {
       if (detect_count == 2){
         detect_flag = 1;
         detect_count = 0;
+        Serial.println("HELLO\n");
       }
     }
 
@@ -213,12 +219,14 @@ void loop() {
     DroneSerial.println("human detected!");
     digitalWrite(LED_BUILTIN, HIGH);
     waiting_for_ack = true; 
+    digitalWrite(LED_BUILTIN, HIGH);
   }
 
   while (DroneSerial.available() > 0) {
     processSerialByte(DroneSerial.read());
   }
   if (detect_ack_flag){
+    digitalWrite(LED_BUILTIN, HIGH);
     DroneSerial.println("START_IMAGE");
     size_t chunk_size = 2048;
     uint8_t *buffer_ptr = frame_capture; 
@@ -232,7 +240,6 @@ void loop() {
     DroneSerial.printf("PROBABILITY: %.2f\n", best_probability);
     
     detect_ack_flag = 0;      
-    waiting_for_ack = false;  
   }
 }
 
@@ -248,14 +255,18 @@ void processSerialByte(const byte inByte) {
 
       if (strcmp(input_line, "ACK") == 0){  
         detect_ack_flag = 1;
+        waiting_for_ack = false;  
         digitalWrite(LED_BUILTIN, LOW);
       }
       if (strcmp(input_line, "CLEAR") == 0){ 
         detect_flag = 0;
         probability_capture = 0; 
+        digitalWrite(LED_BUILTIN, LOW);
+        delay(5000);
+        Serial.println("Hi2\n");
       }
       if (strcmp(input_line, "REQUEST") == 0){ 
-        request_flag = 0;
+        request_flag = 1;
       }
 
       input_pos = 0;
