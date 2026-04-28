@@ -15,9 +15,9 @@ from gui import GroundStationGUI
 
 class GroundStation:
     def __init__(self):
-        self.serial = SerialHandler(callback=self.on_serial_data,
-                                    image_callback=self.on_image_data)
+        self.serial = SerialHandler(callback=self.on_serial_data)
         self.parser = TelemetryParser()
+        self.photo_chunks = {}  # drone_id -> {chunk_index: bytes}
 
         # Setup GUI
         self.root = Tk()
@@ -29,7 +29,6 @@ class GroundStation:
 
         # Start drone timeout checker
         self.start_drone_timeout_checker()
-
 
     def connect_serial(self):
         """Prompt user to select serial port via dropdown"""
@@ -70,22 +69,54 @@ class GroundStation:
 
     def on_serial_data(self, data):
         try:
-            data = data.strip()
-            if not data:
-                return
-            # skip ESP log lines (they start with 'I', 'W', 'E', 'D')
-            if data[0:1] in [b'I', b'W', b'E', b'D']:
-                return
             parsed = self.parser.parse(data)
-            if parsed:
+            if not parsed:
+                return
+
+            if parsed['type'] == 'photo_chunk':
+                self._accumulate_chunk(parsed)
+            elif parsed['type'] == 'photo_done':
+                self._reconstruct_image(parsed['id'])
+                self.root.after(0, self.gui.update_drone, parsed)
+            else:
                 self.root.after(0, self.gui.update_drone, parsed)
         except Exception as e:
             print(f"Parse error: {e}")
 
-    def on_image_data(self, raw_data):
-        """Decode RGB565 frame, save to disk, and push to GUI"""
+    def _accumulate_chunk(self, parsed):
+        drone_id = parsed['id']
+        idx      = parsed['chunk_index']
+        total    = parsed['total_chunks']
+
+        if drone_id not in self.photo_chunks:
+            self.photo_chunks[drone_id] = {'total': total, 'chunks': {}}
+            self.root.after(0, self.gui.update_drone, {
+                'type': 'photo_start', 'id': drone_id
+            })
+
+        self.photo_chunks[drone_id]['chunks'][idx] = parsed['data']
+        received = len(self.photo_chunks[drone_id]['chunks'])
+        print(f"[camera] chunk {idx+1}/{total} drone:{drone_id} ({received} received)")
+
+    def _reconstruct_image(self, drone_id):
+        entry = self.photo_chunks.pop(drone_id, None)
+        if not entry:
+            print(f"[camera] photo_done for drone {drone_id} but no chunks buffered")
+            return
+
+        chunks = entry['chunks']
+        total  = entry['total']
+        missing = [i for i in range(total) if i not in chunks]
+        if missing:
+            print(f"[camera] missing chunks {missing}, dropping image")
+            return
+
+        raw = bytearray()
+        for i in range(total):
+            raw.extend(chunks[i])
+
         try:
-            data = np.frombuffer(raw_data, dtype='>u2').reshape((240, 240))
+            data = np.frombuffer(raw, dtype='>u2').reshape((240, 240))
             r = ((data >> 11) & 0x1F) << 3
             g = ((data >> 5)  & 0x3F) << 2
             b = ( data        & 0x1F) << 3
@@ -131,7 +162,6 @@ class GroundStation:
         t.start()
 
     def run(self):
-        """Start the application"""
         try:
             self.root.protocol("WM_DELETE_WINDOW", self.on_closing)
             self.root.mainloop()
@@ -139,7 +169,6 @@ class GroundStation:
             self.on_closing()
 
     def on_closing(self):
-        """Cleanup on exit"""
         self.serial.close()
         self.root.destroy()
 
