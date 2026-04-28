@@ -49,12 +49,14 @@ class SerialHandler:
         """Background thread that reads serial data"""
         while self.running:
             try:
-                if self.ser.in_waiting:
-                    line = self.ser.readline()
-                    if b'START_IMAGE' in line:
-                        self._read_image()
-                    elif self.callback and line:
-                        self.callback(line)
+                line = self.ser.readline()
+                if not line:
+                    continue
+                if b'START_IMAGE' in line:
+                    print("[camera] START_IMAGE detected, reading frame...")
+                    self._read_image()
+                elif self.callback:
+                    self.callback(line)
             except Exception as e:
                 print(f"Read error: {e}")
                 time.sleep(0.1)
@@ -69,9 +71,10 @@ class SerialHandler:
                     break
                 raw.extend(chunk)
             if len(raw) == IMG_SIZE and self.image_callback:
+                print(f"[camera] Full frame received ({IMG_SIZE} bytes), decoding...")
                 self.image_callback(bytes(raw))
             else:
-                print(f"Dropped frame: {len(raw)}/{IMG_SIZE} bytes")
+                print(f"[camera] Dropped frame: {len(raw)}/{IMG_SIZE} bytes")
                 self.ser.reset_input_buffer()
         except Exception as e:
             print(f"Image read error: {e}")

@@ -91,7 +91,7 @@ class GroundStationGUI:
         self.cam_label = Label(cam_frame)
         self.cam_label.pack(expand=True)
 
-        self.cam_label.config(text="No Camera Connected", fg="gray")
+        self.cam_label.config(text="Waiting for image...", fg="gray")
 
         bottom_row = Frame(right_panel)
         bottom_row.pack(fill=BOTH, expand=True, pady=(0, 10))
