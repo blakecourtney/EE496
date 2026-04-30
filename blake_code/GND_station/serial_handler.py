@@ -6,7 +6,7 @@ import time
 
 PACKET_START_BYTE  = 0xFE
 PACKET_SIZE        = 68   # sizeof(packet_t)
-PHOTO_PACKET_SIZE  = 242  # sizeof(photo_packet_t): 3 bytes + 1 pad + 3×uint16 + 230 + 1 + 1 pad
+PHOTO_PACKET_SIZE  = 411  # sizeof(photo_packet_t): 3 bytes + 1 pad + 3×uint16 + 230 + 1 + 1 pad
 PKT_TYPE_PHOTO_CHUNK = 9
 
 class SerialHandler:

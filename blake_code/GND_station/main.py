@@ -109,7 +109,13 @@ class GroundStation:
         missing = [i for i in range(total) if i not in chunks]
         if missing:
             print(f"[camera] missing chunks {missing}, dropping image")
-            return
+        
+        raw = bytearray()
+        for i in range(total):
+            if i in chunks:
+                raw.extend(chunks[i])
+            else:
+                raw.extend(b'\x00' * 230)  # fill missing chunk
 
         raw = bytearray()
         for i in range(total):
@@ -140,6 +146,7 @@ class GroundStation:
             packet = CommandBuilder.disarm(drone_id)
         elif cmd_type == 'request_image':
             packet = CommandBuilder.flag_ack(drone_id)
+            # packet = CommandBuilder.request_image(drone_id)
         elif cmd_type == 'waypoint':
             lat, lon, alt = args
             packet = CommandBuilder.waypoint(drone_id, lat, lon, alt)

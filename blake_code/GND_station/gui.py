@@ -129,7 +129,7 @@ class GroundStationGUI:
         map_frame = LabelFrame(right_panel, text="Mini Map", font=("Arial", 11, "bold"))
         map_frame.pack(side=RIGHT, fill=BOTH, expand=True, padx=(5, 0))
 
-        self.map_canvas = Canvas(map_frame, bg="black")
+        self.map_canvas = Canvas(map_frame, bg="white")
         self.map_canvas.pack(fill=BOTH, expand=True, padx=10, pady=10)
         
     # ------------------------------------------------------------------
@@ -450,8 +450,8 @@ class GroundStationGUI:
 
         if home:
             hx, hy = transform(home[0], home[1])
-            self.map_canvas.create_oval(hx-6, hy-6, hx+6, hy+6, fill="yellow")
-            safe_text(hx+10, hy, "HOME", "yellow")
+            self.map_canvas.create_oval(hx-6, hy-6, hx+6, hy+6, fill="red")
+            safe_text(hx+10, hy, "HOME", "red")
     
         if center:
             cx, cy = transform(center[0], center[1])
@@ -472,8 +472,8 @@ class GroundStationGUI:
                     self.map_canvas.create_line(
                         sub_points[i][0], sub_points[i][1],
                         sub_points[(i+1) % len(sub_points)][0], sub_points[(i+1) % len(sub_points)][1],
-                        fill="#444444",  # faint gray
-                        width=1
+                        fill="#888888",  # faint gray
+                        width=2
                     )
 
         # draw bounding box for region

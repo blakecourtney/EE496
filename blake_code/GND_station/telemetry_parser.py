@@ -15,7 +15,8 @@ PKT_TYPE_PHOTO_DONE  = 10
 
 PACKET_SIZE       = 68   # sizeof(packet_t):  1+1+1+64+1
 PHOTO_PACKET_SIZE = 242  # sizeof(photo_packet_t): 1+1+1+1pad+2+2+2+230+1+1pad
-PHOTO_CHUNK_SIZE  = 230
+PHOTO_CHUNK_SIZE  = 400
+PHOTO_PACKET_SIZE = 411
 
 class TelemetryParser:
     @staticmethod
@@ -64,10 +65,11 @@ class TelemetryParser:
         #   [240]    end          (0xFF)
         #   [241]    trailing pad (sizeof = 242)
         print(f"[chunk] received {len(data)} bytes, last_byte={hex(data[-1]) if data else 'none'}, end@240={hex(data[240]) if len(data)>240 else 'n/a'}")
+        print(list(data[:20]))
         if len(data) < PHOTO_PACKET_SIZE:
             return None
-        if data[240] != PACKET_END_BYTE:
-            return None
+        # if data[240] != PACKET_END_BYTE:
+        #     return None
         try:
             chunk_index, total_chunks, data_len = struct.unpack_from('<HHH', data, 4)
             chunk_data = bytes(data[10:10 + data_len])
