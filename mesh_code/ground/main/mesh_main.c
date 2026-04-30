@@ -229,6 +229,7 @@ void send_flag_ack(mesh_addr_t *dest)
 //called on any received data from the mesh
 //primarily forwards to GUI in this case 
 //GND receives telemetry/flags/photos from drones
+//modified from ESP-IDF
 void esp_mesh_p2p_rx_main(void *arg)
 {
     esp_err_t err;
@@ -311,7 +312,7 @@ void esp_mesh_p2p_rx_main(void *arg)
 
                     case PKT_TYPE_PHOTO_START: {
                         ESP_LOGI(MESH_TAG, "[GND-RX] photo transfer started drone:%d", pkt->drone_id);
-                        send_to_gui((uint8_t *)pkt, sizeof(packet_t));
+                            send_to_gui((uint8_t *)pkt, sizeof(packet_t));
                         break;
                     }
 
@@ -343,6 +344,7 @@ esp_err_t esp_mesh_comm_p2p_start(void)
 }
 
 //Mesh Event Handler
+//modified from ESP-IDF
 void mesh_event_handler(void *arg, esp_event_base_t event_base,
                         int32_t event_id, void *event_data)
 {
@@ -440,6 +442,7 @@ void mesh_event_handler(void *arg, esp_event_base_t event_base,
 }
 
 //app_main
+//modified from ESP-IDF
 void app_main(void)
 {
     //system init

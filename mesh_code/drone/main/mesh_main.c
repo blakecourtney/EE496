@@ -298,6 +298,10 @@ void ml_uart_task(void *arg)
                     total_chunks = (image_len + chunk_size - 1) / chunk_size;
 
                     for (chunk_index = 0; chunk_index < total_chunks; chunk_index++) {
+                        if (!root_addr_known) {
+                            ESP_LOGE(MESH_TAG, "[ML-TX] lost root address at chunk %d", chunk_index);
+                            break;
+                        }
                         size_t offset = chunk_index * chunk_size;
                         size_t this_chunk = (offset + chunk_size > image_len) ?
                                             (image_len - offset) : chunk_size;
@@ -317,12 +321,13 @@ void ml_uart_task(void *arg)
                             .data  = (uint8_t *)&pkt,
                             .size  = sizeof(pkt),
                             .proto = MESH_PROTO_BIN,
-                            .tos = MESH_TOS_DEF,
+                            .tos = MESH_TOS_P2P,
                         };
                         esp_err_t err = esp_mesh_send(&root_addr, &data, MESH_DATA_P2P, NULL, 0);
                         ESP_LOGI(MESH_TAG, "[ML-TX] chunk %d/%d sent err:0x%x",
                                  chunk_index + 1, total_chunks, err);
                         vTaskDelay(10 / portTICK_PERIOD_MS);  
+                       // ESP_LOGI(MESH_TAG, "[ML-TX] sending chunk size:%d", sizeof(photo_packet_t));
                         // small delay between chunks
                     }
 
@@ -360,6 +365,7 @@ void ml_uart_task(void *arg)
 }
 
 //mesh Tx task
+//modified from ESP-IDF
 void esp_mesh_p2p_tx_main(void *arg)
 {
     uint8_t mac[6];
@@ -404,6 +410,7 @@ void esp_mesh_p2p_tx_main(void *arg)
 }
 
 //mes Rx task
+//modified from ESP-IDF
 void esp_mesh_p2p_rx_main(void *arg)
 {
     esp_err_t err;
@@ -479,6 +486,7 @@ esp_err_t esp_mesh_comm_p2p_start(void)
 }
 
 // Event Handler
+//modified from ESP-IDF
 void mesh_event_handler(void *arg, esp_event_base_t event_base,
                         int32_t event_id, void *event_data)
 {
@@ -584,6 +592,7 @@ void mesh_event_handler(void *arg, esp_event_base_t event_base,
 }
 
 //app_main
+//modified from ESP-IDF
 void app_main(void)
 {
     // allocate image buffer before WiFi/mesh consumes heap

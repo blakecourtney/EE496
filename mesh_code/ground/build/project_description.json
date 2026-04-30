@@ -1,7 +1,7 @@
 {
     "version":            "1.2",
     "project_name":       "ground",
-    "project_version":    "a6f5078-dirty",
+    "project_version":    "82844f9-dirty",
     "project_path":       "/Users/blakecourtney/Documents/EE496/mesh_code/ground",
     "idf_path":           "/Users/blakecourtney/esp/esp-idf",
     "build_dir":          "/Users/blakecourtney/Documents/EE496/mesh_code/ground/build",
